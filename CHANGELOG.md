@@ -6,6 +6,35 @@ All notable changes to `@alaska115/nextjs-toolkit` are documented here. Format f
 
 ## [Unreleased]
 
+## [0.4.1]
+
+First release published from the standalone repository at
+[github.com/alao115/nextjs-toolkit](https://github.com/alao115/nextjs-toolkit).
+
+### Added
+
+- **`repository`, `homepage`, `bugs`** fields in `package.json` so the npm
+  package page links back to the GitHub repo and issue tracker.
+- **`LICENSE`** file (MIT) shipped with the package. Previously only declared
+  via `"license": "MIT"` in package.json.
+
+### Fixed
+
+- Renamed `observability/tracing/traacing.interceptor.ts` →
+  `tracing.interceptor.ts` (longstanding typo). Updated the barrel re-export.
+  Externally observable only via `dist/observability/tracing/...` filenames.
+- `TracingInterceptor`: typed the rxjs `Observable` subscriber lambda
+  explicitly to satisfy `noImplicitAny`.
+
+### Changed
+
+- Build now depends on `rxjs`, `class-transformer`, `class-validator`, and
+  `reflect-metadata` being declared in `peerDependencies` (consumers
+  always had them transitively via NestJS; the explicit declaration
+  matches what was always required). Optional peers via
+  `peerDependenciesMeta` for `class-transformer` / `class-validator` since
+  only the pagination DTOs touch them.
+
 ## [0.4.0]
 
 **Renamed: `@mdc/package-core` → `@alaska115/nextjs-toolkit`.**
