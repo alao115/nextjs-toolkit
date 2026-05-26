@@ -1,0 +1,3 @@
+export const PERSISTENCE_ADAPTER = Symbol("PERSISTENCE_ADAPTER");
+export const TRANSACTION_CONTEXT = Symbol("TRANSACTION_CONTEXT");
+export const UNIT_OF_WORK = Symbol("UNIT_OF_WORK");

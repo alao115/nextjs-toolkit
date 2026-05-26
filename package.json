@@ -1,0 +1,252 @@
+{
+  "name": "@alaska115/nextjs-toolkit",
+  "version": "0.4.0",
+  "description": "Reusable backend toolkit for NestJS + Express services: audit, bootstrap, cache, config, context, errors, feature-flags, file-storage, health, messaging, multi-tenancy, observability, outbox, persistence, rate-limit, resilience, secret, security, shutdown, and utils.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./audit": {
+      "types": "./dist/audit/index.d.ts",
+      "default": "./dist/audit/index.js"
+    },
+    "./bootstrap": {
+      "types": "./dist/bootstrap/index.d.ts",
+      "default": "./dist/bootstrap/index.js"
+    },
+    "./cache": {
+      "types": "./dist/cache/index.d.ts",
+      "default": "./dist/cache/index.js"
+    },
+    "./config": {
+      "types": "./dist/config/index.d.ts",
+      "default": "./dist/config/index.js"
+    },
+    "./context": {
+      "types": "./dist/context/index.d.ts",
+      "default": "./dist/context/index.js"
+    },
+    "./errors": {
+      "types": "./dist/errors/index.d.ts",
+      "default": "./dist/errors/index.js"
+    },
+    "./feature-flags": {
+      "types": "./dist/feature-flags/index.d.ts",
+      "default": "./dist/feature-flags/index.js"
+    },
+    "./file-storage": {
+      "types": "./dist/file-storage/index.d.ts",
+      "default": "./dist/file-storage/index.js"
+    },
+    "./health": {
+      "types": "./dist/health/index.d.ts",
+      "default": "./dist/health/index.js"
+    },
+    "./messaging": {
+      "types": "./dist/messaging/index.d.ts",
+      "default": "./dist/messaging/index.js"
+    },
+    "./multi-tenancy": {
+      "types": "./dist/multi-tenancy/index.d.ts",
+      "default": "./dist/multi-tenancy/index.js"
+    },
+    "./observability": {
+      "types": "./dist/observability/index.d.ts",
+      "default": "./dist/observability/index.js"
+    },
+    "./outbox": {
+      "types": "./dist/outbox/index.d.ts",
+      "default": "./dist/outbox/index.js"
+    },
+    "./persistence": {
+      "types": "./dist/persistence/index.d.ts",
+      "default": "./dist/persistence/index.js"
+    },
+    "./rate-limit": {
+      "types": "./dist/rate-limit/index.d.ts",
+      "default": "./dist/rate-limit/index.js"
+    },
+    "./resilience": {
+      "types": "./dist/resilience/index.d.ts",
+      "default": "./dist/resilience/index.js"
+    },
+    "./secret": {
+      "types": "./dist/secret/index.d.ts",
+      "default": "./dist/secret/index.js"
+    },
+    "./security": {
+      "types": "./dist/security/index.d.ts",
+      "default": "./dist/security/index.js"
+    },
+    "./shutdown": {
+      "types": "./dist/shutdown/index.d.ts",
+      "default": "./dist/shutdown/index.js"
+    },
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "default": "./dist/utils/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "start:dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "audit": "pnpm audit --audit-level high --prod",
+    "prepublishOnly": "npm run clean && npm run build && npm run test"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@keyv/redis": "^5.1.6",
+    "change-case": "^5.4.4",
+    "connect-redis": "^9.0.0",
+    "express-session": "^1.19.0",
+    "helmet": "^8.1.0",
+    "ioredis": "^5.10.0",
+    "joi": "^18.0.2",
+    "luxon": "^3.7.2",
+    "redis": "^5.11.0",
+    "uuid": "^13.0.0",
+    "winston": "^3.19.0"
+  },
+  "devDependencies": {
+    "@nestjs/cache-manager": "^3.1.0",
+    "@nestjs/config": "^4.0.0",
+    "@nestjs/swagger": "^11.0.0",
+    "@ngrok/ngrok": "^1.7.0",
+    "@opentelemetry/api": "^1.9.1",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.218.0",
+    "@opentelemetry/instrumentation": "^0.218.0",
+    "@opentelemetry/instrumentation-express": "^0.66.0",
+    "@opentelemetry/instrumentation-http": "^0.218.0",
+    "@opentelemetry/resources": "^2.7.1",
+    "@opentelemetry/sdk-node": "^0.218.0",
+    "@opentelemetry/semantic-conventions": "^1.41.1",
+    "@prisma/adapter-pg": "^7.4.2",
+    "@prisma/client": "^6.19.2",
+    "@sentry/node": "^10.41.0",
+    "@types/express": "^4.17.17",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^18.19.130",
+    "argon2": "^0.44.0",
+    "express": "^4.18.2",
+    "jest": "^29.7.0",
+    "minio": "^8.0.7",
+    "nodemailer": "^7.0.13",
+    "prom-client": "^15.1.3",
+    "ts-jest": "^29.1.2",
+    "twig": "^1.17.1",
+    "typescript": "^5.9.3"
+  },
+  "peerDependencies": {
+    "@nestjs/cache-manager": "^3.1.0",
+    "@nestjs/common": "^10.0.0",
+    "@nestjs/config": "^4.0.0",
+    "@nestjs/core": "^10.0.0",
+    "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/swagger": "^11.0.0",
+    "@ngrok/ngrok": "^1.7.0",
+    "@opentelemetry/api": "^1.9.1",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.218.0",
+    "@opentelemetry/instrumentation": "^0.218.0",
+    "@opentelemetry/instrumentation-express": "^0.66.0",
+    "@opentelemetry/instrumentation-http": "^0.218.0",
+    "@opentelemetry/resources": "^2.7.1",
+    "@opentelemetry/sdk-node": "^0.218.0",
+    "@opentelemetry/semantic-conventions": "^1.41.1",
+    "@prisma/adapter-pg": "^7.4.2",
+    "@prisma/client": "^6.19.2",
+    "@sentry/node": "^10.41.0",
+    "argon2": "^0.44.0",
+    "express": "^4.18.2",
+    "minio": "^8.0.7",
+    "nodemailer": "^7.0.13",
+    "prom-client": "^15.1.3",
+    "twig": "^1.17.1"
+  },
+  "peerDependenciesMeta": {
+    "@ngrok/ngrok": {
+      "optional": true
+    },
+    "@opentelemetry/api": {
+      "optional": true
+    },
+    "@opentelemetry/exporter-trace-otlp-http": {
+      "optional": true
+    },
+    "@opentelemetry/instrumentation": {
+      "optional": true
+    },
+    "@opentelemetry/instrumentation-express": {
+      "optional": true
+    },
+    "@opentelemetry/instrumentation-http": {
+      "optional": true
+    },
+    "@opentelemetry/resources": {
+      "optional": true
+    },
+    "@opentelemetry/sdk-node": {
+      "optional": true
+    },
+    "@opentelemetry/semantic-conventions": {
+      "optional": true
+    },
+    "@prisma/adapter-pg": {
+      "optional": true
+    },
+    "@prisma/client": {
+      "optional": true
+    },
+    "@sentry/node": {
+      "optional": true
+    },
+    "argon2": {
+      "optional": true
+    },
+    "minio": {
+      "optional": true
+    },
+    "nodemailer": {
+      "optional": true
+    },
+    "prom-client": {
+      "optional": true
+    },
+    "twig": {
+      "optional": true
+    }
+  },
+  "keywords": [
+    "nestjs",
+    "express",
+    "backend",
+    "toolkit",
+    "observability",
+    "opentelemetry",
+    "prisma",
+    "redis",
+    "minio",
+    "health",
+    "security",
+    "config",
+    "cache",
+    "shutdown"
+  ],
+  "license": "MIT"
+}
