@@ -14,7 +14,10 @@ import {
 	PrismaHealthService,
 	PrismaService,
 } from "../persistence";
-import { NotificationHealthIndicator } from "../messaging/notification";
+import {
+	NotificationHealthIndicator,
+	NotificationModule,
+} from "../messaging/notification";
 
 export interface HealthModuleOptions {
 	enableDb?: boolean;
@@ -25,10 +28,18 @@ export interface HealthModuleOptions {
 @Module({})
 export class HealthModule {
 	static forRoot(options: HealthModuleOptions = {}): DynamicModule {
-		const indicators: any[] = [];
-		if (options.enableDb !== false) indicators.push(DbHealthIndicator);
-		if (options.enableNotifications !== false)
-			indicators.push(NotificationHealthIndicator);
+		const ownIndicators: Provider[] = [];
+		const indicatorTokens: any[] = [];
+		if (options.enableDb !== false) {
+			ownIndicators.push(DbHealthIndicator);
+			indicatorTokens.push(DbHealthIndicator);
+		}
+		// NotificationHealthIndicator is provided + exported by NotificationModule.
+		// We must NOT re-provide it here, or Nest will try to resolve its deps
+		// (NOTIFICATION_PROVIDERS, LoggerService) inside the HealthModule injector.
+		if (options.enableNotifications !== false) {
+			indicatorTokens.push(NotificationHealthIndicator);
+		}
 
 		const ormHealthProvider: Provider =
 			options.orm === "prisma"
@@ -49,6 +60,8 @@ export class HealthModule {
 
 		return {
 			module: HealthModule,
+			imports:
+				options.enableNotifications !== false ? [NotificationModule] : [],
 			controllers: [HealthHttpController],
 			providers: [
 				HealthService,
@@ -57,11 +70,11 @@ export class HealthModule {
 					provide: ORM_KIND,
 					useValue: options.orm,
 				},
-				...indicators,
+				...ownIndicators,
 				{
 					provide: HEALTH_INDICATORS,
 					useFactory: (...instances: HealthIndicator[]) => instances,
-					inject: indicators,
+					inject: indicatorTokens,
 				},
 			],
 			exports: [HealthService],

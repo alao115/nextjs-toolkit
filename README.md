@@ -41,8 +41,24 @@ npm install \
   @nestjs/config@^4 \
   @nestjs/cache-manager@^3 \
   @nestjs/swagger@^11 \
-  express@^4
+  express@^4 \
+  rxjs@^7 \
+  reflect-metadata
 ```
+
+### `tsconfig.json` requirement
+
+The package uses subpath `exports` (`@alaska115/nextjs-toolkit/audit`, `.../resilience`, etc.) so consumers must set **`moduleResolution`** to a modern value:
+
+```json
+{
+  "compilerOptions": {
+    "moduleResolution": "bundler"   // or "node16" or "nodenext"
+  }
+}
+```
+
+The legacy `"node"` / `"node10"` resolver doesn't read `package.json` `exports` and will fail with `Cannot find module '@alaska115/nextjs-toolkit/<subpath>'`. See the [`mini-app` example](./examples/mini-app/) for a working `tsconfig.json`.
 
 ---
 

@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "node16",
+    "target": "ES2021",
+    "moduleResolution": "node16",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "declaration": false,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "rootDir": ".",
+    "strict": true
+  },
+  "include": ["src/**/*.ts", "scripts/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}
