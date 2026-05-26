@@ -11,8 +11,8 @@ import { RequestContextService } from "../../context";
 @Injectable()
 export class LoggerService {
 	constructor(
-		private readonly errorTracker: ErrorTrackingService,
 		private readonly ctxService: RequestContextService,
+		@Optional() private readonly errorTracker?: ErrorTrackingService,
 		@Optional() private readonly loggingPort?: LoggingContract,
 	) {}
 
@@ -55,7 +55,7 @@ export class LoggerService {
 	error(message: string, meta?: LogContext) {
 		this.emit("error", message, meta);
 		if (meta?.error) {
-			this.errorTracker.captureError(meta.error, meta);
+			this.errorTracker?.captureError(meta.error, meta);
 		}
 	}
 

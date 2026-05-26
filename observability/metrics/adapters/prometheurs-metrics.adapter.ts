@@ -1,10 +1,10 @@
 import { Injectable } from "@nestjs/common";
-import client, {
-	Registry,
-	Counter,
-	Histogram,
-	collectDefaultMetrics,
-} from "prom-client";
+// `prom-client` is a CJS module; default-import yields `undefined` under
+// strict ESM interop. Use a namespace import so `Registry` / `Counter` /
+// `Histogram` / `collectDefaultMetrics` are all reachable from the same
+// binding consistently across moduleResolution modes.
+import * as client from "prom-client";
+import type { Counter, Histogram } from "prom-client";
 import {
 	CounterMetric,
 	HistogramMetric,
@@ -36,14 +36,14 @@ class PromHistogram implements HistogramMetric {
 
 @Injectable()
 export class PrometheusMetricsAdapter implements MetricsContract {
-	private registry: Registry;
+	private registry: client.Registry;
 	private counters = new Map<string, PromCounter>();
 	private histograms = new Map<string, PromHistogram>();
 
 	constructor() {
 		this.registry = new client.Registry();
 		// Optionally collect Node process metrics:
-		collectDefaultMetrics({ register: this.registry });
+		client.collectDefaultMetrics({ register: this.registry });
 
 		// Add a default label (service) for all metrics
 		this.registry.setDefaultLabels({

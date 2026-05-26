@@ -38,7 +38,7 @@ async function run(): Promise<void> {
 	process.env.HTTP_PORT = String(PORT);
 	process.env.NODE_ENV = "test";
 
-	const app = await NestFactory.create(AppModule, { logger: false });
+	const app = await NestFactory.create(AppModule);
 	app.setGlobalPrefix("api");
 	await app.listen(PORT);
 

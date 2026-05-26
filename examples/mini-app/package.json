@@ -11,7 +11,7 @@
     "smoke": "ts-node scripts/smoke.ts"
   },
   "dependencies": {
-    "@alaska115/nextjs-toolkit": "^0.4.1",
+    "@alaska115/nextjs-toolkit": "^0.4.2",
     "@nestjs/cache-manager": "^3.1.0",
     "@nestjs/common": "^10.4.22",
     "@nestjs/config": "^4.0.0",
@@ -22,6 +22,7 @@
     "class-validator": "^0.14.2",
     "express": "^4.18.2",
     "joi": "^18.0.2",
+    "prom-client": "^15.1.3",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"
   },

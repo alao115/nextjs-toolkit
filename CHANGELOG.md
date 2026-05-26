@@ -6,6 +6,45 @@ All notable changes to `@alaska115/nextjs-toolkit` are documented here. Format f
 
 ## [Unreleased]
 
+## [0.4.2]
+
+Two real bugs surfaced by the `mini-app` smoke harness — both blocked any
+consumer that imported the observability modules directly.
+
+### Added
+
+- **`ContextModule`** ([context/context.module.ts](context/context.module.ts)) —
+  `@Global()` module that provides + exports `RequestContextService`.
+  `LoggerModule`, `TracingModule`, and `MetricsModule` now import it
+  transitively, so consumers wiring any of them get a working
+  `RequestContextService` without having to register the provider
+  themselves. (Previously: consumers had to add `RequestContextService`
+  to their app module's providers manually, or hit
+  `Nest can't resolve dependencies of the LoggerService (RequestContextService)`.)
+
+### Fixed
+
+- **`LoggerService` couldn't be instantiated when consumers imported
+  `LoggerModule` directly.** The `ErrorTrackingService` constructor
+  parameter was required, but `LoggerModule` didn't import
+  `ErrorTrackingModule`. **Fix:** mark `errorTracker` as `@Optional()`,
+  guard the `captureError` call with `?.`, and have `LoggerModule` import
+  `ErrorTrackingModule` so the service IS available when wanted.
+- **`PrometheusMetricsAdapter` crashed at construction** with
+  `Cannot read properties of undefined (reading 'Registry')` because the
+  default import `import client from "prom-client"` evaluates to
+  `undefined` under strict ESM interop (prom-client is CJS with no
+  default export). **Fix:** switch to `import * as client from "prom-client"`
+  + `import type { Counter, Histogram }`. Now metrics work when consumers
+  set `OBSERVABILITY_METRICS=prometheus` and install `prom-client`.
+
+### Notes
+
+- The `mini-app` example was updated to import `LoggerModule` / `TracingModule` /
+  `MetricsModule` directly (without the `ObservabilityModule.forRoot()` wrapper)
+  to prove both fixes end-to-end. 14/14 smoke checks now pass against the
+  package from npm.
+
 ## [0.4.1]
 
 First release published from the standalone repository at

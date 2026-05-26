@@ -3,6 +3,7 @@ import { ConfigService } from "@nestjs/config";
 import { TracingService } from "./tracing.service";
 import { TRACING_PORT, TracingContract } from "./tracing.contract";
 import { ShutdownManager } from "../../shutdown/shutdown.manager";
+import { ContextModule } from "../../context/context.module";
 
 const tracingPortProvider: Provider = {
 	provide: TRACING_PORT,
@@ -29,6 +30,7 @@ const tracingPortProvider: Provider = {
 
 @Global()
 @Module({
+	imports: [ContextModule],
 	providers: [tracingPortProvider, TracingService],
 	exports: [TracingService],
 })

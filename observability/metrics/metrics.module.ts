@@ -3,6 +3,7 @@ import { ConfigService } from "@nestjs/config";
 import { MetricsService } from "./metrics.service";
 import { METRICS_PORT, MetricsContract } from "./metrics.contract";
 import { MetricsController } from "./metrics.controller";
+import { ContextModule } from "../../context/context.module";
 
 const metricsPortProvider: Provider = {
 	provide: METRICS_PORT,
@@ -26,6 +27,7 @@ const metricsPortProvider: Provider = {
 
 @Global()
 @Module({
+	imports: [ContextModule],
 	providers: [metricsPortProvider, MetricsService],
 	controllers: [MetricsController],
 	exports: [MetricsService],

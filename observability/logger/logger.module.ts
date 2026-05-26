@@ -3,6 +3,8 @@ import { ConfigService } from "@nestjs/config";
 import { LoggerService } from "./logger.service";
 import type { LoggingContract } from "./logging.contract";
 import { ShutdownManager } from "../../shutdown/shutdown.manager";
+import { ContextModule } from "../../context/context.module";
+import { ErrorTrackingModule } from "../error-tracker/error-tracker.module";
 
 export const LOGGING_PORT = Symbol("LOGGING_PORT");
 
@@ -31,6 +33,7 @@ const loggingPortProvider: Provider = {
 
 @Global()
 @Module({
+	imports: [ContextModule, ErrorTrackingModule],
 	providers: [LoggerService, loggingPortProvider],
 	exports: [LoggerService],
 })
