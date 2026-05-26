@@ -4,7 +4,7 @@ import {
 	Injectable,
 	NestInterceptor,
 } from "@nestjs/common";
-import { Observable } from "rxjs";
+import { Observable, Subscriber } from "rxjs";
 import { TracingService } from "./tracing.service";
 
 @Injectable()
@@ -25,7 +25,7 @@ export class TracingInterceptor implements NestInterceptor {
 
 		const handle$ = next.handle();
 
-		return new Observable((subscriber) => {
+		return new Observable((subscriber: Subscriber<unknown>) => {
 			const sub = handle$.subscribe({
 				next: (value) => subscriber.next(value),
 				error: (err) => {
