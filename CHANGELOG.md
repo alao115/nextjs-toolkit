@@ -6,6 +6,40 @@ All notable changes to `@alaska115/nextjs-toolkit` are documented here. Format f
 
 ## [Unreleased]
 
+## [0.6.0]
+
+### Changed
+
+- **BREAKING CHANGE: `registerSwagger()` signature.**
+  Now takes an options object: `registerSwagger({ enabled, app, config })` instead of `registerSwagger(app, config)`.
+
+  ```diff
+  - registerSwagger(app, config);
+  + registerSwagger({
+  +   enabled: config.get<boolean>("swagger.enabled") === true,
+  +   app,
+  +   config,
+  + });
+  ```
+
+  Why (same reasoning as the 0.5.0 `SetupNgrokProxyModule.setup` change):
+  - **Caller-owned enable decision.** Previously the function read
+    `swagger.enabled` from config itself and silently no-op'd if false.
+    Now the caller composes the predicate and the function does what it's
+    asked.
+  - **Fail-fast on missing required config.** When `enabled: true`,
+    `swagger.title` and `swagger.version` are validated as present;
+    missing keys raise a clear `Error` at boot instead of producing a
+    Swagger spec with empty/default fields that fail downstream tooling
+    (codegen, lint, doc rendering).
+
+  `swagger.description`, `swagger.server`, `swagger.outputPath`, and
+  `http.globalPrefix` remain optional with sensible defaults.
+
+  Migration: pass `enabled` explicitly and ensure `SWAGGER_TITLE` /
+  `SWAGGER_VERSION` are set in your env when you enable Swagger. If you
+  don't use Swagger, pass `enabled: false`.
+
 ## [0.5.1]
 
 ### Fixed

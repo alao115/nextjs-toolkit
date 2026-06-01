@@ -26,7 +26,11 @@ async function bootstrap() {
   helmetRegistration(app);
   contentSecurityPolicyRegistration(app);       // strict CSP, per-request nonce
   expressSessionRegistration(app, config);
-  registerSwagger(app, config);
+  registerSwagger({
+    enabled: config.get<boolean>("swagger.enabled") === true,
+    app,
+    config,
+  });
   SetupNgrokProxyModule.setup({                  // dev only
     enabled: config.get<string>("app.env") !== "production"
       && config.get<boolean>("ngrok.enabled") === true,
@@ -42,7 +46,7 @@ bootstrap();
 
 - **CORS** is opt-in via `cors.enabled`. Origin, methods, and exposed headers come from `cors.*` config keys.
 - **CSP** ships a strict default: `default-src 'none'`, scripts nonce-only, no third-party CDN allowlist baked in. Wrap or fork the helper if your app loads from a CDN (it should declare which one, not inherit a permissive default from us).
-- **Swagger** writes to `./swagger.json` (override with `swagger.outputPath`) when `app.generateAPIDocs === "true"`. The OpenAPI document is mounted at `${http.globalPrefix}/docs`.
+- **Swagger** runs only when the caller passes `enabled: true` to `registerSwagger({ enabled, app, config })`. When enabled, it **requires** `swagger.title` and `swagger.version` to be set — throws at boot if either is missing. The previous behavior of reading `swagger.enabled` from config + silently defaulting title/version was removed in 0.6.0. The OpenAPI document is mounted at `${http.globalPrefix}/docs`. When `app.generateAPIDocs === "true"`, the spec is also written to `swagger.outputPath` (defaults to `./swagger.json`).
 - **ngrok** runs only when the caller passes `enabled: true` to `SetupNgrokProxyModule.setup({ enabled, config })`. When enabled, it **requires** `http.port`, `ngrok.token`, and `ngrok.domain` to be set — throws at boot if any are missing. The previous silent-no-op-in-production guard was removed in 0.5.0; the caller owns the production decision now.
 
 ## Anti-patterns

@@ -83,7 +83,11 @@ export class AppModule {}
  *   corsRegistration(app, config);
  *   helmetRegistration(app);
  *   contentSecurityPolicyRegistration(app);
- *   registerSwagger(app, config);
+ *   registerSwagger({
+ *     enabled: config.get<boolean>("swagger.enabled") === true,
+ *     app,
+ *     config,
+ *   });
  *
  *   const port = config.get<number>("http.port") ?? 3001;
  *   await app.listen(port);
