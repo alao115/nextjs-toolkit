@@ -1,6 +1,6 @@
 {
   "name": "@alaska115/nextjs-toolkit",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Reusable backend toolkit for NestJS + Express services: audit, bootstrap, cache, config, context, errors, feature-flags, file-storage, health, messaging, multi-tenancy, observability, outbox, persistence, rate-limit, resilience, secret, security, shutdown, and utils.",
   "repository": {
     "type": "git",

@@ -24,11 +24,11 @@ export class SetupNgrokProxyModule {
 	 *
 	 * When `enabled: false` — no-op.
 	 *
-	 * When `enabled: true` — validates that `http.port`, `ngrok.token`, and
-	 * `ngrok.domain` are all set on the {@link ConfigService}. **Throws**
-	 * `Error` if any are missing. This fail-fast behavior replaces the
-	 * previous silent no-op-on-missing-config to surface misconfiguration
-	 * at boot rather than after the next ngrok-dependent request.
+	 * When `enabled: true` — validates that `http.port` and `ngrok.token`
+	 * are set on the {@link ConfigService}. **Throws** `Error` if either is
+	 * missing. `ngrok.domain` is optional: when set, ngrok binds the tunnel
+	 * to that reserved domain; when omitted, ngrok generates a random
+	 * subdomain on the free `*.ngrok-free.app` namespace.
 	 */
 	static setup(options: SetupNgrokProxyOptions): void {
 		if (!options.enabled) return;
@@ -41,17 +41,20 @@ export class SetupNgrokProxyModule {
 		const missing: string[] = [];
 		if (port === undefined || port === null) missing.push("http.port");
 		if (!token) missing.push("ngrok.token");
-		if (!domain) missing.push("ngrok.domain");
 
 		if (missing.length > 0) {
 			throw new Error(
 				`SetupNgrokProxyModule.setup({ enabled: true }): missing required config keys: ${missing.join(", ")}. ` +
-					"Set the corresponding env vars (HTTP_PORT, NGROK_TOKEN, NGROK_DOMAIN) or pass enabled: false.",
+					"Set the corresponding env vars (HTTP_PORT, NGROK_TOKEN) or pass enabled: false.",
 			);
 		}
 
 		ngrok
-			.connect({ addr: port, authtoken: token, domain })
+			.connect({
+				addr: port,
+				authtoken: token,
+				...(domain ? { domain } : {}),
+			})
 			.then((listener) =>
 				console.log(`Ingress established at: ${listener.url()}`),
 			)

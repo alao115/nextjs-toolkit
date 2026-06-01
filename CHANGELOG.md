@@ -6,6 +6,18 @@ All notable changes to `@alaska115/nextjs-toolkit` are documented here. Format f
 
 ## [Unreleased]
 
+## [0.5.1]
+
+### Fixed
+
+- `SetupNgrokProxyModule.setup({ enabled: true })` no longer requires
+  `ngrok.domain`. Domain is optional in ngrok itself — when omitted, ngrok
+  generates a random `*.ngrok-free.app` subdomain. The 0.5.0 release
+  incorrectly required it, which broke the common dev case of just wanting
+  a tunnel without a reserved domain. Required keys are now only `http.port`
+  and `ngrok.token`; if `ngrok.domain` is set we pass it through, otherwise
+  we leave it out of the `ngrok.connect()` call.
+
 ## [0.5.0]
 
 ### Changed
