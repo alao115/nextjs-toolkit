@@ -6,6 +6,28 @@ All notable changes to `@alaska115/nextjs-toolkit` are documented here. Format f
 
 ## [Unreleased]
 
+## [0.5.0]
+
+### Changed
+
+- **BREAKING CHANGE: `SetupNgrokProxyModule.setup()` signature.**
+  Now takes an options object: `setup({ enabled, config })` instead of `setup(config)`.
+
+  ```diff
+  - SetupNgrokProxyModule.setup(config);
+  + SetupNgrokProxyModule.setup({
+  +   enabled: config.get<string>("app.env") !== "production"
+  +     && config.get<boolean>("ngrok.enabled") === true,
+  +   config,
+  + });
+  ```
+
+  Why:
+  - **Caller-owned enable decision.** The previous behavior silently no-op'd when `app.env === "production"` OR `ngrok.enabled !== true`, which hid two unrelated decisions inside one function. Splitting them out means the caller can compose their own predicate (e.g. "only on staging if the dev flag is also set") and the function does what they asked.
+  - **Fail-fast on missing config.** When `enabled: true`, the function now validates that `http.port`, `ngrok.token`, and `ngrok.domain` are all set and throws a clear `Error` listing the missing keys if any are absent. Previously, the underlying `ngrok.connect()` call would fail asynchronously after boot with a less helpful message, or worse, with a default upstream URL the consumer didn't intend.
+
+  Migration: pass the previous implicit conditions explicitly via `enabled`. If you don't use ngrok, pass `enabled: false`.
+
 ## [0.4.2]
 
 Two real bugs surfaced by the `mini-app` smoke harness — both blocked any
