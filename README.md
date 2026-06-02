@@ -9,7 +9,6 @@ A reusable backend toolkit for **NestJS + Express** services. Ships ready-to-use
 | `config`           | Joi-validated config loaders                                                      |
 | `context`          | Async request context (interceptor + service)                                     |
 | `errors`           | Typed error classes and HTTP error mapping                                        |
-| `file-storage`     | S3 / MinIO file storage abstraction                                               |
 | `health`           | Liveness / readiness endpoints                                                    |
 | `messaging`        | Notifications (mail via nodemailer, templating via Twig)                          |
 | `observability`    | OpenTelemetry tracing + Prometheus metrics + Sentry + Winston logging             |
@@ -74,7 +73,6 @@ import { CacheModule } from "@alaska115/nextjs-toolkit/cache";
 import { loadConfig } from "@alaska115/nextjs-toolkit/config";
 import { RequestContextService } from "@alaska115/nextjs-toolkit/context";
 import { AppError } from "@alaska115/nextjs-toolkit/errors";
-import { FileStorageModule } from "@alaska115/nextjs-toolkit/file-storage";
 import { HealthModule } from "@alaska115/nextjs-toolkit/health";
 import { NotificationService } from "@alaska115/nextjs-toolkit/messaging";
 import { Observability } from "@alaska115/nextjs-toolkit/observability";

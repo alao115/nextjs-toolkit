@@ -1,7 +1,6 @@
 export * from "./cache";
 export * from "./context";
 export * from "./errors";
-export * from "./file-storage";
 export * from "./health";
 export * from "./messaging";
 export * from "./observability";

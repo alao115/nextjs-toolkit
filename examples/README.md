@@ -15,9 +15,8 @@ Copy-paste-ready snippets that show how to wire each module of `@alaska115/nextj
 | 09 | [`09-error-handling.ts`](./09-error-handling.ts) | Domain exceptions via `BaseException`, status→code mapping, PII redaction, `catchError` vs throw |
 | 10 | [`10-observability-tracing.ts`](./10-observability-tracing.ts) | `LogEvent` structured logging, spans with attributes + events, label-cardinality anti-patterns |
 | 11 | [`11-graceful-shutdown.ts`](./11-graceful-shutdown.ts) | Phased hooks, readiness coordination, the right SIGTERM handling order for Kubernetes |
-| 12 | [`12-file-storage.ts`](./12-file-storage.ts) | Generic upload/stream primitives + building domain-specific flows (signup, tenant-scoped paths) |
 
-These compile against `@alaska115/nextjs-toolkit` v0.3+. If a snippet drifts, file an issue.
+These compile against `@alaska115/nextjs-toolkit` v0.7+. If a snippet drifts, file an issue.
 
 ## Conventions
 

@@ -6,6 +6,36 @@ All notable changes to `@alaska115/nextjs-toolkit` are documented here. Format f
 
 ## [Unreleased]
 
+## [0.7.0]
+
+### Removed
+
+- **BREAKING CHANGE: `@alaska115/nextjs-toolkit/file-storage` subpath
+  export removed.** The module — `FileStorageModule`, `FileStorageService`,
+  `IStorageAdapter`, `IUploadedFile`, the MinIO / disk / noop adapters,
+  the `FileEntity` / `FileStorageRepository`, and the `getBucketNameFromDestination`
+  helper — is no longer reachable via `@alaska115/nextjs-toolkit/file-storage`
+  or via the root re-export.
+
+  Why: the module mixed too many concerns for a generic toolkit
+  (project-specific path schemes leaked back in via PRs, the
+  `IStorageAdapter` interface had most methods optional which made type-safe
+  composition fragile, and consumers who use neither MinIO nor multer-disk
+  were still paying the install + type-check cost). Pulling it out clarifies
+  the toolkit's scope.
+
+  Migration: if you depended on this module, either:
+  - **Pin to `^0.6.0`** and consume from there until you're ready to take
+    over the code yourself.
+  - **Lift the source** out of `0.6.0` into your own service — it's ~600
+    lines, depends only on the toolkit's `observability` / `persistence`
+    modules, and is self-contained.
+  - **Use the adapter directly** — `minio`, `@aws-sdk/client-s3`, etc. are
+    straightforward to wire from scratch when you only need one bucket.
+
+- `examples/12-file-storage.ts` deleted (the reference snippet for the
+  removed module).
+
 ## [0.6.0]
 
 ### Changed

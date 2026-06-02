@@ -1,7 +1,7 @@
 {
   "name": "@alaska115/nextjs-toolkit",
-  "version": "0.6.0",
-  "description": "Reusable backend toolkit for NestJS + Express services: audit, bootstrap, cache, config, context, errors, feature-flags, file-storage, health, messaging, multi-tenancy, observability, outbox, persistence, rate-limit, resilience, secret, security, shutdown, and utils.",
+  "version": "0.7.0",
+  "description": "Reusable backend toolkit for NestJS + Express services: audit, bootstrap, cache, config, context, errors, feature-flags, health, messaging, multi-tenancy, observability, outbox, persistence, rate-limit, resilience, secret, security, shutdown, and utils.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alao115/nextjs-toolkit.git"
@@ -44,10 +44,6 @@
     "./feature-flags": {
       "types": "./dist/feature-flags/index.d.ts",
       "default": "./dist/feature-flags/index.js"
-    },
-    "./file-storage": {
-      "types": "./dist/file-storage/index.d.ts",
-      "default": "./dist/file-storage/index.js"
     },
     "./health": {
       "types": "./dist/health/index.d.ts",
