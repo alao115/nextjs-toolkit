@@ -35,6 +35,15 @@ export interface AppPersistenceConfig {
 	ormClient?: any;
 
 	/**
+	 * Log every SQL statement Prisma emits, at `info`, via the toolkit logger.
+	 *
+	 * Off by default: query text can contain personal data and credentials in
+	 * literals, and a log pipeline is rarely the right place for it. Turn it on
+	 * deliberately in development, or point it at a sink you control.
+	 */
+	logQueries?: boolean;
+
+	/**
 	 * Factory that produces a driver adapter instance for the Prisma client
 	 * (e.g. PrismaPg, PrismaMysql, PrismaSqlite). Receives the configured `url`.
 	 * If omitted, defaults to `@prisma/adapter-pg`.

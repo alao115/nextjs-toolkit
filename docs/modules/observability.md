@@ -41,9 +41,9 @@ ObservabilityModule.forRoot({
 - exports `RequestContextService`, `LoggerService`, `TracingService`,
   `ErrorTrackingService`.
 
-All four options default to `true`, but a partial object **replaces** the
-defaults rather than merging — `forRoot({ metrics: false })` leaves `logging`,
-`tracing` and `errorTracker` `undefined`, i.e. off. Pass every flag explicitly.
+All four options default to `true` and a partial object is **merged over** those
+defaults, so `forRoot({ metrics: false })` keeps logging, tracing and error
+tracking on. `forRoot()` with no argument enables everything.
 
 You can also import the sub-modules individually and wire the interceptors
 yourself, as the [`mini-app` example](../../examples/mini-app/src/app.module.ts)

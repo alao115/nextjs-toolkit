@@ -63,12 +63,16 @@ export class PrismaService
     await this.client.$connect();
     this.isInitialized = true;
 
-    this.client.$on("query", (evt: { query: string; duration: number }) => {
-      this.logger.info(
-        `Prisma query: ${evt.query} (${evt.duration}ms)`,
-        { context: "PrismaService" },
-      );
-    });
+    // Opt-in only: SQL text routinely carries personal data and secrets in
+    // literals, so this must not default to on.
+    if (this.options.logQueries) {
+      this.client.$on("query", (evt: { query: string; duration: number }) => {
+        this.logger.info(
+          `Prisma query: ${evt.query} (${evt.duration}ms)`,
+          { context: "PrismaService" },
+        );
+      });
+    }
 
     this.shutdownManager.registerHook({
       name: "prisma-client",

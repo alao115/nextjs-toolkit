@@ -83,7 +83,8 @@ Resolution rules:
 
 Status → `LogicalErrorCode` mapping: 400/422 → `VALIDATION_ERROR`,
 401 → `UNAUTHENTICATED`, 403 → `UNAUTHORIZED`, 404 → `NOT_FOUND`,
-409 → `CONFLICT`, everything else → `INTERNAL_ERROR`.
+409 → `CONFLICT`, 503 → `SERVICE_UNAVAILABLE`, everything else →
+`INTERNAL_ERROR`.
 
 `correlationId` is the `x-kong-request-id` header, else `x-request-id`, else the
 request-context `requestId`, else a fresh UUID.

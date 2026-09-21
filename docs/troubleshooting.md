@@ -41,14 +41,6 @@ One of three things:
    `getContext()` returns `undefined` there by design; open a scope yourself
    with `runWithContext` if you want correlation in background work.
 
-## Everything is disabled after `ObservabilityModule.forRoot({ metrics: false })`
-
-The options object **replaces** the defaults instead of merging. Pass every flag:
-
-```ts
-ObservabilityModule.forRoot({ logging: true, tracing: true, metrics: false, errorTracker: true })
-```
-
 ## `registerSwagger({ enabled: true })` throws about missing config keys
 
 `swagger.title` and `swagger.version` are not produced by the package's config
@@ -76,18 +68,28 @@ Use only those, or bind your own `MetricsContract` adapter.
 Relatedly: `metrics.withContextLabels()` injects `traceId` and `correlationId`,
 which are unique per request. Don't feed them to Prometheus.
 
+## Prisma isn't logging my queries
+
+Query logging is opt-in: set `logQueries: true` on the persistence config. It
+defaults to off because SQL text routinely carries personal data and credentials
+in literals.
+
 ## `/metrics` doesn't show my notification metrics
 
 `NotificationService` registers its counters on `prom-client`'s **default**
 registry, while `PrometheusMetricsAdapter` exports its own. Scrape
 `client.register.metrics()` separately, or re-register those metrics yourself.
 
-## Kubernetes never restarts / never drains my pod
+## Health endpoints return 503 and my probes now fail
 
-`HealthHttpController` always returns HTTP **200** — the failure is in the JSON
-body (`status: "degraded"` / `"down"`). Probes that key on the status code will
-never fire. Configure the probe against the body, or wrap the endpoints in a
-controller of your own that maps `status` to 200/503.
+They are working. Since 0.8.0 the controller maps the check outcome to the HTTP
+status: `200` for `"ok"`, `503` for anything else. Before that it always
+returned 200, so a probe keyed on the status code never fired.
+
+If a probe started failing after upgrading, an indicator really is down — read
+`details` in the response body to see which. `/health/live` has no external
+dependencies and stays 200 as long as the process is alive; point
+`livenessProbe` there and `readinessProbe` at `/health/ready`.
 
 ## `TenantNotSetError` in a background job
 
@@ -123,12 +125,16 @@ start the loop. Call `worker.configure({...}).start()`.
 If records are accumulating `attempts` instead, their `type` has no matching
 subscriber — add one, or a `"*"` catch-all.
 
-## SMS / WhatsApp notifications "succeed" but nothing arrives
+## `No notification provider registered for channel: sms`
 
-`NotificationModule` wires dummy SMS and WhatsApp clients that only
-`console.log`. Override `NOTIFICATION_PROVIDERS` with real providers. (The
-`SMS_PROVIDER` / `WHATSAPP_PROVIDER` symbols are exported but unbound — 
-overriding them does nothing.)
+Expected: `NotificationModule` registers only the email provider. Up to 0.7.0 it
+wired SMS and WhatsApp to clients that just `console.log`'d, so sends resolved
+`success: true` and delivered nothing; the throw replaced that silent drop.
+
+Override `NOTIFICATION_PROVIDERS` with your own array — `SmsProvider` and
+`WhatsAppProvider` still ship, so you only need to supply an `SmsClient` /
+`WhatsAppClient`. (The `SMS_PROVIDER` / `WHATSAPP_PROVIDER` symbols are exported
+but unbound; overriding those does nothing.)
 
 ## `KMS_PROVIDER=vault` but secrets are empty
 

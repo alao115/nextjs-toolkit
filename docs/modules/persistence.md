@@ -48,6 +48,7 @@ PersistenceModule.register({
 | `ormClient`         | `any?`                      | Your generated `PrismaClient` **class**.             |
 | `driverFactory`     | `(url?) => any`             | Builds the Prisma driver adapter. Defaults to `new PrismaPg({ connectionString: url })` from the optional `@prisma/adapter-pg` peer dep. |
 | `ormOptions`        | `Record<string, any>?`      | Free-form; stored on the config, not forwarded to the client today. |
+| `logQueries`        | `boolean?`                  | Log every SQL statement at `info`. Default `false`.  |
 | `runMigrations`     | `boolean?`                  | Advisory flag.                                       |
 | `enableHealthCheck` | `boolean?`                  | Advisory flag.                                       |
 
@@ -97,13 +98,11 @@ export class OrderRepo {
   your generated client type when you want full model typing:
   `(this.prisma.instance as unknown as PrismaClient).order.findMany(...)`.
 - `isDBClientInitialized` — whether `onModuleInit` completed.
-- Connects on `onModuleInit`, subscribes to Prisma's `query` event and logs each
-  statement at `info`, disconnects on `onModuleDestroy`, and registers an
+- Connects on `onModuleInit`, disconnects on `onModuleDestroy`, and registers an
   `infra`-phase hook with [`ShutdownManager`](./shutdown.md).
-
-> Query logging is unconditional. If your statements can contain sensitive
-> literals, bind a logger level that drops `info` in production, or open an
-> issue — there is no flag for it today.
+- Logs every SQL statement at `info` **only when `logQueries: true`** is set on
+  the persistence config. It is off by default because query text routinely
+  carries personal data and credentials in literals.
 
 ## Unit of work
 

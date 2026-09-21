@@ -6,7 +6,8 @@ export type LogicalErrorCode =
 	| "UNAUTHORIZED"
 	| "NOT_FOUND"
 	| "CONFLICT"
-	| "INTERNAL_ERROR";
+	| "INTERNAL_ERROR"
+	| "SERVICE_UNAVAILABLE";
 
 export type ErrorCode = LogicalErrorCode | DomainErrorCode;
 

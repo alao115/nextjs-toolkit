@@ -8,6 +8,52 @@ All notable changes to `@alaska115/nextjs-toolkit` are documented here. Format f
 
 ### Fixed
 
+- **Health endpoints always returned HTTP 200.** `HealthHttpController`
+  returned the payload without setting a status, so a `"degraded"` or `"down"`
+  result still answered 200. Kubernetes probes, load balancers and uptime
+  monitors key on the status code, so a broken instance stayed in rotation and
+  the drain coordination in `ShutdownManager` was unreachable in practice.
+
+  The controller now throws `ServiceUnavailableException` carrying the full
+  `HealthStatus` when the result is not `"ok"`, giving `503`. `/health/live`
+  still answers 200 whenever the process is alive.
+
+  Setting the status via `@Res({ passthrough: true })` does not work here:
+  Nest resolves a default status per HTTP method and `ExpressAdapter.reply`
+  applies it over anything the handler set.
+
+- **SMS and WhatsApp notifications reported success and delivered nothing.**
+  `NotificationModule` registered `SmsProvider` and `WhatsAppProvider` backed by
+  clients that only `console.log`'d and returned a fake message id, so
+  `send({ channel: "sms" })` resolved with `success: true`.
+
+  Those providers are no longer registered. `NotificationService` now throws
+  `No notification provider registered for channel: sms`, surfacing the missing
+  wiring. Override `NOTIFICATION_PROVIDERS` to enable the channel;
+  `SmsProvider` / `WhatsAppProvider` still ship, so supplying an `SmsClient` or
+  `WhatsAppClient` is all that is needed.
+
+- **`ObservabilityModule.forRoot()` options replaced the defaults instead of
+  merging.** `forRoot({ metrics: false })` left `logging`, `tracing` and
+  `errorTracker` `undefined`, which read as disabled — so opting out of metrics
+  silently turned off all telemetry. Options are now merged over the defaults.
+
+- **`PrismaService` logged every SQL statement unconditionally** at `info`, with
+  no way to turn it off. Query text routinely carries personal data and
+  credentials in literals. Now opt-in via `logQueries: true` on
+  `AppPersistenceConfig`, defaulting to off.
+
+- **`LoggerModule` crashed at import without the optional `@sentry/node`.**
+  `ErrorTrackingModule` statically imported the Sentry adapter, which statically
+  imports `@sentry/node`; `LoggerModule` imports `ErrorTrackingModule`. So the
+  logger — the module the getting-started guide recommends first — failed with
+  `MODULE_NOT_FOUND: @sentry/node` for anyone who had not installed an
+  *optional* peer dependency. pnpm's `autoInstallPeers` masked this; npm did not.
+
+  The adapter is now `require`d lazily, and only when `SENTRY_DSN` is set. If
+  the DSN is set but the package is absent, boot logs a warning and error
+  tracking stays a no-op instead of taking the process down.
+
 - **`computeAuditHash` did not hash the event contents.** The canonical
   serialization used `JSON.stringify(value, keyArray)`, but an **array**
   replacer is a property allow-list applied at *every* nesting depth — so the
@@ -30,6 +76,11 @@ All notable changes to `@alaska115/nextjs-toolkit` are documented here. Format f
 
 ### Added
 
+- `AppPersistenceConfig.logQueries` — opt in to Prisma SQL statement logging.
+- `SERVICE_UNAVAILABLE` added to `LogicalErrorCode`, and `HttpExceptionFilter`
+  now maps HTTP 503 to it rather than falling through to `INTERNAL_ERROR`.
+- Tests for `HealthHttpController` covering the status-code contract on every
+  endpoint, including the draining case.
 - CI: GitHub Actions workflow running build + tests on Node 18/20/22,
   a production-dependency audit, commitlint on pull requests, and a
   consumer smoke test that packs the tarball and installs it into

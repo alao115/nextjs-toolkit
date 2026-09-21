@@ -2,15 +2,11 @@ import { Module } from "@nestjs/common";
 import { NotificationService, IdempotencyStore } from "./notification.service";
 import { DefaultNotificationTemplateEngine } from "./template-engines/default-notification-template.engine";
 import { EmailProvider, EmailTransport } from "./providers/email.provider";
-import { SmsProvider, SmsClient } from "./providers/sms.provider";
-import {
-	WhatsAppProvider,
-	WhatsAppClient,
-} from "./providers/whatsapp.provider";
 import {
 	MAIL_PROVIDER,
 	NOTIFICATION_IDEMPOTENCY_STORE,
 	NOTIFICATION_PROVIDERS,
+	NotificationProvider,
 	NotificationResult,
 	TEMPLATE_ENGINE,
 } from "./notification.types";
@@ -20,26 +16,6 @@ import { LoggerService } from "../../observability/logger/logger.service";
 import { ConfigService } from "@nestjs/config";
 import { BombooMailNotificationAdapter } from "./adapters/bomboo-mail-notification.adapter";
 import { TwigNotificationTemplateEngine } from "./template-engines/twig-notification-template.engine";
-
-const dummySmsClient: SmsClient = {
-	async sendSms(to, body) {
-		// eslint-disable-next-line no-console
-		console.log("[DUMMY SMS] Sending SMS", { to, body });
-		return { id: "dummy-sms-id" };
-	},
-
-	async checkHealth(): Promise<boolean> {
-		return true;
-	},
-};
-
-const dummyWhatsAppClient: WhatsAppClient = {
-	async sendWhatsApp(to, body) {
-		// eslint-disable-next-line no-console
-		console.log("[DUMMY WHATSAPP] Sending WhatsApp", { to, body });
-		return { id: "dummy-whatsapp-id" };
-	},
-};
 
 // Simple in-memory idempotency store (for dev / tests)
 class InMemoryIdempotencyStore implements IdempotencyStore {
@@ -107,13 +83,28 @@ class InMemoryIdempotencyStore implements IdempotencyStore {
 			useFactory: (
 				mailProvider: EmailTransport,
 				configService: ConfigService,
-			) => {
+				loggerService: LoggerService,
+			): NotificationProvider[] => {
 				const from =
 					configService.get<string>("mail.sender") || "no-reply@example.com";
-				const email = new EmailProvider(mailProvider, from);
-				const sms = new SmsProvider(dummySmsClient);
-				const wa = new WhatsAppProvider(dummyWhatsAppClient);
-				return [email, sms, wa];
+
+				// Only email ships with a real transport. Earlier versions also
+				// registered SmsProvider and WhatsAppProvider backed by clients
+				// that console.log'd and returned a fake message id — so
+				// `send({ channel: "sms" })` resolved with `success: true` and
+				// nothing was ever delivered. Registering no provider is the
+				// honest state: NotificationService then throws
+				// "No notification provider registered for channel: sms",
+				// which surfaces the missing wiring instead of hiding it.
+				//
+				// To enable those channels, override NOTIFICATION_PROVIDERS with
+				// your own array — see docs/modules/messaging.md.
+				loggerService.debug(
+					"Notification module: email channel registered; sms and whatsapp " +
+						"have no provider. Override NOTIFICATION_PROVIDERS to enable them.",
+				);
+
+				return [new EmailProvider(mailProvider, from)];
 			},
 		},
 		{

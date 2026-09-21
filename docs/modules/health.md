@@ -42,13 +42,13 @@ HealthModule.forRoot({
 
 Relative to your global prefix (`/api` by default):
 
-| Route            | Method               | Semantics                                                       |
-| ---------------- | -------------------- | ---------------------------------------------------------------- |
-| `/health`        | `checkAll()`         | Runs every indicator.                                            |
-| `/health/ready`  | `readiness()`        | `down` immediately while draining, otherwise `checkAll()`.       |
-| `/health/live`   | `liveness()`         | Always `{ status: "ok", details: {} }` — no external calls.      |
+| Route            | Backed by     | Semantics                                                   |
+| ---------------- | ------------- | ----------------------------------------------------------- |
+| `/health`        | `checkAll()`  | Runs every indicator.                                       |
+| `/health/ready`  | `readiness()` | `down` immediately while draining, otherwise `checkAll()`.  |
+| `/health/live`   | `liveness()`  | Always `{ status: "ok", details: {} }` — no external calls. |
 
-Response body:
+On success, `200` with the payload:
 
 ```json
 {
@@ -60,15 +60,22 @@ Response body:
 ```
 
 `status` is `"ok"` when every indicator is up, `"degraded"` when at least one is
-down or threw, and `"down"` only for the draining case.
+down or threw, and `"down"` for the draining case.
 
-> **The HTTP status code is always 200.** `HealthHttpController` returns a body,
-> it does not set a status. Kubernetes probes that key on the status code will
-> never see a failure — configure your probe on the JSON body, or put a thin
-> controller of your own in front that maps `status` to 200/503.
+**Anything other than `"ok"` is a `503`.** The controller throws
+`ServiceUnavailableException` carrying the health payload, so orchestrators that
+key on the status code — Kubernetes probes, load balancers, uptime monitors —
+see the failure. The payload survives: with
+[`HttpExceptionFilter`](./errors.md) registered it arrives as
+
+```json
+{ "status": 503, "code": "SERVICE_UNAVAILABLE", "message": "…",
+  "details": { "status": "degraded", "details": { "db": { "status": "down" } } },
+  "correlationId": "…" }
+```
 
 Point `livenessProbe` at `/health/live` and `readinessProbe` at `/health/ready`:
-liveness must not depend on a database, or a brief DB outage will get your pods
+liveness must not depend on a database, or a brief DB outage gets your pods
 restarted instead of merely removed from the load balancer.
 
 ## Custom indicators

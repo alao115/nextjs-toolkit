@@ -34,17 +34,23 @@ export class AppModule {}
 | `mail.sender`         | Default `from` address (falls back to `no-reply@example.com`).        |
 | `mail.host/port/user/password/secure` | Nodemailer transport settings.                        |
 
-It provides three `NotificationProvider`s — `EmailProvider` (real),
-`SmsProvider` and `WhatsAppProvider` (both wired to **dummy clients that only
-`console.log`**) — and an in-memory idempotency store.
+It registers **one** provider — `EmailProvider`, backed by the mail transport
+selected above — plus an in-memory idempotency store.
 
-> Out of the box **only email actually sends** — the SMS and WhatsApp clients
-> log to the console and return a dummy id. To make them real, override
-> `NOTIFICATION_PROVIDERS` with your own array of `NotificationProvider`s.
-> (The `SMS_PROVIDER` and `WHATSAPP_PROVIDER` symbols are exported but not bound
-> by `NotificationModule`, so overriding them has no effect.)
->
-> Likewise, replace `NOTIFICATION_IDEMPOTENCY_STORE` with a Redis-backed
+SMS and WhatsApp have **no** provider out of the box. `send({ channel: "sms" })`
+therefore throws `No notification provider registered for channel: sms`, which
+is deliberate: up to 0.7.0 those channels were wired to clients that only
+`console.log`'d and returned a fake id, so sends resolved with `success: true`
+and silently delivered nothing.
+
+To enable them, override `NOTIFICATION_PROVIDERS` with your own array — see
+[Custom providers](#custom-providers). (The `SMS_PROVIDER` and
+`WHATSAPP_PROVIDER` symbols are exported but not bound by `NotificationModule`,
+so overriding those has no effect.) `SmsProvider` and `WhatsAppProvider` still
+ship, so wiring a real `SmsClient` / `WhatsAppClient` into them is a two-line
+change.
+
+> Replace `NOTIFICATION_IDEMPOTENCY_STORE` with a Redis-backed
 > `IdempotencyStore` before running more than one instance — the default store
 > is a per-process `Map`.
 

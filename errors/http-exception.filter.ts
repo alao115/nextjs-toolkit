@@ -26,6 +26,8 @@ function statusToLogicalCode(status: number): LogicalErrorCode {
 			return "NOT_FOUND";
 		case HttpStatus.CONFLICT:
 			return "CONFLICT";
+		case HttpStatus.SERVICE_UNAVAILABLE:
+			return "SERVICE_UNAVAILABLE";
 		default:
 			return "INTERNAL_ERROR";
 	}

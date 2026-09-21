@@ -22,10 +22,18 @@ import {
 	RequestContextInterceptor,
 } from "../context";
 
+/**
+ * Each flag defaults to `true`. Options are merged over those defaults, so
+ * `forRoot({ metrics: false })` keeps logging, tracing and error tracking on.
+ */
 export interface ObservabilityOptions {
+	/** Structured logging + the request/response log interceptor. */
 	logging?: boolean;
+	/** Tracing spans + the tracing interceptor. */
 	tracing?: boolean;
+	/** Metrics, the metrics interceptor, and `GET /metrics`. */
 	metrics?: boolean;
+	/** Error-tracking port (a no-op unless an adapter is bound). */
 	errorTracker?: boolean;
 }
 
@@ -35,14 +43,18 @@ const { ConfigurableModuleClass } =
 @Global()
 @Module({})
 export class ObservabilityModule extends ConfigurableModuleClass {
-	static forRoot(
-		options: ObservabilityOptions = {
+	static forRoot(userOptions: ObservabilityOptions = {}): DynamicModule {
+		// Merge over the defaults rather than replacing them: a caller passing
+		// `{ metrics: false }` means "everything except metrics", not "metrics
+		// off and the other three undefined" (which read as disabled).
+		const options: Required<ObservabilityOptions> = {
 			logging: true,
 			tracing: true,
 			metrics: true,
 			errorTracker: true,
-		},
-	): DynamicModule {
+			...userOptions,
+		};
+
 		const providers: Provider[] = [RequestContextService];
 
 		const interceptors: Provider[] = [
@@ -89,7 +101,7 @@ export class ObservabilityModule extends ConfigurableModuleClass {
 			imports.push(ErrorTrackingModule);
 		}
 
-		const controllers = options.metrics !== false ? [MetricsController] : [];
+		const controllers = options.metrics ? [MetricsController] : [];
 
 		return {
 			module: ObservabilityModule,
