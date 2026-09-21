@@ -6,7 +6,61 @@ All notable changes to `@alaska115/nextjs-toolkit` are documented here. Format f
 
 ## [Unreleased]
 
+### Changed
+
+- **BREAKING CHANGE: the package now targets NestJS 11.** `@nestjs/common`,
+  `@nestjs/core` and `@nestjs/platform-express` peer ranges move from `^10.0.0`
+  to `^11.0.0`.
+
+  Why: the peer set was **unsatisfiable**. `@nestjs/swagger@^11` requires
+  `@nestjs/common@^11.0.1`, while the toolkit pinned `@nestjs/common@^10.0.0`,
+  so `npm install` refused the combination the README prescribed unless the
+  consumer passed `--legacy-peer-deps`. pnpm's `autoInstallPeers` picked a
+  resolution quietly, which is why it went unnoticed. `@nestjs/config@4` and
+  `@nestjs/cache-manager@3` already support Nest 11 and are unchanged.
+
+  Migration: upgrade your app to NestJS 11 (see the
+  [Nest 11 migration guide](https://docs.nestjs.com/migration-guide)), or pin
+  `@alaska115/nextjs-toolkit@^0.7.0` and install with `--legacy-peer-deps`.
+
+- **`cache-manager` and `keyv` are now declared peer dependencies.** They are
+  peers of `@nestjs/cache-manager` that the install instructions omitted, so
+  the `cache` subpath — and the package root, which re-exports it — failed to
+  load with `MODULE_NOT_FOUND: cache-manager` on a clean npm install.
+
+- `@nestjs/common`, `@nestjs/core` and `@nestjs/platform-express` added to
+  `devDependencies`. They were absent, so the build and test run only resolved
+  Nest because pnpm's `autoInstallPeers` filled them in.
+
+- `examples/mini-app/pnpm-lock.yaml` is no longer committed. It pinned
+  `@alaska115/nextjs-toolkit` to `file:../../alaska115-nextjs-toolkit-0.4.1.tgz`
+  — a tarball that is not in the repository and is excluded by `.gitignore` —
+  so a fresh clone could not install the example at all.
+
 ### Fixed
+
+- **Six of the nineteen subpath exports could not be loaded with only the
+  required peer dependencies installed**, because optional peers were imported
+  statically:
+
+  | Subpath | Failed on |
+  | --- | --- |
+  | root, `cache` | `cache-manager` (see above) |
+  | `health`, `messaging` | `nodemailer` |
+  | `bootstrap` | `@ngrok/ngrok` |
+  | `security` | `argon2` |
+  | root, `observability` | `prom-client` |
+
+  `HealthModule.forRoot({ enableNotifications: false })` still crashed, because
+  the import chain resolves before any option is read. `MetricsModule` already
+  `require`d its Prometheus adapter lazily, but `observability/metrics/index.ts`
+  re-exported the same adapter statically, which defeated it.
+
+  All of these now load on first use, with an actionable error naming the
+  package to install. `prom-client` and `@opentelemetry/api` in
+  `NotificationService` degrade to no-ops instead of throwing, since neither is
+  needed to deliver a notification. CI asserts every subpath loads in a
+  consumer that has only the required peers.
 
 - **Health endpoints always returned HTTP 200.** `HealthHttpController`
   returned the payload without setting a status, so a `"degraded"` or `"down"`

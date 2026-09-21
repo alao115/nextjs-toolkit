@@ -1,5 +1,12 @@
 # Dependencies
 node_modules/
+
+# The mini-app installs against either the npm-published package or a tarball
+# packed from this working tree (see the consumer-smoke CI job), so pinning its
+# resolution is wrong — the committed lockfile used to reference a
+# file:../../*.tgz that was never in the repo, which made a fresh clone
+# un-installable.
+examples/mini-app/pnpm-lock.yaml
 .pnp.*
 .yarn/
 

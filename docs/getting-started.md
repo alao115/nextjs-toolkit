@@ -13,11 +13,16 @@ pnpm add @alaska115/nextjs-toolkit
 Then the peer dependencies you actually need. The always-required set:
 
 ```bash
-pnpm add @nestjs/common@^10 @nestjs/core@^10 @nestjs/platform-express@^10 \
+pnpm add @nestjs/common@^11 @nestjs/core@^11 @nestjs/platform-express@^11 \
          @nestjs/config@^4 @nestjs/cache-manager@^3 @nestjs/swagger@^11 \
+         cache-manager@^7 keyv@^5 \
          express@^4 rxjs@^7 reflect-metadata \
          class-validator@^0.14 class-transformer@^0.5
 ```
+
+`cache-manager` and `keyv` are peers of `@nestjs/cache-manager`; the toolkit's
+[`cache`](./modules/cache.md) subpath (and the package root, which re-exports
+it) needs them at runtime.
 
 Everything else is an **optional** peer dependency — install only what the
 modules you use require:
@@ -28,7 +33,7 @@ modules you use require:
 | [`observability`](./modules/observability.md) metrics | `prom-client` |
 | [`observability`](./modules/observability.md) tracing | `@opentelemetry/api` `@opentelemetry/sdk-node` `@opentelemetry/exporter-trace-otlp-http` `@opentelemetry/instrumentation` `@opentelemetry/instrumentation-http` `@opentelemetry/instrumentation-express` `@opentelemetry/resources` `@opentelemetry/semantic-conventions` |
 | Sentry error tracking                   | `@sentry/node` |
-| [`messaging`](./modules/messaging.md)   | `nodemailer`, `twig` (Twig engine), plus `prom-client` and `@opentelemetry/api` — `NotificationService` imports both eagerly |
+| [`messaging`](./modules/messaging.md)   | `nodemailer` (default mail transport), `twig` (only for `mail.templateEngine=twig`) |
 | [`security`](./modules/security.md) password hashing | `argon2` |
 | [`bootstrap`](./modules/bootstrap.md) ngrok tunnel | `@ngrok/ngrok` |
 

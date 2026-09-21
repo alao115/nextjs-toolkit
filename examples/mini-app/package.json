@@ -11,17 +11,19 @@
     "smoke": "ts-node scripts/smoke.ts"
   },
   "dependencies": {
-    "@alaska115/nextjs-toolkit": "^0.4.2",
+    "@alaska115/nextjs-toolkit": "^0.7.0",
     "@nestjs/cache-manager": "^3.1.0",
-    "@nestjs/common": "^10.4.22",
+    "@nestjs/common": "^11.0.0",
     "@nestjs/config": "^4.0.0",
-    "@nestjs/core": "^10.4.22",
-    "@nestjs/platform-express": "^10.4.22",
+    "@nestjs/core": "^11.0.0",
+    "@nestjs/platform-express": "^11.0.0",
     "@nestjs/swagger": "^11.0.0",
+    "cache-manager": "^7.2.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
     "express": "^4.18.2",
     "joi": "^18.0.2",
+    "keyv": "^5.6.0",
     "prom-client": "^15.1.3",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"

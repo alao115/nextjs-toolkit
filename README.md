@@ -57,8 +57,9 @@ pnpm add @alaska115/nextjs-toolkit
 Peer dependencies stay under your control. The required set:
 
 ```bash
-pnpm add @nestjs/common@^10 @nestjs/core@^10 @nestjs/platform-express@^10 \
+pnpm add @nestjs/common@^11 @nestjs/core@^11 @nestjs/platform-express@^11 \
          @nestjs/config@^4 @nestjs/cache-manager@^3 @nestjs/swagger@^11 \
+         cache-manager@^7 keyv@^5 \
          express@^4 rxjs@^7 reflect-metadata \
          class-validator@^0.14 class-transformer@^0.5
 ```
@@ -205,7 +206,7 @@ git push --follow-tags
 | | |
 | --- | --- |
 | Node | ≥ 18 |
-| NestJS | 10.x |
+| NestJS | 11.x |
 | Express | 4.x |
 | TypeScript | `moduleResolution`: `node16` / `nodenext` / `bundler` |
 

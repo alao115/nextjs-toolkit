@@ -1,6 +1,5 @@
 import { Module } from "@nestjs/common";
 import { NotificationService, IdempotencyStore } from "./notification.service";
-import { DefaultNotificationTemplateEngine } from "./template-engines/default-notification-template.engine";
 import { EmailProvider, EmailTransport } from "./providers/email.provider";
 import {
 	MAIL_PROVIDER,
@@ -10,12 +9,36 @@ import {
 	NotificationResult,
 	TEMPLATE_ENGINE,
 } from "./notification.types";
-import { NodemailerEmailAdapter } from "./adapters/nodemailer-notification.adapter";
 import { NotificationHealthIndicator } from "./notification.health";
 import { LoggerService } from "../../observability/logger/logger.service";
 import { ConfigService } from "@nestjs/config";
-import { BombooMailNotificationAdapter } from "./adapters/bomboo-mail-notification.adapter";
-import { TwigNotificationTemplateEngine } from "./template-engines/twig-notification-template.engine";
+import { TracingService } from "../../observability/tracing/tracing.service";
+
+/**
+ * Template engines and mail adapters are `require`d on demand instead of
+ * imported at the top of this file.
+ *
+ * `nodemailer` and `twig` are optional peer dependencies, and a static import
+ * loads them the moment this module is loaded — which `HealthModule` does
+ * unconditionally, even with `enableNotifications: false`, because the import
+ * happens before any option is read. That made `@alaska115/nextjs-toolkit/health`
+ * and `/messaging` fail with `MODULE_NOT_FOUND: nodemailer` for consumers who
+ * never send mail. pnpm's `autoInstallPeers` masked it; npm did not.
+ */
+function requireOptional<T>(
+	load: () => T,
+	pkg: string,
+	feature: string,
+): T {
+	try {
+		return load();
+	} catch (err) {
+		throw new Error(
+			`${feature} requires the optional peer dependency '${pkg}'. ` +
+				`Install it with: npm install ${pkg}`,
+		);
+	}
+}
 
 // Simple in-memory idempotency store (for dev / tests)
 class InMemoryIdempotencyStore implements IdempotencyStore {
@@ -41,40 +64,51 @@ class InMemoryIdempotencyStore implements IdempotencyStore {
 				loggerService.debug(
 					`Notification module: using ${engine} template engine`,
 				);
-				switch (engine) {
-					case "twig":
-						return new TwigNotificationTemplateEngine({ templatesDir });
-					default:
-						return new DefaultNotificationTemplateEngine({ templatesDir });
+				if (engine === "twig") {
+					const { TwigNotificationTemplateEngine } = requireOptional(
+						() => require("./template-engines/twig-notification-template.engine"),
+						"twig",
+						"mail.templateEngine='twig'",
+					);
+					return new TwigNotificationTemplateEngine({ templatesDir });
 				}
+
+				const {
+					DefaultNotificationTemplateEngine,
+				} = require("./template-engines/default-notification-template.engine");
+				return new DefaultNotificationTemplateEngine({ templatesDir });
 			},
 		},
-		NodemailerEmailAdapter,
-		BombooMailNotificationAdapter,
 		{
 			provide: MAIL_PROVIDER,
-			inject: [
-				ConfigService,
-				NodemailerEmailAdapter,
-				BombooMailNotificationAdapter,
-				LoggerService,
-			],
+			inject: [ConfigService, LoggerService, TracingService],
 			useFactory: (
 				configService: ConfigService,
-				nodeMailerEmailTransport: NodemailerEmailAdapter,
-				bombooMailNotificationAdapter: BombooMailNotificationAdapter,
 				loggerService: LoggerService,
-			) => {
+				tracingService: TracingService,
+			): EmailTransport => {
 				const provider = configService.get("mail.provider");
 				loggerService.debug(
-					`Notification module: using ${provider} mail provider`,
+					`Notification module: using ${provider ?? "nodemailer"} mail provider`,
 				);
-				switch (provider) {
-					case "bomboo":
-						return bombooMailNotificationAdapter;
-					default:
-						return nodeMailerEmailTransport;
+
+				if (provider === "bomboo") {
+					const {
+						BombooMailNotificationAdapter,
+					} = require("./adapters/bomboo-mail-notification.adapter");
+					return new BombooMailNotificationAdapter(
+						configService,
+						loggerService,
+						tracingService,
+					);
 				}
+
+				const { NodemailerEmailAdapter } = requireOptional(
+					() => require("./adapters/nodemailer-notification.adapter"),
+					"nodemailer",
+					"The default mail provider",
+				);
+				return new NodemailerEmailAdapter(configService);
 			},
 		},
 		{

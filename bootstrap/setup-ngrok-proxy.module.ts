@@ -1,6 +1,5 @@
 import { Module } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import * as ngrok from "@ngrok/ngrok";
 
 export interface SetupNgrokProxyOptions {
 	/**
@@ -46,6 +45,21 @@ export class SetupNgrokProxyModule {
 			throw new Error(
 				`SetupNgrokProxyModule.setup({ enabled: true }): missing required config keys: ${missing.join(", ")}. ` +
 					"Set the corresponding env vars (HTTP_PORT, NGROK_TOKEN) or pass enabled: false.",
+			);
+		}
+
+		// `@ngrok/ngrok` is an optional peer dependency, loaded here rather than
+		// imported at the top of the file so that importing
+		// `@alaska115/nextjs-toolkit/bootstrap` — for CORS, Helmet, Swagger and
+		// the rest — does not require it.
+		let ngrok: typeof import("@ngrok/ngrok");
+		try {
+			// eslint-disable-next-line @typescript-eslint/no-var-requires
+			ngrok = require("@ngrok/ngrok");
+		} catch {
+			throw new Error(
+				"SetupNgrokProxyModule.setup({ enabled: true }) requires the optional " +
+					"peer dependency '@ngrok/ngrok'. Install it with: npm install @ngrok/ngrok",
 			);
 		}
 

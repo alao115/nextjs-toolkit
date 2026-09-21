@@ -109,11 +109,30 @@ jobs:
           pnpm run build
           pnpm pack --pack-destination /tmp
 
+      # The mini-app has no committed lockfile on purpose: it installs against
+      # the tarball packed above, not a pinned resolution.
       - name: Install mini-app against the packed tarball
         working-directory: examples/mini-app
         run: |
           pnpm install --no-frozen-lockfile
           pnpm add "$(ls /tmp/alaska115-nextjs-toolkit-*.tgz)"
+
+      # Every subpath must load with only the required peers present. Optional
+      # peers that get statically imported break this, and the failure only
+      # shows up outside the repo — pnpm's autoInstallPeers hides it in-tree.
+      - name: Assert every subpath loads
+        working-directory: examples/mini-app
+        run: |
+          for s in "" audit bootstrap cache config context errors feature-flags \
+                   health messaging multi-tenancy observability outbox persistence \
+                   rate-limit resilience secret security shutdown utils; do
+            p="@alaska115/nextjs-toolkit${s:+/$s}"
+            if node -e "require('$p')" 2>/tmp/err; then
+              echo "OK    ${s:-<root>}"
+            else
+              echo "FAIL  ${s:-<root>}"; cat /tmp/err; exit 1
+            fi
+          done
 
       - name: Smoke test
         working-directory: examples/mini-app

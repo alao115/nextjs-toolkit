@@ -101,9 +101,9 @@ jitterMs: 250 }`. The object you pass is merged over it.
 > own. Those two metrics therefore do not show up at `/metrics`; scrape
 > `client.register.metrics()` separately if you need them.
 >
-> The service also imports `prom-client` and `@opentelemetry/api` at module
-> load time — both are optional peer deps, but they become effectively required
-> as soon as you import `NotificationModule`.
+> `prom-client` and `@opentelemetry/api` are loaded lazily and are genuinely
+> optional: without them the metrics become no-ops and the send still runs
+> inside a `TracingService` span, it just cannot propagate ambient OTel context.
 
 ## Templates
 

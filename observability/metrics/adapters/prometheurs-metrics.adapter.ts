@@ -1,9 +1,5 @@
 import { Injectable } from "@nestjs/common";
-// `prom-client` is a CJS module; default-import yields `undefined` under
-// strict ESM interop. Use a namespace import so `Registry` / `Counter` /
-// `Histogram` / `collectDefaultMetrics` are all reachable from the same
-// binding consistently across moduleResolution modes.
-import * as client from "prom-client";
+// Type-only import: erased at compile time, so it pulls nothing at runtime.
 import type { Counter, Histogram } from "prom-client";
 import {
 	CounterMetric,
@@ -34,16 +30,39 @@ class PromHistogram implements HistogramMetric {
 	}
 }
 
+/**
+ * `prom-client` is an optional peer dependency, loaded in the constructor
+ * rather than imported at the top of the file. This class is re-exported from
+ * `observability/metrics/index.ts`, so a static import made
+ * `@alaska115/nextjs-toolkit/observability` (and the package root) fail to load
+ * with `MODULE_NOT_FOUND: prom-client` for anyone using the `noop` metrics
+ * provider — defeating the lazy `require` in `MetricsModule`.
+ *
+ * It is also a CJS module whose default import is `undefined` under strict ESM
+ * interop, which is why the whole namespace is captured in one binding.
+ */
 @Injectable()
 export class PrometheusMetricsAdapter implements MetricsContract {
-	private registry: client.Registry;
+	private readonly client: typeof import("prom-client");
+	private registry: import("prom-client").Registry;
 	private counters = new Map<string, PromCounter>();
 	private histograms = new Map<string, PromHistogram>();
 
 	constructor() {
-		this.registry = new client.Registry();
+		try {
+			// eslint-disable-next-line @typescript-eslint/no-var-requires
+			this.client = require("prom-client");
+		} catch {
+			throw new Error(
+				"PrometheusMetricsAdapter requires the optional peer dependency " +
+					"'prom-client'. Install it with: npm install prom-client, or set " +
+					"OBSERVABILITY_METRICS=noop.",
+			);
+		}
+
+		this.registry = new this.client.Registry();
 		// Optionally collect Node process metrics:
-		client.collectDefaultMetrics({ register: this.registry });
+		this.client.collectDefaultMetrics({ register: this.registry });
 
 		// Add a default label (service) for all metrics
 		this.registry.setDefaultLabels({
@@ -55,7 +74,7 @@ export class PrometheusMetricsAdapter implements MetricsContract {
 	getCounter(name: string): CounterMetric {
 		if (!this.counters.has(name)) {
 			// Create a counter with labels we expect: method, route, status
-			const counter = new client.Counter({
+			const counter = new this.client.Counter({
 				name,
 				help: `${name} counter`,
 				// we allow flexible labels — avoid high-cardinality labels by design
@@ -77,7 +96,7 @@ export class PrometheusMetricsAdapter implements MetricsContract {
 
 	getHistogram(name: string): HistogramMetric {
 		if (!this.histograms.has(name)) {
-			const hist = new client.Histogram({
+			const hist = new this.client.Histogram({
 				name,
 				help: `${name} histogram`,
 				labelNames: [

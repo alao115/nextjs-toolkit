@@ -1,6 +1,4 @@
 import { Inject, Injectable, Optional } from "@nestjs/common";
-import { Counter, Histogram } from "prom-client";
-import { context, trace } from "@opentelemetry/api";
 import {
 	INotificationTemplateEngine,
 	NOTIFICATION_IDEMPOTENCY_STORE,
@@ -13,6 +11,67 @@ import {
 } from "./notification.types";
 import { LoggerService } from "../../observability/logger/logger.service";
 import { TracingService } from "../../observability/tracing/tracing.service";
+
+/** Minimal shapes this service needs from prom-client. */
+interface SendCounter {
+	inc(labels: Record<string, string>): void;
+}
+interface DurationHistogram {
+	startTimer(labels: Record<string, string>): () => void;
+}
+
+const NOOP_COUNTER: SendCounter = { inc: () => {} };
+const NOOP_HISTOGRAM: DurationHistogram = { startTimer: () => () => {} };
+
+/**
+ * `prom-client` is an optional peer dependency. Build the metrics if it is
+ * installed, otherwise fall back to no-ops: a missing metrics library must not
+ * stop notifications from being sent.
+ *
+ * Note these register on prom-client's *default* registry, while
+ * `PrometheusMetricsAdapter` exports its own — so they do not appear at
+ * `/metrics`. See docs/modules/messaging.md.
+ */
+function buildMetrics(): {
+	counter: SendCounter;
+	histogram: DurationHistogram;
+} {
+	try {
+		// eslint-disable-next-line @typescript-eslint/no-var-requires
+		const { Counter, Histogram } = require("prom-client");
+		return {
+			counter: new Counter({
+				name: "notifications_send_total",
+				help: "Total notification send attempts",
+				labelNames: ["channel", "provider", "success"],
+			}),
+			histogram: new Histogram({
+				name: "notifications_send_duration_seconds",
+				help: "Notification send duration",
+				labelNames: ["channel", "provider"],
+			}),
+		};
+	} catch {
+		return { counter: NOOP_COUNTER, histogram: NOOP_HISTOGRAM };
+	}
+}
+
+/**
+ * Runs `fn` with `span` installed as the active OpenTelemetry context, so
+ * anything the provider instruments nests under it. `@opentelemetry/api` is an
+ * optional peer dependency; without it the span is still recorded via
+ * TracingService, we just cannot propagate ambient context.
+ */
+function withActiveSpan<T>(span: unknown, fn: () => Promise<T>): Promise<T> {
+	try {
+		// eslint-disable-next-line @typescript-eslint/no-var-requires
+		const { context, trace } = require("@opentelemetry/api");
+		const scoped = trace.setSpan(context.active(), span as any);
+		return context.with(scoped, fn);
+	} catch {
+		return fn();
+	}
+}
 
 const DEFAULT_RETRY_POLICY: NotificationRetryPolicy = {
 	maxRetries: 3,
@@ -35,8 +94,8 @@ export interface IdempotencyStore {
 
 @Injectable()
 export class NotificationService {
-	private readonly sendCounter: Counter<"channel" | "provider" | "success">;
-	private readonly durationHistogram: Histogram<"channel" | "provider">;
+	private readonly sendCounter: SendCounter;
+	private readonly durationHistogram: DurationHistogram;
 
 	constructor(
 		private readonly tracer: TracingService,
@@ -49,17 +108,9 @@ export class NotificationService {
 		@Inject(NOTIFICATION_IDEMPOTENCY_STORE)
 		private readonly idempotencyStore?: IdempotencyStore,
 	) {
-		this.sendCounter = new Counter({
-			name: "notifications_send_total",
-			help: "Total notification send attempts",
-			labelNames: ["channel", "provider", "success"],
-		});
-
-		this.durationHistogram = new Histogram({
-			name: "notifications_send_duration_seconds",
-			help: "Notification send duration",
-			labelNames: ["channel", "provider"],
-		});
+		const metrics = buildMetrics();
+		this.sendCounter = metrics.counter;
+		this.durationHistogram = metrics.histogram;
 	}
 
 	private selectProvider(
@@ -124,7 +175,6 @@ export class NotificationService {
 				},
 			});
 
-			const scopedCtx = trace.setSpan(context.active(), span as any);
 			const endTimer = this.durationHistogram.startTimer(labelsBase);
 
 			let attempt = 0;
@@ -136,7 +186,7 @@ export class NotificationService {
 			};
 
 			try {
-				return await context.with(scopedCtx, async () => {
+				return await withActiveSpan(span, async () => {
 					while (attempt <= policy.maxRetries) {
 						attempt++;
 						try {
