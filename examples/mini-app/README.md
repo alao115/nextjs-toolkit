@@ -47,7 +47,7 @@ Boots the app on port 13571, hits every endpoint, asserts the expected shape and
 
 - **No real database** — the app uses `orm: "inmemory"` so health checks pass without a Postgres / Prisma setup. To wire Prisma, change `app.module.ts` and add `@prisma/client` + `@prisma/adapter-pg` to `dependencies`.
 - **No real Redis** — `CacheStoreModule` isn't wired here. Add it the same way as in [`examples/01-app-bootstrap.ts`](../01-app-bootstrap.ts).
-- **No real audit / outbox / messaging backend** — those need Postgres / Kafka / SMTP. The reference snippets in [`examples/02-*` through `12-*`](..) show how to wire them with real adapters.
+- **No real audit / outbox / messaging backend** — those need Postgres / Kafka / SMTP. The reference snippets in [`examples/`](..) show how to wire them with real adapters, and [`docs/modules/`](../../docs/modules/) documents each one in full.
 
 ## Layout
 

@@ -2,6 +2,8 @@
 
 Copy-paste-ready snippets that show how to wire each module of `@alaska115/nextjs-toolkit` in a NestJS application. They're not runnable apps — they're the minimum integration code, well-commented, so you can lift them into your own service.
 
+For the full API of each module, see [`docs/modules/`](../docs/modules/). For a runnable app, see [`mini-app/`](./mini-app/).
+
 | # | File | What it covers |
 |---|---|---|
 | 01 | [`01-app-bootstrap.ts`](./01-app-bootstrap.ts) | Minimal `AppModule` wiring: ConfigurationModule (Joi validated), ShutdownModule, Observability, Logger, Tracing, Metrics, Persistence, Cache, Health |

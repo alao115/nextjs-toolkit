@@ -1,6 +1,6 @@
 # Contributing to `@alaska115/nextjs-toolkit`
 
-Read [ADR 0001–0004](./docs/adr/) before making structural changes — they capture the load-bearing decisions and the why behind them.
+Read [ADR 0001–0004](./docs/adr/) before making structural changes — they capture the load-bearing decisions and the why behind them. The per-module reference lives in [`docs/`](./docs/README.md); when you change a module's public surface, update its page in [`docs/modules/`](./docs/modules/) in the same PR.
 
 ## Quick start
 
