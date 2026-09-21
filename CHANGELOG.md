@@ -6,6 +6,28 @@ All notable changes to `@alaska115/nextjs-toolkit` are documented here. Format f
 
 ## [Unreleased]
 
+### Fixed
+
+- **`computeAuditHash` did not hash the event contents.** The canonical
+  serialization used `JSON.stringify(value, keyArray)`, but an **array**
+  replacer is a property allow-list applied at *every* nesting depth — so the
+  allow-list `["event", "previousHash", "sequence"]` stripped every field of the
+  event itself. Each record hashed `{"event":{},...}`, meaning the
+  "tamper-evident" chain detected only sequence and link manipulation.
+  `verifyAuditChain` reported an intact chain after any content edit: flipping
+  `outcome` from `"denied"` to `"success"`, rewriting the actor, or changing the
+  action all left the hash unchanged.
+
+  Replaced with a recursive key-sorting canonicalizer. `audit-chain.ts` now has
+  test coverage for every tamper scenario (mutated payload, deleted record,
+  reordering, re-pointed `previousHash`, forged prefix, rewritten hash).
+
+  **Hash values change.** Chains sealed by an earlier version will not verify
+  against this one. Because the hash was not covering event contents, those
+  chains never carried the guarantee they claimed — treat them as unverifiable
+  rather than re-sealing them, which would only launder whatever they contain.
+  If you need continuity, archive the old rows and start a new chain.
+
 ## [0.7.0]
 
 ### Removed

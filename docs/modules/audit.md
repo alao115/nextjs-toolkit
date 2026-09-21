@@ -133,6 +133,20 @@ Verification checks that `previousHash` links correctly, that `sequence` matches
 position, and that the recomputed hash matches the stored one — so any
 retroactive edit invalidates every record after it.
 
+> **Hash format changed after 0.7.0.** Up to and including 0.7.0,
+> `computeAuditHash` did not actually hash the event's contents (an array
+> replacer passed to `JSON.stringify` stripped every nested field), so content
+> tampering was undetectable. That is fixed, which means hashes differ from
+> those an older version produced. Chains sealed before the fix will not verify
+> — and never carried the guarantee they claimed. Archive them and start a new
+> chain rather than re-sealing.
+
+The chain proves that the stored rows are internally consistent. It does not
+prove nothing was deleted from the *end* — truncating the newest records leaves
+a valid shorter chain. Pair it with an external high-water mark (ship
+`max(sequence)` somewhere the application role cannot write) if you need
+append-only guarantees at the tail.
+
 ## Writing your own adapter
 
 ```ts

@@ -19,8 +19,31 @@ export interface SealedAuditEvent extends AuditEvent {
 const GENESIS_HASH = "0".repeat(64);
 
 /**
- * Computes the canonical hash for an event. Stable across runs because we
- * sort keys before serializing.
+ * Recursively sorts object keys so two structurally equal values always
+ * serialize to the same string, regardless of insertion order.
+ *
+ * Do NOT replace this with `JSON.stringify(value, keyArray)`: an array
+ * replacer is a property allow-list applied at *every* depth, so it silently
+ * strips nested fields. That bug made every event hash to the same digest
+ * regardless of its contents, which defeated the whole chain.
+ */
+function canonicalize(value: unknown): unknown {
+	if (value === null || typeof value !== "object") return value;
+	if (Array.isArray(value)) return value.map(canonicalize);
+
+	const sorted: Record<string, unknown> = {};
+	for (const key of Object.keys(value as Record<string, unknown>).sort()) {
+		const inner = (value as Record<string, unknown>)[key];
+		// Match JSON semantics: an explicit `undefined` and an absent key are
+		// the same thing, so they must hash the same.
+		if (inner !== undefined) sorted[key] = canonicalize(inner);
+	}
+	return sorted;
+}
+
+/**
+ * Computes the canonical hash for an event. Stable across runs and across
+ * key insertion order, because the payload is canonicalized before hashing.
  */
 export function computeAuditHash(
 	event: AuditEvent,
@@ -28,8 +51,7 @@ export function computeAuditHash(
 	sequence: number,
 ): string {
 	const canonical = JSON.stringify(
-		{ event, previousHash, sequence },
-		Object.keys({ event, previousHash, sequence }).sort(),
+		canonicalize({ event, previousHash, sequence }),
 	);
 	return createHash("sha256").update(canonical).digest("hex");
 }
