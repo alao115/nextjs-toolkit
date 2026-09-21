@@ -6,6 +6,8 @@ All notable changes to `@alaska115/nextjs-toolkit` are documented here. Format f
 
 ## [Unreleased]
 
+## [0.8.0]
+
 ### Changed
 
 - **BREAKING CHANGE: the package now targets NestJS 11.** `@nestjs/common`,
