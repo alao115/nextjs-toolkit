@@ -28,6 +28,29 @@ All notable changes to `@alaska115/nextjs-toolkit` are documented here. Format f
   rather than re-sealing them, which would only launder whatever they contain.
   If you need continuity, archive the old rows and start a new chain.
 
+### Added
+
+- CI: GitHub Actions workflow running build + tests on Node 18/20/22,
+  a production-dependency audit, commitlint on pull requests, and a
+  consumer smoke test that packs the tarball and installs it into
+  `examples/mini-app`.
+- `packageManager: pnpm@9.15.4` pinned in `package.json`, so contributors and CI
+  resolve the same pnpm as the committed `lockfileVersion: 9.0`.
+- Tests for previously uncovered security-sensitive code: the audit hash chain,
+  `security/crypto.util` (Argon2 hashing, token generation and hashing),
+  `security/encryption.util` (AES-256-GCM envelope round-trips plus tamper
+  rejection), `multi-tenancy/tenant.service` (including that `scopedWhere`
+  throws rather than emitting an unscoped query, and that it overrides a
+  caller-supplied `tenantId`), `feature-flags/bucketing` (determinism,
+  uniformity, monotonicity across ramps), and the `secret` module
+  (`LocalSecretManager`, `SecretRotationEmitter`, `canaryCheck`).
+
+  Suite goes from 68 tests to 176; statement coverage from 17.9% to 25.1%, with
+  each of the above files at 94–100%.
+
+- Documentation suite under `docs/` covering all 19 subpath exports, plus a
+  configuration reference, getting-started guide and troubleshooting guide.
+
 ## [0.7.0]
 
 ### Removed
