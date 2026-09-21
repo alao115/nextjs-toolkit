@@ -7,20 +7,11 @@ module.exports = {
 	testPathIgnorePatterns: ["/node_modules/", "/dist/"],
 	moduleFileExtensions: ["ts", "js", "json"],
 	transform: {
-		"^.+\\.ts$": [
-			"ts-jest",
-			{
-				tsconfig: {
-					module: "commonjs",
-					target: "ES2021",
-					strict: false,
-					esModuleInterop: true,
-					skipLibCheck: true,
-					experimentalDecorators: true,
-					emitDecoratorMetadata: true,
-				},
-			},
-		],
+		// Compile tests with the same strictness as the package itself.
+		// This used to be an inline config with `strict: false`, which — combined
+		// with the build tsconfig excluding `*.spec.ts` — meant test files were
+		// never type-checked by anything.
+		"^.+\\.ts$": ["ts-jest", { tsconfig: "tsconfig.spec.json" }],
 	},
 	collectCoverageFrom: [
 		"**/*.ts",

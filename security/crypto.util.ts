@@ -15,7 +15,6 @@ let argon2Module: Argon2Module | undefined;
 function loadArgon2(): Argon2Module {
 	if (!argon2Module) {
 		try {
-			// eslint-disable-next-line @typescript-eslint/no-var-requires
 			argon2Module = require("argon2") as Argon2Module;
 		} catch {
 			throw new Error(

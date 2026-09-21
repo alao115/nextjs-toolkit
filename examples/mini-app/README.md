@@ -6,7 +6,7 @@ A runnable NestJS application that installs `@alaska115/nextjs-toolkit` **from n
 
 ```bash
 cd examples/mini-app
-pnpm install                  # pulls @alaska115/nextjs-toolkit@^0.4.1 from npm
+pnpm install                  # pulls @alaska115/nextjs-toolkit@^0.8.0 from npm
 cp .env.example .env          # tweak HTTP_PORT etc. if you want
 pnpm start:dev                # boots on http://localhost:3001
 ```
@@ -53,7 +53,7 @@ Boots the app on port 13571, hits every endpoint, asserts the expected shape and
 
 ```
 mini-app/
-├── package.json          # depends on @alaska115/nextjs-toolkit@^0.4.1 from npm
+├── package.json          # depends on @alaska115/nextjs-toolkit@^0.8.0 from npm
 ├── tsconfig.json
 ├── .env.example
 ├── src/

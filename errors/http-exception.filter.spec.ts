@@ -3,7 +3,6 @@ import {
 	BadRequestException,
 	ForbiddenException,
 	HttpException,
-	HttpStatus,
 	NotFoundException,
 	UnauthorizedException,
 } from "@nestjs/common";

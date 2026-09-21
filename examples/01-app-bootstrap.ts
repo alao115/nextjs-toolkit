@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * Example 01 — Minimal NestJS app wiring.
  *

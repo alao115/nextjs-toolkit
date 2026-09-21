@@ -31,7 +31,6 @@ const ErrorTrackingPortProvider: Provider = {
 		} catch {
 			// Deliberately console, not LoggerService: LoggerModule imports this
 			// module, so injecting the logger here would close a dependency cycle.
-			// eslint-disable-next-line no-console
 			console.warn(
 				"[nextjs-toolkit] SENTRY_DSN is set but '@sentry/node' is not " +
 					"installed — error tracking is disabled. Run: npm install @sentry/node",

@@ -18,7 +18,7 @@ For the full API of each module, see [`docs/modules/`](../docs/modules/). For a 
 | 10 | [`10-observability-tracing.ts`](./10-observability-tracing.ts) | `LogEvent` structured logging, spans with attributes + events, label-cardinality anti-patterns |
 | 11 | [`11-graceful-shutdown.ts`](./11-graceful-shutdown.ts) | Phased hooks, readiness coordination, the right SIGTERM handling order for Kubernetes |
 
-These compile against `@alaska115/nextjs-toolkit` v0.7+. If a snippet drifts, file an issue.
+These compile against `@alaska115/nextjs-toolkit` v0.8+. If a snippet drifts, file an issue.
 
 ## Conventions
 

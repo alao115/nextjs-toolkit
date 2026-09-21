@@ -24,9 +24,7 @@
     "dist",
     "node_modules",
     "examples",
-    "file-storage",
     "**/*.spec.ts",
-    "**/*.test.ts",
-    "**/*_old.ts"
+    "**/*.test.ts"
   ]
 }

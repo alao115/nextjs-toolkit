@@ -1,5 +1,0 @@
-export * from "./file-storage.module";
-export * from "./file-storage.service";
-export * from "./file-storage.types";
-export * from "./file-storage.utils";
-export * from "./file-storage.repository";

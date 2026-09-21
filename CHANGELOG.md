@@ -39,6 +39,26 @@ All notable changes to `@alaska115/nextjs-toolkit` are documented here. Format f
 
 ### Fixed
 
+- **Every email was sent with an empty body.** `EmailProvider` calls the
+  transport with `html: rendered.body`, but `NodemailerEmailAdapter.sendMail`
+  read `payload.template` — the template *key*, which is never passed — so
+  `html` was always `undefined`. It now sends `payload.html ?? payload.body`,
+  and honours the payload's `from` instead of always overriding it with
+  `mail.sender`.
+
+- **The email health check sent a real email on every probe.**
+  `NodemailerEmailAdapter.checkHealth()` was nodemailer's Ethereal sample code:
+  it created a throwaway test account over the network and sent a hardcoded
+  "Hello to myself!" message from `sender@example.com`, printing credentials and
+  preview URLs to stdout. It never touched the configured transport, so it
+  reported "up" whether or not the real SMTP server was reachable — and since
+  `HealthModule`'s `enableNotifications` defaults to on, a Kubernetes readiness
+  probe triggered this every few seconds.
+
+  Replaced with `transporter.verify()`, which checks SMTP connectivity and auth
+  and sends nothing. Both bugs now have regression tests.
+
+
 - **Six of the nineteen subpath exports could not be loaded with only the
   required peer dependencies installed**, because optional peers were imported
   statically:
@@ -130,6 +150,25 @@ All notable changes to `@alaska115/nextjs-toolkit` are documented here. Format f
 
 ### Added
 
+- **ESLint 9 + typescript-eslint**, via `eslint.config.mjs`, with `pnpm run lint`
+  and `lint:fix`. The config documents why `any` and `require()` are permitted
+  where they are, and scopes `no-console` to the three places the console is the
+  intended sink. Running it for the first time surfaced the two email bugs above
+  and three of the dead files below.
+
+- **`tsconfig.spec.json` + `pnpm run typecheck:tests`.** Test files were never
+  type-checked by anything: the build tsconfig excludes `*.spec.ts`, and ts-jest
+  compiled them with an inline `strict: false`. ts-jest now uses this config too,
+  so tests are held to the same strictness as the package.
+
+- **`pnpm run verify`** — lint, typecheck, typecheck:tests and test in one
+  command. `prepublishOnly` runs lint and the test typecheck as well.
+
+- **`.editorconfig`**, matching the tab indentation the source already uses.
+
+- **`./package.json` added to `exports`**, so tooling can read the manifest.
+
+
 - `AppPersistenceConfig.logQueries` — opt in to Prisma SQL statement logging.
 - `SERVICE_UNAVAILABLE` added to `LogicalErrorCode`, and `HttpExceptionFilter`
   now maps HTTP 503 to it rather than falling through to `INTERNAL_ERROR`.
@@ -155,6 +194,25 @@ All notable changes to `@alaska115/nextjs-toolkit` are documented here. Format f
 
 - Documentation suite under `docs/` covering all 19 subpath exports, plus a
   configuration reference, getting-started guide and troubleshooting guide.
+
+### Removed
+
+- **`file-storage/` source deleted.** Its subpath export went in 0.7.0; the 18
+  files stayed in the repository, excluded from the build, where they invited
+  imports that could not resolve. `git show v0.7.0:file-storage` has the last
+  copy, and `0.6.x` still ships it. The `minio` peer dependency and keyword are
+  gone with it — no code referenced the library any more. The `files.*` and
+  `minio.*` **config keys are kept**, since services built on the toolkit may
+  already read them for their own storage wiring.
+
+- **Dead code deleted:** `observability/obervability.module_old.ts` (superseded,
+  misspelled, excluded from the build), `observability/tracing/shutdown-trace.hooks.ts`
+  (`TracingShutdownHook` was referenced nowhere), `errors/gRPC-exception.filter.ts`
+  (entirely commented out — `catch()` returned `{} as any` — and never exported),
+  and `NodemailerEmailAdapter.renderTemplate` (a `<p>${data.content}</p>` stub;
+  rendering belongs to `INotificationTemplateEngine`).
+
+- **`change-case` dropped from dependencies.** Nothing imported it.
 
 ## [0.7.0]
 

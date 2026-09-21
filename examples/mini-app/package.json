@@ -11,7 +11,7 @@
     "smoke": "ts-node scripts/smoke.ts"
   },
   "dependencies": {
-    "@alaska115/nextjs-toolkit": "^0.7.0",
+    "@alaska115/nextjs-toolkit": "^0.8.0",
     "@nestjs/cache-manager": "^3.1.0",
     "@nestjs/common": "^11.0.0",
     "@nestjs/config": "^4.0.0",

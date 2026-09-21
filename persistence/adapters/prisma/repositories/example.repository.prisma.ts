@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma.service";
 // import { Order } from "src/modules/orders/order.entity";

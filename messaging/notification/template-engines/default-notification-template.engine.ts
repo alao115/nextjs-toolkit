@@ -30,13 +30,11 @@ export class DefaultNotificationTemplateEngine implements INotificationTemplateE
 					const raw = fs.readFileSync(fullPath, "utf8");
 					const def: TemplateDefinition = JSON.parse(raw);
 					if (!def.key || !def.body) {
-						// eslint-disable-next-line no-console
 						console.warn(`Invalid template file skipped: ${fullPath}`);
 						continue;
 					}
 					this.templates.set(def.key, def);
 				} catch (err) {
-					// eslint-disable-next-line no-console
 					console.error(`Failed to load template ${fullPath}`, err);
 				}
 			}

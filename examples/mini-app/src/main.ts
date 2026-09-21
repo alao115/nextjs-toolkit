@@ -19,7 +19,6 @@ async function bootstrap() {
 	const port = config.get<number>("http.port") ?? 3001;
 	await app.listen(port);
 
-	// eslint-disable-next-line no-console
 	console.log(`mini-app listening on http://localhost:${port}/api`);
 	console.log(`try:`);
 	console.log(`  curl http://localhost:${port}/api/hello`);

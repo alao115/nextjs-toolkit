@@ -32,7 +32,7 @@ function requireOptional<T>(
 ): T {
 	try {
 		return load();
-	} catch (err) {
+	} catch {
 		throw new Error(
 			`${feature} requires the optional peer dependency '${pkg}'. ` +
 				`Install it with: npm install ${pkg}`,

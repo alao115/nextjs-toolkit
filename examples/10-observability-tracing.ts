@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * Example 10 — Observability: structured logs, traces, metrics.
  *

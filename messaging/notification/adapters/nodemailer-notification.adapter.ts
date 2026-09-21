@@ -19,57 +19,37 @@ export class NodemailerEmailAdapter implements EmailTransport {
 	});
 
 	async sendMail(payload: NotificationPayload) {
+		// `html` carries the rendered template body. This used to read
+		// `payload.template` — the template *key*, which EmailProvider never
+		// sends — so every message went out with `html: undefined` and arrived
+		// empty. Rendering belongs to INotificationTemplateEngine, not here.
 		const info = await this.transporter.sendMail({
-			from: this.configService.get<string>("mail.sender"),
+			from: payload.from ?? this.configService.get<string>("mail.sender"),
 			to: payload.to as string,
 			subject: payload.subject,
-			html: payload.template, // this.renderTemplate(payload.template, payload.data),
+			html: payload.html ?? payload.body,
 		});
 		return { messageId: info.messageId };
 	}
 
-	renderTemplate(templateName: string, data: Record<string, any>) {
-		// simple template rendering (handlebars, ejs)
-		return `<p>${data.content}</p>`;
-	}
-
+	/**
+	 * Verifies the configured SMTP transport: connectivity plus auth, no message
+	 * sent.
+	 *
+	 * This previously ran nodemailer's Ethereal sample code — it created a
+	 * throwaway test account over the network and sent a hardcoded
+	 * "Hello to myself!" message from sender@example.com on every call. Since
+	 * NotificationHealthIndicator calls this per health probe, a Kubernetes
+	 * readiness probe was sending a dummy email every few seconds while never
+	 * touching the real transport, and reporting "up" regardless of whether the
+	 * configured SMTP server was reachable.
+	 */
 	async checkHealth(): Promise<boolean> {
-		return await new Promise((resolve, reject) => {
-			nodemailer.createTestAccount(async (err: any, account: any) => {
-				if (err) {
-					console.error("Failed to create a testing account. " + err.message);
-					return reject(false);
-				}
-
-				console.log("Credentials obtained, sending message...");
-
-				// Create a SMTP transporter object
-				const transporter = nodemailer.createTransport({
-					host: account.smtp.host,
-					port: account.smtp.port,
-					secure: account.smtp.secure,
-					auth: {
-						user: account.user,
-						pass: account.pass,
-					},
-				});
-
-				// Message object
-				const message = {
-					from: "Sender Name <sender@example.com>",
-					to: "Recipient <recipient@example.com>",
-					subject: "Nodemailer is unicode friendly ✔",
-					text: "Hello to myself!",
-					html: "<p><b>Hello</b> to myself!</p>",
-				};
-
-				const info = await transporter.sendMail(message);
-
-				console.log("Message sent: %s", info.messageId);
-				// Preview only available when sending through an Ethereal account
-				console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-				return resolve(true);
-			});
-		});
+		try {
+			await this.transporter.verify();
+			return true;
+		} catch {
+			return false;
+		}
 	}
 }

@@ -160,8 +160,10 @@ validation but fall through to `LocalSecretManager`.
 | `MINIO_PUBLIC_BUCKET`   | `minio.buckets.public`  | —          |
 | `MINIO_STAGING_BUCKET`  | `minio.buckets.staging` | —          |
 
-> These keys are still produced, but the `file-storage` subpath export was
-> **removed in 0.7.0**. Nothing in the published package reads them today.
+> These keys are still produced, but nothing in the package reads them: the
+> `file-storage` subpath export was removed in 0.7.0 and its source deleted in
+> 0.8.0. They are kept because services built on the toolkit may already read
+> them for their own storage wiring. The `minio` peer dependency is gone.
 
 ## ngrok (development)
 

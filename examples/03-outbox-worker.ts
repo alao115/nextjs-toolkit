@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * Example 03 — Transactional outbox with a Kafka subscriber.
  *

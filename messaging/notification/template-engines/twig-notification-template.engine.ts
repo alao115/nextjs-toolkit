@@ -38,7 +38,6 @@ export class TwigNotificationTemplateEngine implements INotificationTemplateEngi
 					};
 					this.templates.set(def.key, def);
 				} catch (err) {
-					// eslint-disable-next-line no-console
 					console.error(`Failed to load template ${fullPath}`, err);
 				}
 			}

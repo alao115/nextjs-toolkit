@@ -155,9 +155,9 @@ the envelope shape yourself — see [`utils`](./modules/utils.md#not-exported).
 
 ## `@alaska115/nextjs-toolkit/file-storage` is gone
 
-The subpath export was removed in **0.7.0**. The source still lives in the repo
-but is excluded from the build. Pin `0.6.x` if you depend on it, or copy the
-module into your service.
+The subpath export was removed in **0.7.0**, and the source was deleted from the
+repository in **0.8.0**. Pin `0.6.x` if you depend on it, or lift the module
+into your service — `git show v0.7.0:file-storage` has the last copy.
 
 ## Still stuck
 

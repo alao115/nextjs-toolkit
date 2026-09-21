@@ -50,7 +50,6 @@ export class PrometheusMetricsAdapter implements MetricsContract {
 
 	constructor() {
 		try {
-			// eslint-disable-next-line @typescript-eslint/no-var-requires
 			this.client = require("prom-client");
 		} catch {
 			throw new Error(

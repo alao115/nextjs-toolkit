@@ -10,6 +10,22 @@ pnpm --filter @alaska115/nextjs-toolkit run build
 pnpm --filter @alaska115/nextjs-toolkit run test
 ```
 
+## Checks
+
+```bash
+pnpm run verify            # lint + typecheck + typecheck:tests + test
+```
+
+Or individually: `pnpm run lint` (`lint:fix` to autofix), `pnpm run typecheck`,
+`pnpm run typecheck:tests` (the build tsconfig excludes `*.spec.ts`, so tests
+are type-checked separately), `pnpm test`.
+
+CI runs all of these on every pull request, plus a consumer smoke test that
+packs a tarball, installs it into `examples/mini-app`, and asserts every subpath
+loads with only the required peer dependencies installed. That last check exists
+because optional peers that get statically imported become mandatory, and pnpm's
+`autoInstallPeers` hides it inside this repo.
+
 ## Conventional Commits
 
 Commit messages follow [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/). The leading type drives the changelog and the next version bump:

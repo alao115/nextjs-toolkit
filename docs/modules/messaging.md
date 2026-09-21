@@ -121,7 +121,15 @@ An unknown key raises `NotificationTemplateNotFoundError` (a
 
 `NotificationHealthIndicator` (name `"notification"`) calls `checkHealth()` on
 every provider that implements it, with a timeout, and reports `ProviderHealth`
-per provider. It is provided *and exported* by `NotificationModule`; a
+per provider. For email that means `transporter.verify()` — an SMTP
+connectivity and auth check that sends nothing.
+
+> Before 0.8.0 the nodemailer adapter's `checkHealth()` was nodemailer's
+> Ethereal sample code: it created a throwaway test account over the network and
+> sent a hardcoded message on **every call**, never touching the configured
+> transport. Combined with `enableNotifications` defaulting to on, a Kubernetes
+> readiness probe sent a dummy email every few seconds and reported "up"
+> regardless of whether your SMTP server was reachable. It is provided *and exported* by `NotificationModule`; a
 `HealthModule.forRoot({ enableNotifications: true })` picks it up — do not
 re-provide it, or Nest will try to resolve its dependencies in the wrong
 injector.

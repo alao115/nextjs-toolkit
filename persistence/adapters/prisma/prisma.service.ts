@@ -6,7 +6,7 @@ import {
 } from "@nestjs/common";
 import { LoggerService } from "../../../observability/logger/logger.service";
 import { ShutdownManager } from "../../../shutdown/shutdown.manager";
-import { AppPersistenceConfig, PRISMA_CLIENT, PRISMA_OPTIONS, PrismaModuleOptions } from '../../persistence.config';
+import { AppPersistenceConfig, PRISMA_OPTIONS } from '../../persistence.config';
 
 export class PrismaClient {
   constructor(private readonly client: any) {}
@@ -20,7 +20,7 @@ export class PrismaClient {
   $transaction<T>(fn: (tx: any) => Promise<T>): Promise<T> {
     return Promise.resolve(fn(this.client));
   }
-  $on(event: string, cb: any): void {
+  $on(_event: string, _cb: any): void {
     return;
   }
 }

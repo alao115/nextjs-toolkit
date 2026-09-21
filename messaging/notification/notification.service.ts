@@ -37,7 +37,6 @@ function buildMetrics(): {
 	histogram: DurationHistogram;
 } {
 	try {
-		// eslint-disable-next-line @typescript-eslint/no-var-requires
 		const { Counter, Histogram } = require("prom-client");
 		return {
 			counter: new Counter({
@@ -64,7 +63,6 @@ function buildMetrics(): {
  */
 function withActiveSpan<T>(span: unknown, fn: () => Promise<T>): Promise<T> {
 	try {
-		// eslint-disable-next-line @typescript-eslint/no-var-requires
 		const { context, trace } = require("@opentelemetry/api");
 		const scoped = trace.setSpan(context.active(), span as any);
 		return context.with(scoped, fn);

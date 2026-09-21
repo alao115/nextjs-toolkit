@@ -54,7 +54,6 @@ export class SetupNgrokProxyModule {
 		// the rest — does not require it.
 		let ngrok: typeof import("@ngrok/ngrok");
 		try {
-			// eslint-disable-next-line @typescript-eslint/no-var-requires
 			ngrok = require("@ngrok/ngrok");
 		} catch {
 			throw new Error(

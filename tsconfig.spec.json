@@ -1,0 +1,11 @@
+{
+  "//": "Typechecks the test files, which the build tsconfig excludes, and is the tsconfig ts-jest compiles them with. Without this, specs were never type-checked at all: tsc skipped them and ts-jest used an inline config with `strict: false`.",
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "esModuleInterop": true,
+    "types": ["jest", "node"]
+  },
+  "include": ["**/*.spec.ts", "**/*.test.ts", "types/**/*.d.ts"],
+  "exclude": ["dist", "node_modules", "examples"]
+}
