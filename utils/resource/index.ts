@@ -1,1 +1,1 @@
-export * from "./app-response";
+export * from "./app-response.js";

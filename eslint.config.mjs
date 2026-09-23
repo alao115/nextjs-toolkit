@@ -51,7 +51,7 @@ export default tseslint.config(
 		// Reference snippets, not shipped code (they are excluded from the build
 		// tsconfig). They import more than they use on purpose, to show what a
 		// real integration pulls in, and they print to explain themselves.
-		files: ["examples/**/*.ts"],
+		files: ["examples/**/*.ts", "scripts/**/*.mjs"],
 		rules: {
 			"@typescript-eslint/no-unused-vars": "off",
 			"no-console": "off",

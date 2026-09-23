@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { RequestContextService } from "../context";
+import { RequestContextService } from "../context/index.js";
 
 /**
  * Thrown when code requires a tenant scope but none is set on the

@@ -1,6 +1,6 @@
 import { Inject, Injectable, Optional } from "@nestjs/common";
-import { TRACING_PORT, TracingContract, TracingSpan } from "./tracing.contract";
-import { RequestContextService } from "../../context";
+import { TRACING_PORT, TracingContract, TracingSpan } from "./tracing.contract.js";
+import { RequestContextService } from "../../context/index.js";
 
 export interface SpanOptions {
 	name: string;

@@ -1,7 +1,7 @@
 import { Injectable, Inject, Logger } from "@nestjs/common";
-import { HealthIndicator } from "./health-indicator.interface";
-import { HEALTH_INDICATORS } from "./health.constants";
-import { ShutdownManager } from "../shutdown/shutdown.manager";
+import { HealthIndicator } from "./health-indicator.interface.js";
+import { HEALTH_INDICATORS } from "./health.constants.js";
+import { ShutdownManager } from "../shutdown/shutdown.manager.js";
 
 export type OverallStatus = "ok" | "degraded" | "down";
 

@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { RequestContextService } from "../context";
-import { AuditEvent } from "./audit.contract";
+import { RequestContextService } from "../context/index.js";
+import { AuditEvent } from "./audit.contract.js";
 
 /**
  * Resolves the {@link AuditEvent.actor} for the current request from

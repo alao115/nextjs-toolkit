@@ -1,4 +1,4 @@
-import { InMemoryOutboxAdapter } from "./in-memory-outbox.adapter";
+import { InMemoryOutboxAdapter } from "./in-memory-outbox.adapter.js";
 
 describe("InMemoryOutboxAdapter", () => {
 	it("enqueues and assigns id, createdAt, attempts=0", async () => {

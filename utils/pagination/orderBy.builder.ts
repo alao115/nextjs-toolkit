@@ -3,7 +3,7 @@ import {
 	OrderDirection,
 	PaginationQueryInput,
 	PaginationConfig,
-} from "./pagination.types";
+} from "./pagination.types.js";
 
 function parseSortString(sort?: string): OrderByInput | undefined {
 	if (!sort || !sort.trim()) return undefined;

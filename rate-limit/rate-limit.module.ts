@@ -2,11 +2,11 @@ import { Module, DynamicModule, Provider } from "@nestjs/common";
 import {
 	RATE_LIMIT_PORT,
 	RateLimitContract,
-} from "./rate-limit.contract";
+} from "./rate-limit.contract.js";
 import {
 	InMemoryRateLimitAdapter,
 	InMemoryRateLimitConfig,
-} from "./in-memory-rate-limit.adapter";
+} from "./in-memory-rate-limit.adapter.js";
 
 export interface RateLimitModuleOptions {
 	adapter?: RateLimitContract;

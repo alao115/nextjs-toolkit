@@ -3,10 +3,10 @@ import {
 	FEATURE_FLAGS_PORT,
 	FeatureFlagContext,
 	FeatureFlagContract,
-} from "./feature-flags.contract";
-import { isInRolloutBucket } from "./bucketing";
-import { LoggerService } from "../observability/logger/logger.service";
-import { RequestContextService } from "../context";
+} from "./feature-flags.contract.js";
+import { isInRolloutBucket } from "./bucketing.js";
+import { LoggerService } from "../observability/logger/logger.service.js";
+import { RequestContextService } from "../context/index.js";
 
 @Injectable()
 export class FeatureFlagsService {

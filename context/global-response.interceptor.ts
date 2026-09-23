@@ -6,8 +6,8 @@ import {
 } from "@nestjs/common";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { RequestContextService } from "./request-context.service";
-import { AppResponse } from "../utils/resource";
+import { RequestContextService } from "./request-context.service.js";
+import { AppResponse } from "../utils/resource/index.js";
 
 @Injectable()
 export class GlobalResponseInterceptor implements NestInterceptor {

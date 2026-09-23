@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { PrismaService } from "./prisma.service";
-import { FindOptions, PersistencePort } from "../../persistence.service";
+import { PrismaService } from "./prisma.service.js";
+import { FindOptions, PersistencePort } from "../../persistence.service.js";
 import { v7 as uuidv7 } from "uuid";
 
 @Injectable()

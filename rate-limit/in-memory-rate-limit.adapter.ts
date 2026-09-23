@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import {
 	RateLimitContract,
 	RateLimitDecision,
-} from "./rate-limit.contract";
+} from "./rate-limit.contract.js";
 
 export interface InMemoryRateLimitConfig {
 	/** Max tokens per `windowMs` per key. */

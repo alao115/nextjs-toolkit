@@ -2,8 +2,8 @@ import { DynamicModule, Global, Module } from "@nestjs/common";
 import { CacheModule } from "@nestjs/cache-manager";
 import KeyvRedis from "@keyv/redis";
 import Redis from "ioredis";
-import { CacheStoreService } from "./cache-store.service";
-import { CACHE_STORE_OPTIONS, CUSTOM_REDIS_CLIENT } from "./cache.utils";
+import { CacheStoreService } from "./cache-store.service.js";
+import { CACHE_STORE_OPTIONS, CUSTOM_REDIS_CLIENT } from "./cache.utils.js";
 
 export interface CacheStoreOptions {
   redisUrl: string;

@@ -5,7 +5,7 @@ import {
 	CounterMetric,
 	HistogramMetric,
 	MetricsContract,
-} from "../metrics.contract";
+} from "../metrics.contract.js";
 
 class PromCounter implements CounterMetric {
 	constructor(private counter: Counter<string>) {}

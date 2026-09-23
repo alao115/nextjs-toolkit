@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { AuditEvent, AuditLogContract } from "./audit.contract";
-import { SealedAuditEvent, sealAuditEvent } from "./audit-chain";
+import { AuditEvent, AuditLogContract } from "./audit.contract.js";
+import { SealedAuditEvent, sealAuditEvent } from "./audit-chain.js";
 
 export interface PrismaAuditLogConfig {
 	/** Prisma client (typed `any` to avoid coupling to a specific schema). */

@@ -4,7 +4,7 @@ import {
 	CounterMetric,
 	HistogramMetric,
 	MetricsContract,
-} from "../metrics.contract";
+} from "../metrics.contract.js";
 
 class NoopCounter implements CounterMetric {
 	inc(_labels?: Record<string, string>, _value?: number): void {

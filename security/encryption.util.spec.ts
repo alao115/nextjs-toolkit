@@ -5,7 +5,7 @@ import {
 	encryptWithDataKey,
 	decryptWithDataKey,
 	EncryptedPayload,
-} from "./encryption.util";
+} from "./encryption.util.js";
 
 /** AES-256 needs exactly 32 bytes. */
 const key = () => randomBytes(32);

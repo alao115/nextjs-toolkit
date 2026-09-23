@@ -6,6 +6,38 @@ All notable changes to `@alaska115/nextjs-toolkit` are documented here. Format f
 
 ## [Unreleased]
 
+### Changed
+
+- **The package now ships both CommonJS and ESM.** `dist/cjs` and `dist/esm`
+  are built from the same sources by two `tsc` passes, and every subpath in
+  `exports` carries `types` / `import` / `require` conditions. Existing
+  CommonJS consumers are unaffected; ESM consumers stop going through Node's
+  CJS interop. This is the groundwork for NestJS 12, which is ESM-only.
+
+  Deliberately **not** bundled: bundling 20 entrypoints duplicates shared
+  modules into each one, which would give every entrypoint its own copy of the
+  `Symbol` DI tokens and of the `AsyncLocalStorage` instances behind
+  `RequestContextService` — silently breaking provider resolution and request
+  context.
+
+- **DI tokens moved from `Symbol()` to `Symbol.for()`**, namespaced as
+  `@alaska115/nextjs-toolkit:<NAME>`. A dual-format package can be loaded twice
+  in one process (some dependencies `require` it while the app `import`s it),
+  and unique symbols would differ between the two copies — so `@Inject(TOKEN)`
+  would silently fail to resolve. Registry symbols are identical across copies.
+  This is invisible unless you compared tokens by identity across a mixed
+  require/import graph. See [ADR 0002](./docs/adr/0002-symbol-di-tokens.md).
+
+- **Relative imports now carry explicit `.js` extensions** (384 specifiers
+  across 146 files). Node's ESM resolver requires them; TypeScript maps them
+  back to `.ts`, and the CommonJS build is unaffected.
+
+- **`esModuleInterop` enabled**, and namespace imports of CommonJS
+  dependencies (`import * as Joi from "joi"`) rewritten to default imports.
+  Under ESM a CommonJS module's callable exports live on `default`, so
+  `Joi.string()` was `undefined` — `/config` failed to load at all when
+  imported as ESM.
+
 ## [0.8.0]
 
 ### Changed

@@ -47,4 +47,4 @@ export interface OutboxContract {
 	markFailed(id: string, error: string): Promise<void>;
 }
 
-export const OUTBOX_PORT = Symbol("OUTBOX_PORT");
+export const OUTBOX_PORT = Symbol.for("@alaska115/nextjs-toolkit:OUTBOX_PORT");

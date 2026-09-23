@@ -8,9 +8,9 @@ import {
 	NotificationResult,
 	NotificationRetryPolicy,
 	TEMPLATE_ENGINE,
-} from "./notification.types";
-import { LoggerService } from "../../observability/logger/logger.service";
-import { TracingService } from "../../observability/tracing/tracing.service";
+} from "./notification.types.js";
+import { LoggerService } from "../../observability/logger/logger.service.js";
+import { TracingService } from "../../observability/tracing/tracing.service.js";
 
 /** Minimal shapes this service needs from prom-client. */
 interface SendCounter {

@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { PrismaService } from "../prisma.service";
+import { PrismaService } from "../prisma.service.js";
 // import { Order } from "src/modules/orders/order.entity";
 // import { OrderRepository } from "src/modules/orders/order.repository";
 

@@ -10,17 +10,17 @@ import {
 	MetricsController,
 	MetricsModule,
 	MetricsInterceptor,
-} from "./metrics";
+} from "./metrics/index.js";
 import { APP_FILTER, APP_INTERCEPTOR } from "@nestjs/core";
-import { HttpExceptionFilter } from "../errors/http-exception.filter";
-import { TracingService, TracingModule, TracingInterceptor } from "./tracing";
-import { LoggerService, LoggerModule, LoggerInterceptor } from "./logger";
-import { ErrorTrackingService, ErrorTrackingModule } from "./error-tracker";
+import { HttpExceptionFilter } from "../errors/http-exception.filter.js";
+import { TracingService, TracingModule, TracingInterceptor } from "./tracing/index.js";
+import { LoggerService, LoggerModule, LoggerInterceptor } from "./logger/index.js";
+import { ErrorTrackingService, ErrorTrackingModule } from "./error-tracker/index.js";
 import {
 	GlobalResponseInterceptor,
 	RequestContextService,
 	RequestContextInterceptor,
-} from "../context";
+} from "../context/index.js";
 
 /**
  * Each flag defaults to `true`. Options are merged over those defaults, so

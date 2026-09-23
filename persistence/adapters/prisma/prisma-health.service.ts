@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { PrismaService } from "./prisma.service";
-import { PersistenceHealthService } from "../../persistence.service";
+import { PrismaService } from "./prisma.service.js";
+import { PersistenceHealthService } from "../../persistence.service.js";
 
 @Injectable()
 export class PrismaHealthService implements PersistenceHealthService {

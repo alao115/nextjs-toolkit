@@ -1,4 +1,4 @@
-import { OrmType } from "../persistence.config";
+import { OrmType } from "../persistence.config.js";
 
 export interface TransactionMetadata {
 	id: string; // uuid or similar

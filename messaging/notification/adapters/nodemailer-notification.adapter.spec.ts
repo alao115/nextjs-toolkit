@@ -5,7 +5,7 @@ const createTestAccount = jest.fn();
 
 jest.mock("nodemailer", () => ({ createTransport, createTestAccount }));
 
-import { NodemailerEmailAdapter } from "./nodemailer-notification.adapter";
+import { NodemailerEmailAdapter } from "./nodemailer-notification.adapter.js";
 import { ConfigService } from "@nestjs/config";
 
 const config = (values: Record<string, unknown> = {}) =>

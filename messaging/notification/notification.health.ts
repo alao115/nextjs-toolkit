@@ -1,9 +1,9 @@
-import { LoggerService } from "../../observability/logger/logger.service";
+import { LoggerService } from "../../observability/logger/logger.service.js";
 import {
 	NOTIFICATION_PROVIDERS,
 	NotificationProvider,
-} from "./notification.types";
-import { HealthIndicator, HealthIndicatorResult } from "../../health";
+} from "./notification.types.js";
+import { HealthIndicator, HealthIndicatorResult } from "../../health/index.js";
 import { Inject } from "@nestjs/common";
 
 export interface ProviderHealth {

@@ -4,8 +4,8 @@ import {
 	OnModuleDestroy,
 	Inject,
 } from "@nestjs/common";
-import { PrioritizedShutdownHook, ShutdownPhase } from "./shutdown.types";
-import { LoggerService } from "../observability/logger/logger.service";
+import { PrioritizedShutdownHook, ShutdownPhase } from "./shutdown.types.js";
+import { LoggerService } from "../observability/logger/logger.service.js";
 
 @Injectable()
 export class ShutdownManager implements OnModuleInit, OnModuleDestroy {

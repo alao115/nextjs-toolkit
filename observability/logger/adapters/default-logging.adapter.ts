@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { LogContext, LoggingContract, LogLevel } from "../logging.contract";
+import { LogContext, LoggingContract, LogLevel } from "../logging.contract.js";
 
 @Injectable()
 export class DefaultConsoleLoggingAdapter implements LoggingContract {

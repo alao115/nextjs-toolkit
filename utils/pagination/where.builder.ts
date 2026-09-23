@@ -1,4 +1,4 @@
-import { PaginationConfig, PaginationQueryInput } from "./pagination.types";
+import { PaginationConfig, PaginationQueryInput } from "./pagination.types.js";
 
 function buildSearchWhere(
 	searchTerm: string | undefined,

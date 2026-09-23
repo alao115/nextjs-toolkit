@@ -1,4 +1,4 @@
-import { BaseException } from "../base.exception";
+import { BaseException } from "../base.exception.js";
 
 export class InvalidTokenError extends BaseException {
 	constructor(message: string) {

@@ -1,4 +1,4 @@
-import { redact } from "./redact";
+import { redact } from "./redact.js";
 
 describe("redact", () => {
 	it("redacts default sensitive keys (case-insensitive)", () => {

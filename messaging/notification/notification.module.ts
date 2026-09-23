@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
-import { NotificationService, IdempotencyStore } from "./notification.service";
-import { EmailProvider, EmailTransport } from "./providers/email.provider";
+import { NotificationService, IdempotencyStore } from "./notification.service.js";
+import { EmailProvider, EmailTransport } from "./providers/email.provider.js";
 import {
 	MAIL_PROVIDER,
 	NOTIFICATION_IDEMPOTENCY_STORE,
@@ -8,11 +8,11 @@ import {
 	NotificationProvider,
 	NotificationResult,
 	TEMPLATE_ENGINE,
-} from "./notification.types";
-import { NotificationHealthIndicator } from "./notification.health";
-import { LoggerService } from "../../observability/logger/logger.service";
+} from "./notification.types.js";
+import { NotificationHealthIndicator } from "./notification.health.js";
+import { LoggerService } from "../../observability/logger/logger.service.js";
 import { ConfigService } from "@nestjs/config";
-import { TracingService } from "../../observability/tracing/tracing.service";
+import { TracingService } from "../../observability/tracing/tracing.service.js";
 
 /**
  * Template engines and mail adapters are `require`d on demand instead of
@@ -66,7 +66,7 @@ class InMemoryIdempotencyStore implements IdempotencyStore {
 				);
 				if (engine === "twig") {
 					const { TwigNotificationTemplateEngine } = requireOptional(
-						() => require("./template-engines/twig-notification-template.engine"),
+						() => require("./template-engines/twig-notification-template.engine.js"),
 						"twig",
 						"mail.templateEngine='twig'",
 					);
@@ -75,7 +75,7 @@ class InMemoryIdempotencyStore implements IdempotencyStore {
 
 				const {
 					DefaultNotificationTemplateEngine,
-				} = require("./template-engines/default-notification-template.engine");
+				} = require("./template-engines/default-notification-template.engine.js");
 				return new DefaultNotificationTemplateEngine({ templatesDir });
 			},
 		},
@@ -95,7 +95,7 @@ class InMemoryIdempotencyStore implements IdempotencyStore {
 				if (provider === "bomboo") {
 					const {
 						BombooMailNotificationAdapter,
-					} = require("./adapters/bomboo-mail-notification.adapter");
+					} = require("./adapters/bomboo-mail-notification.adapter.js");
 					return new BombooMailNotificationAdapter(
 						configService,
 						loggerService,
@@ -104,7 +104,7 @@ class InMemoryIdempotencyStore implements IdempotencyStore {
 				}
 
 				const { NodemailerEmailAdapter } = requireOptional(
-					() => require("./adapters/nodemailer-notification.adapter"),
+					() => require("./adapters/nodemailer-notification.adapter.js"),
 					"nodemailer",
 					"The default mail provider",
 				);

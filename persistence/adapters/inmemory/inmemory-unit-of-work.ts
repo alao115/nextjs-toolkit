@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { randomUUID } from "crypto";
-import { UnitOfWorkPort } from "../../context/unit-of-work";
-import { TransactionContextStore } from "../../context/transaction-context.store";
-import { TransactionContext } from "../../context/transaction.context";
+import { UnitOfWorkPort } from "../../context/unit-of-work.js";
+import { TransactionContextStore } from "../../context/transaction-context.store.js";
+import { TransactionContext } from "../../context/transaction.context.js";
 
 @Injectable()
 export class InMemoryUnitOfWork implements UnitOfWorkPort {

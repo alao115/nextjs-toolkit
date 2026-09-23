@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { SecretManager, SecretValue } from "./secret-manager.interface";
-import { SecretKeyNotFoundException } from "../errors/secret-key-notFound.exception";
-import { SecretRotationEmitter } from "./secret-rotation.emitter";
+import { SecretManager, SecretValue } from "./secret-manager.interface.js";
+import { SecretKeyNotFoundException } from "../errors/secret-key-notFound.exception.js";
+import { SecretRotationEmitter } from "./secret-rotation.emitter.js";
 
 export interface VaultSecretManagerConfig {
 	/** Vault server base URL, e.g. `https://vault.internal:8200`. */

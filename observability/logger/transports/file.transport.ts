@@ -1,5 +1,5 @@
 import { format, transports } from "winston";
-import { LoggerTransport } from "./logger-transport.interface";
+import { LoggerTransport } from "./logger-transport.interface.js";
 import { Inject, Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 

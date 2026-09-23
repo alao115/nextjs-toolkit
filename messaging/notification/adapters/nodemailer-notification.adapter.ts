@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import * as nodemailer from "nodemailer";
-import { NotificationPayload } from "../notification.types";
-import { EmailTransport } from "../providers/email.provider";
+import nodemailer from "nodemailer";
+import { NotificationPayload } from "../notification.types.js";
+import { EmailTransport } from "../providers/email.provider.js";
 import { ConfigService } from "@nestjs/config";
 
 @Injectable()

@@ -1,5 +1,5 @@
 import { INestApplication } from "@nestjs/common";
-import { ShutdownManager } from "../shutdown/shutdown.manager";
+import { ShutdownManager } from "../shutdown/shutdown.manager.js";
 
 export function registerShutdownAppHook(app: INestApplication) {
 	const shutdownManager = app.get(ShutdownManager);

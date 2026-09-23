@@ -12,4 +12,4 @@ export interface RateLimitContract {
 	consume(key: string, cost?: number): Promise<RateLimitDecision>;
 }
 
-export const RATE_LIMIT_PORT = Symbol("RATE_LIMIT_PORT");
+export const RATE_LIMIT_PORT = Symbol.for("@alaska115/nextjs-toolkit:RATE_LIMIT_PORT");

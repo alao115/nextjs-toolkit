@@ -1,12 +1,12 @@
 import * as fs from "fs";
 import * as path from "path";
-import { NotificationTemplateNotFoundError } from "../errors/notification-template-not-found.error";
+import { NotificationTemplateNotFoundError } from "../errors/notification-template-not-found.error.js";
 import {
 	INotificationTemplateEngine,
 	TemplateDefinition,
 	TemplateEngineOptions,
-} from "../notification.types";
-import * as Twig from "twig";
+} from "../notification.types.js";
+import Twig from "twig";
 
 export class TwigNotificationTemplateEngine implements INotificationTemplateEngine {
 	private templates = new Map<string, TemplateDefinition>();

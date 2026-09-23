@@ -4,9 +4,9 @@ import {
   OnModuleDestroy,
   Inject,
 } from "@nestjs/common";
-import { LoggerService } from "../../../observability/logger/logger.service";
-import { ShutdownManager } from "../../../shutdown/shutdown.manager";
-import { AppPersistenceConfig, PRISMA_OPTIONS } from '../../persistence.config';
+import { LoggerService } from "../../../observability/logger/logger.service.js";
+import { ShutdownManager } from "../../../shutdown/shutdown.manager.js";
+import { AppPersistenceConfig, PRISMA_OPTIONS } from '../../persistence.config.js';
 
 export class PrismaClient {
   constructor(private readonly client: any) {}

@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { LoggerService } from "../../../observability/logger";
-import { SmsClient } from "../providers/sms.provider";
-import { TracingService } from "../../../observability/tracing";
+import { LoggerService } from "../../../observability/logger/index.js";
+import { SmsClient } from "../providers/sms.provider.js";
+import { TracingService } from "../../../observability/tracing/index.js";
 
 @Injectable()
 export class BombooSmsNotificationAdapter implements SmsClient {

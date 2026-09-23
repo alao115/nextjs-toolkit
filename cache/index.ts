@@ -1,3 +1,3 @@
-export * from "./cache-store.service";
-export * from "./cache.utils";
-export * from "./cache-store.module";
+export * from "./cache-store.service.js";
+export * from "./cache.utils.js";
+export * from "./cache-store.module.js";

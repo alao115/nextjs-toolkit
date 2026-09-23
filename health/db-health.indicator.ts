@@ -2,9 +2,9 @@ import { Injectable, Inject } from "@nestjs/common";
 import {
 	HealthIndicator,
 	HealthIndicatorResult,
-} from "./health-indicator.interface";
-import { OrmType, PersistenceHealthService } from "../persistence";
-import { ORM_HEALTH_CLIENT, ORM_KIND } from "./health.constants";
+} from "./health-indicator.interface.js";
+import { OrmType, PersistenceHealthService } from "../persistence/index.js";
+import { ORM_HEALTH_CLIENT, ORM_KIND } from "./health.constants.js";
 
 @Injectable()
 export class DbHealthIndicator implements HealthIndicator {

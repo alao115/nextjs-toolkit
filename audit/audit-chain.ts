@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { AuditEvent } from "./audit.contract";
+import { AuditEvent } from "./audit.contract.js";
 
 /**
  * A {@link SealedAuditEvent} is an {@link AuditEvent} that has been signed

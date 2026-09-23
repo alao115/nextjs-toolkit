@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { randomUUID } from "node:crypto";
-import { OutboxContract, OutboxRecord } from "./outbox.contract";
+import { OutboxContract, OutboxRecord } from "./outbox.contract.js";
 
 /**
  * In-memory outbox — suitable for tests and single-process dev. Loses

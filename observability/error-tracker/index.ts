@@ -1,3 +1,3 @@
-export * from "./error-tracking.service";
-export * from "./error-tracker.module";
-export * from "./error-tracker.contract";
+export * from "./error-tracking.service.js";
+export * from "./error-tracker.module.js";
+export * from "./error-tracker.contract.js";

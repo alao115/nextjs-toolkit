@@ -2,12 +2,12 @@ import { Module, DynamicModule, Provider } from "@nestjs/common";
 import {
 	FEATURE_FLAGS_PORT,
 	FeatureFlagContract,
-} from "./feature-flags.contract";
-import { FeatureFlagsService } from "./feature-flags.service";
+} from "./feature-flags.contract.js";
+import { FeatureFlagsService } from "./feature-flags.service.js";
 import {
 	StaticFeatureFlagsAdapter,
 	StaticFeatureFlagsConfig,
-} from "./static-feature-flags.adapter";
+} from "./static-feature-flags.adapter.js";
 
 export interface FeatureFlagsModuleOptions {
 	/**

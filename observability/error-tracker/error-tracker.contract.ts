@@ -5,4 +5,4 @@ export interface ErrorTrackingContract {
 	): void | Promise<void>;
 }
 
-export const ERROR_TRACKING_PORT = Symbol("ERROR_TRACKING_PORT");
+export const ERROR_TRACKING_PORT = Symbol.for("@alaska115/nextjs-toolkit:ERROR_TRACKING_PORT");

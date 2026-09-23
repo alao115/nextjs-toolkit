@@ -1,5 +1,5 @@
 import { AsyncLocalStorage } from "node:async_hooks";
-import { TimeoutError, withTimeout } from "./timeout";
+import { TimeoutError, withTimeout } from "./timeout.js";
 
 interface DeadlineFrame {
 	/** Absolute Unix epoch ms at which the deadline expires. */

@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import {
 	FeatureFlagContext,
 	FeatureFlagContract,
-} from "./feature-flags.contract";
+} from "./feature-flags.contract.js";
 
 export interface StaticFeatureFlagsConfig {
 	flags?: Record<string, boolean>;

@@ -1,6 +1,6 @@
 import { AsyncLocalStorage } from "async_hooks";
 import { Injectable } from "@nestjs/common";
-import { TransactionContext } from "./transaction.context";
+import { TransactionContext } from "./transaction.context.js";
 
 interface StoreState {
 	transaction?: TransactionContext;

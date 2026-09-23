@@ -1,7 +1,7 @@
 export type OrmType = "prisma" | "inmemory";
 
-export const PRISMA_OPTIONS = Symbol("PRISMA_OPTIONS");
-export const PRISMA_CLIENT = Symbol("PRISMA_CLIENT");
+export const PRISMA_OPTIONS = Symbol.for("@alaska115/nextjs-toolkit:PRISMA_OPTIONS");
+export const PRISMA_CLIENT = Symbol.for("@alaska115/nextjs-toolkit:PRISMA_CLIENT");
 
 export interface PrismaModuleOptions {
 	connectionString: string;

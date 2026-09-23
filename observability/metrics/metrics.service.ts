@@ -1,7 +1,7 @@
 import { Injectable, Optional } from "@nestjs/common";
-import { CounterMetric, HistogramMetric } from "./metrics.contract";
-import { MetricsContract } from "./metrics.contract";
-import { RequestContextService } from "../../context/request-context.service";
+import { CounterMetric, HistogramMetric } from "./metrics.contract.js";
+import { MetricsContract } from "./metrics.contract.js";
+import { RequestContextService } from "../../context/request-context.service.js";
 
 @Injectable()
 export class MetricsService {

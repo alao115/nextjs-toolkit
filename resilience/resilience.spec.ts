@@ -4,7 +4,7 @@ import {
 	retry,
 	TimeoutError,
 	withTimeout,
-} from "./index";
+} from "./index.js";
 
 describe("withTimeout", () => {
 	it("resolves when the inner promise wins the race", async () => {

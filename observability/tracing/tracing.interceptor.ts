@@ -5,7 +5,7 @@ import {
 	NestInterceptor,
 } from "@nestjs/common";
 import { Observable, Subscriber } from "rxjs";
-import { TracingService } from "./tracing.service";
+import { TracingService } from "./tracing.service.js";
 
 @Injectable()
 export class TracingInterceptor implements NestInterceptor {

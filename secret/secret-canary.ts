@@ -1,4 +1,4 @@
-import { SecretManager } from "./secret-manager.interface";
+import { SecretManager } from "./secret-manager.interface.js";
 
 export interface CanaryCheckResult {
 	ok: boolean;

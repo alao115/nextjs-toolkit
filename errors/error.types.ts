@@ -1,4 +1,4 @@
-import { DomainErrorCode } from "./domain-error/domain-error.types";
+import { DomainErrorCode } from "./domain-error/domain-error.types.js";
 
 export type LogicalErrorCode =
 	| "VALIDATION_ERROR"

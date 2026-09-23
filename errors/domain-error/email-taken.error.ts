@@ -1,4 +1,4 @@
-import { BaseException } from "../base.exception";
+import { BaseException } from "../base.exception.js";
 
 export class EmailTakenError extends BaseException {
 	constructor(email: string) {

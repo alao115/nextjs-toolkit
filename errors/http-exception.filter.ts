@@ -7,11 +7,11 @@ import {
 } from "@nestjs/common";
 import { Request, Response } from "express";
 import { randomUUID } from "node:crypto";
-import { ErrorCode, LogicalErrorCode } from "./error.types";
-import { ErrorTrackingService } from "../observability/error-tracker/error-tracking.service";
-import { RequestContextService } from "../context";
-import { BaseException } from "./base.exception";
-import { LoggerService, redact } from "../observability/logger";
+import { ErrorCode, LogicalErrorCode } from "./error.types.js";
+import { ErrorTrackingService } from "../observability/error-tracker/error-tracking.service.js";
+import { RequestContextService } from "../context/index.js";
+import { BaseException } from "./base.exception.js";
+import { LoggerService, redact } from "../observability/logger/index.js";
 
 function statusToLogicalCode(status: number): LogicalErrorCode {
 	switch (status) {

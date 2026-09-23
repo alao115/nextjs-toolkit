@@ -1,6 +1,6 @@
 import { ServiceUnavailableException } from "@nestjs/common";
-import { HealthHttpController } from "./health.controller";
-import { HealthService, HealthStatus } from "./health.service";
+import { HealthHttpController } from "./health.controller.js";
+import { HealthService, HealthStatus } from "./health.service.js";
 
 const ok: HealthStatus = { status: "ok", details: { db: { status: "up" } } };
 const degraded: HealthStatus = {

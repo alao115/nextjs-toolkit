@@ -3,7 +3,7 @@ import type Redis from "ioredis";
 import {
 	RateLimitContract,
 	RateLimitDecision,
-} from "./rate-limit.contract";
+} from "./rate-limit.contract.js";
 
 export interface RedisRateLimitConfig {
 	/** ioredis client instance. */

@@ -1,6 +1,6 @@
-import { TenantService, TenantNotSetError } from "./tenant.service";
-import { RequestContext } from "../context/request-context";
-import { RequestContextService } from "../context/request-context.service";
+import { TenantService, TenantNotSetError } from "./tenant.service.js";
+import { RequestContext } from "../context/request-context.js";
+import { RequestContextService } from "../context/request-context.service.js";
 
 /** Runs `fn` inside a request context carrying `tenantId`. */
 function withTenant<T>(

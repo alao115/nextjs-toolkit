@@ -1,5 +1,5 @@
 import type Redis from "ioredis";
-import { CircuitOpenError, CircuitState } from "./circuit-breaker";
+import { CircuitOpenError, CircuitState } from "./circuit-breaker.js";
 
 export interface RedisCircuitBreakerOptions {
 	/** ioredis client. */

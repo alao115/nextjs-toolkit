@@ -1,3 +1,3 @@
-export * from "./crypto.util";
-export * from "./encryption.util";
-export * from "./kms-manager.interface";
+export * from "./crypto.util.js";
+export * from "./encryption.util.js";
+export * from "./kms-manager.interface.js";

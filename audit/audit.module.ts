@@ -1,8 +1,8 @@
 import { Module, DynamicModule, Provider, Type } from "@nestjs/common";
-import { AUDIT_LOG_PORT, AuditLogContract } from "./audit.contract";
-import { AuditLogService } from "./audit-log.service";
-import { ActorResolver } from "./actor-resolver";
-import { DefaultAuditLogAdapter } from "./default-audit-log.adapter";
+import { AUDIT_LOG_PORT, AuditLogContract } from "./audit.contract.js";
+import { AuditLogService } from "./audit-log.service.js";
+import { ActorResolver } from "./actor-resolver.js";
+import { DefaultAuditLogAdapter } from "./default-audit-log.adapter.js";
 
 export interface AuditModuleOptions {
 	/** Custom adapter class to bind to {@link AUDIT_LOG_PORT}. */

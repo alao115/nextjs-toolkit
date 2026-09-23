@@ -1,11 +1,11 @@
 import * as fs from "fs";
 import * as path from "path";
-import { NotificationTemplateNotFoundError } from "../errors/notification-template-not-found.error";
+import { NotificationTemplateNotFoundError } from "../errors/notification-template-not-found.error.js";
 import {
 	INotificationTemplateEngine,
 	TemplateDefinition,
 	TemplateEngineOptions,
-} from "../notification.types";
+} from "../notification.types.js";
 
 export class DefaultNotificationTemplateEngine implements INotificationTemplateEngine {
 	private templates = new Map<string, TemplateDefinition>();

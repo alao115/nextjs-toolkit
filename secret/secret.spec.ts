@@ -1,8 +1,8 @@
-import { LocalSecretManager } from "./local-secret-manager";
-import { SecretRotationEmitter } from "./secret-rotation.emitter";
-import { canaryCheck } from "./secret-canary";
-import { SecretManager } from "./secret-manager.interface";
-import { SecretKeyNotFoundException } from "../errors/secret-key-notFound.exception";
+import { LocalSecretManager } from "./local-secret-manager.js";
+import { SecretRotationEmitter } from "./secret-rotation.emitter.js";
+import { canaryCheck } from "./secret-canary.js";
+import { SecretManager } from "./secret-manager.interface.js";
+import { SecretKeyNotFoundException } from "../errors/secret-key-notFound.exception.js";
 
 const logger = () => ({ warn: jest.fn(), info: jest.fn(), error: jest.fn() }) as any;
 

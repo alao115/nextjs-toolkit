@@ -3,9 +3,9 @@ import {
 	AUDIT_LOG_PORT,
 	AuditEvent,
 	AuditLogContract,
-} from "./audit.contract";
-import { ActorResolver } from "./actor-resolver";
-import { RequestContextService } from "../context";
+} from "./audit.contract.js";
+import { ActorResolver } from "./actor-resolver.js";
+import { RequestContextService } from "../context/index.js";
 
 export type AuditEmitInput =
 	Partial<Pick<AuditEvent, "actor" | "tenantId" | "correlation" | "timestamp">>

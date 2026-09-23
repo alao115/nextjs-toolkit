@@ -18,9 +18,9 @@ import {
 import { Instrumentation } from "@opentelemetry/instrumentation";
 import { HttpInstrumentation } from "@opentelemetry/instrumentation-http";
 import { ExpressInstrumentation } from "@opentelemetry/instrumentation-express";
-import { TracingContract, TracingSpan } from "../tracing.contract";
+import { TracingContract, TracingSpan } from "../tracing.contract.js";
 import { ConfigService } from "@nestjs/config";
-import { ShutdownManager } from "../../../shutdown/shutdown.manager";
+import { ShutdownManager } from "../../../shutdown/shutdown.manager.js";
 
 // enable diag logs in dev if needed
 if (process.env.OTEL_DEBUG === "true") {

@@ -1,11 +1,11 @@
 import { register } from "prom-client";
-import { NotificationService, IdempotencyStore } from "./notification.service";
+import { NotificationService, IdempotencyStore } from "./notification.service.js";
 import {
 	INotificationTemplateEngine,
 	NotificationMessage,
 	NotificationProvider,
 	NotificationResult,
-} from "./notification.types";
+} from "./notification.types.js";
 
 // NotificationService registers its counter/histogram in prom-client's global
 // registry on construction. Re-registering the same name throws, so each test

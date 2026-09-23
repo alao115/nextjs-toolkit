@@ -14,4 +14,4 @@ export interface MetricsContract {
 	exportMetrics?(): Promise<string> | string;
 }
 
-export const METRICS_PORT = Symbol("METRICS_PORT");
+export const METRICS_PORT = Symbol.for("@alaska115/nextjs-toolkit:METRICS_PORT");

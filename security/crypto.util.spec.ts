@@ -1,4 +1,4 @@
-import { hashPassword, verifyPassword, randomToken, hashToken } from "./crypto.util";
+import { hashPassword, verifyPassword, randomToken, hashToken } from "./crypto.util.js";
 
 describe("hashPassword / verifyPassword", () => {
 	// argon2 is deliberately slow; give these room.

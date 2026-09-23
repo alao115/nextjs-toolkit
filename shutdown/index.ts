@@ -1,3 +1,3 @@
-export * from "./shutdown.module";
-export * from "./shutdown.manager";
-export * from "./shutdown.types";
+export * from "./shutdown.module.js";
+export * from "./shutdown.manager.js";
+export * from "./shutdown.types.js";

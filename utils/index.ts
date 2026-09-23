@@ -1,6 +1,6 @@
 import { join } from "path";
 
-export * from "./pagination";
+export * from "./pagination/index.js";
 
 export function resolveAssets(relativePath: string) {
 	return join(__dirname, relativePath);

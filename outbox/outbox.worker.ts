@@ -1,7 +1,7 @@
 import { Inject, Injectable, OnModuleInit, Optional } from "@nestjs/common";
-import { OUTBOX_PORT, OutboxContract, OutboxRecord } from "./outbox.contract";
-import { LoggerService } from "../observability/logger/logger.service";
-import { ShutdownManager } from "../shutdown/shutdown.manager";
+import { OUTBOX_PORT, OutboxContract, OutboxRecord } from "./outbox.contract.js";
+import { LoggerService } from "../observability/logger/logger.service.js";
+import { ShutdownManager } from "../shutdown/shutdown.manager.js";
 
 /**
  * A handler decides how to publish a single outbox record. Throw to mark

@@ -1,6 +1,6 @@
 import { DateTime } from "luxon";
-import * as winston from "winston";
-import { LoggerTransport } from "./logger-transport.interface";
+import winston from "winston";
+import { LoggerTransport } from "./logger-transport.interface.js";
 
 export class ConsoleTransport implements LoggerTransport {
 	getTransport() {

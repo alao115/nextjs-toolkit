@@ -1,10 +1,10 @@
 import { Injectable } from "@nestjs/common";
-import { PrismaService } from "./prisma.service";
-import { PrismaTransactionRepoFactory } from "./prisma-transaction-repo-factory";
+import { PrismaService } from "./prisma.service.js";
+import { PrismaTransactionRepoFactory } from "./prisma-transaction-repo-factory.js";
 import { randomUUID } from "crypto";
-import { UnitOfWorkPort } from "../../context/unit-of-work";
-import { TransactionContextStore } from "../../context/transaction-context.store";
-import { TransactionContext } from "../../context/transaction.context";
+import { UnitOfWorkPort } from "../../context/unit-of-work.js";
+import { TransactionContextStore } from "../../context/transaction-context.store.js";
+import { TransactionContext } from "../../context/transaction.context.js";
 
 @Injectable()
 export class PrismaUnitOfWork implements UnitOfWorkPort {

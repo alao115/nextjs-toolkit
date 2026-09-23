@@ -1,4 +1,4 @@
-import { InMemoryRateLimitAdapter } from "./in-memory-rate-limit.adapter";
+import { InMemoryRateLimitAdapter } from "./in-memory-rate-limit.adapter.js";
 
 describe("InMemoryRateLimitAdapter", () => {
 	it("allows requests up to max within the window", async () => {

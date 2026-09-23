@@ -1,8 +1,8 @@
 import { ConfigModule } from "@nestjs/config";
-import configuration from "./configuration";
-import { configValidationSchema } from "./configuration.validation";
+import configuration from "./configuration.js";
+import { configValidationSchema } from "./configuration.validation.js";
 import { Global, Module } from "@nestjs/common";
-import { ConfigurationHelpersService } from "./configuration.helpers.service";
+import { ConfigurationHelpersService } from "./configuration.helpers.service.js";
 
 @Global()
 @Module({
@@ -23,5 +23,5 @@ import { ConfigurationHelpersService } from "./configuration.helpers.service";
 })
 export class ConfigurationModule {}
 
-export * from "./configuration.helpers.service";
-export * from "./configuration.validation";
+export * from "./configuration.helpers.service.js";
+export * from "./configuration.validation.js";

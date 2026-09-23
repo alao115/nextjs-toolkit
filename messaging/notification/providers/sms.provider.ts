@@ -4,8 +4,8 @@ import {
 	NotificationMessage,
 	NotificationResult,
 	NotificationChannel,
-} from "../notification.types";
-import { LoggerService } from "../../../observability/logger/logger.service";
+} from "../notification.types.js";
+import { LoggerService } from "../../../observability/logger/logger.service.js";
 
 export interface SmsClient {
 	sendSms(

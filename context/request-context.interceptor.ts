@@ -6,8 +6,8 @@ import {
 } from "@nestjs/common";
 import { Observable } from "rxjs";
 import { randomUUID } from "node:crypto";
-import { RequestContext } from "./request-context";
-import { RequestContextService } from "./request-context.service";
+import { RequestContext } from "./request-context.js";
+import { RequestContextService } from "./request-context.service.js";
 import { Request } from "express";
 
 @Injectable()

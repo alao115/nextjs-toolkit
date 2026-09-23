@@ -1,9 +1,9 @@
 import { Global, Module, Provider } from "@nestjs/common";
-import { ErrorTrackingService } from "./error-tracking.service";
+import { ErrorTrackingService } from "./error-tracking.service.js";
 import {
 	ERROR_TRACKING_PORT,
 	ErrorTrackingContract,
-} from "./error-tracker.contract";
+} from "./error-tracker.contract.js";
 
 /**
  * Binds the Sentry adapter only when `SENTRY_DSN` is set *and* `@sentry/node`
@@ -26,7 +26,7 @@ const ErrorTrackingPortProvider: Provider = {
 		try {
 			const {
 				SentryErrorTrackingAdapter,
-			} = require("./adapters/sentry-error-tracker.adapter");
+			} = require("./adapters/sentry-error-tracker.adapter.js");
 			return new SentryErrorTrackingAdapter();
 		} catch {
 			// Deliberately console, not LoggerService: LoggerModule imports this

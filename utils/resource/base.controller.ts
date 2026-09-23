@@ -10,8 +10,8 @@ import {
 	HttpStatus,
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiOperation } from "@nestjs/swagger";
-import { buildPaginatedResult } from "../pagination/pagination.helper";
-import { PaginationQueryDto } from "../pagination";
+import { buildPaginatedResult } from "../pagination/pagination.helper.js";
+import { PaginationQueryDto } from "../pagination/index.js";
 
 // A generic interface your service can implement
 export interface CrudService<TCreate, TUpdate, TEntity, TListFilters> {

@@ -20,4 +20,4 @@ export interface FeatureFlagContract {
 	): Promise<T>;
 }
 
-export const FEATURE_FLAGS_PORT = Symbol("FEATURE_FLAGS_PORT");
+export const FEATURE_FLAGS_PORT = Symbol.for("@alaska115/nextjs-toolkit:FEATURE_FLAGS_PORT");

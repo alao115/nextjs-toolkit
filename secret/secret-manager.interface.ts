@@ -30,4 +30,4 @@ export interface SecretManager {
 	rotateSecret?(key: string): Promise<SecretValue>;
 }
 
-export const SECRET_MANAGER = Symbol("SECRET_MANAGER");
+export const SECRET_MANAGER = Symbol.for("@alaska115/nextjs-toolkit:SECRET_MANAGER");

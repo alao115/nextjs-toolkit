@@ -3,8 +3,8 @@ import {
 	sealAuditEvent,
 	verifyAuditChain,
 	SealedAuditEvent,
-} from "./audit-chain";
-import { AuditEvent } from "./audit.contract";
+} from "./audit-chain.js";
+import { AuditEvent } from "./audit.contract.js";
 
 const GENESIS = "0".repeat(64);
 

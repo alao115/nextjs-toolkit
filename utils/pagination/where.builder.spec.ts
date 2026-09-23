@@ -1,4 +1,4 @@
-import { buildWhere } from "./where.builder";
+import { buildWhere } from "./where.builder.js";
 
 describe("buildWhere", () => {
 	it("returns empty object when no inputs", () => {

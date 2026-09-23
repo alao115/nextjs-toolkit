@@ -41,4 +41,4 @@ export interface AuditLogContract {
 	emit(event: AuditEvent): Promise<void> | void;
 }
 
-export const AUDIT_LOG_PORT = Symbol("AUDIT_LOG_PORT");
+export const AUDIT_LOG_PORT = Symbol.for("@alaska115/nextjs-toolkit:AUDIT_LOG_PORT");

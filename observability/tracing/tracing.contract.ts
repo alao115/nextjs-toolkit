@@ -21,4 +21,4 @@ export interface TracingContract {
 	): T | Promise<T>;
 }
 
-export const TRACING_PORT = Symbol("TRACING_PORT");
+export const TRACING_PORT = Symbol.for("@alaska115/nextjs-toolkit:TRACING_PORT");

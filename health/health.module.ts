@@ -1,23 +1,23 @@
 import { Module, DynamicModule, Provider } from "@nestjs/common";
-import { DbHealthIndicator } from "./db-health.indicator";
-import { HealthHttpController } from "./health.controller";
-import { HealthService } from "./health.service";
-import { HealthIndicator } from "./health-indicator.interface";
+import { DbHealthIndicator } from "./db-health.indicator.js";
+import { HealthHttpController } from "./health.controller.js";
+import { HealthService } from "./health.service.js";
+import { HealthIndicator } from "./health-indicator.interface.js";
 import {
 	ORM_HEALTH_CLIENT,
 	ORM_KIND,
 	HEALTH_INDICATORS,
-} from "./health.constants";
+} from "./health.constants.js";
 import {
 	OrmType,
 	PersistenceHealthService,
 	PrismaHealthService,
 	PrismaService,
-} from "../persistence";
+} from "../persistence/index.js";
 import {
 	NotificationHealthIndicator,
 	NotificationModule,
-} from "../messaging/notification";
+} from "../messaging/notification/index.js";
 
 export interface HealthModuleOptions {
 	enableDb?: boolean;

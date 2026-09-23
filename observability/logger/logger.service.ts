@@ -4,9 +4,9 @@ import {
 	LogContext,
 	LogEvent,
 	LoggingContract,
-} from "./logging.contract";
-import { ErrorTrackingService } from "../error-tracker/error-tracking.service";
-import { RequestContextService } from "../../context";
+} from "./logging.contract.js";
+import { ErrorTrackingService } from "../error-tracker/error-tracking.service.js";
+import { RequestContextService } from "../../context/index.js";
 
 @Injectable()
 export class LoggerService {

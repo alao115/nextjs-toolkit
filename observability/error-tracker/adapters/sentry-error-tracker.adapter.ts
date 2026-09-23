@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import * as Sentry from "@sentry/node";
-import { ErrorTrackingContract } from "../error-tracker.contract";
+import Sentry from "@sentry/node";
+import { ErrorTrackingContract } from "../error-tracker.contract.js";
 
 @Injectable()
 export class SentryErrorTrackingAdapter implements ErrorTrackingContract {

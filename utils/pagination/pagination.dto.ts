@@ -8,7 +8,7 @@ import {
 	Min,
 } from "class-validator";
 import { ApiPropertyOptional } from "@nestjs/swagger";
-import { PaginationQueryInput, TogglePaginationEnum } from "./pagination.types";
+import { PaginationQueryInput, TogglePaginationEnum } from "./pagination.types.js";
 
 export class PaginationQueryDto implements PaginationQueryInput {
 	@ApiPropertyOptional({ default: 1, minimum: 1 })

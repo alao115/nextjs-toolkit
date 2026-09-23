@@ -3,9 +3,9 @@
  * production-ready; use a persistent backend (Postgres outbox table is the
  * canonical choice).
  */
-export * from "./outbox.contract";
-export * from "./prisma-outbox.adapter";
-export * from "./in-memory-outbox.adapter";
-export * from "./outbox.module";
-export * from "./outbox.worker";
+export * from "./outbox.contract.js";
+export * from "./prisma-outbox.adapter.js";
+export * from "./in-memory-outbox.adapter.js";
+export * from "./outbox.module.js";
+export * from "./outbox.worker.js";
 

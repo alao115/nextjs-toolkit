@@ -1,7 +1,7 @@
-import { PaginationQueryInput, PaginationConfig } from "./pagination.types";
-import { buildInclude } from "./include.builder";
-import { buildWhere } from "./where.builder";
-import { buildOrderBy } from "./orderBy.builder";
+import { PaginationQueryInput, PaginationConfig } from "./pagination.types.js";
+import { buildInclude } from "./include.builder.js";
+import { buildWhere } from "./where.builder.js";
+import { buildOrderBy } from "./orderBy.builder.js";
 
 export interface PrismaPaginationArgs {
 	where: Record<string, any>;

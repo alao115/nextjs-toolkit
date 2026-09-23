@@ -1,4 +1,4 @@
-export const NOTIFICATION_PROVIDERS = Symbol("NOTIFICATION_PROVIDERS");
+export const NOTIFICATION_PROVIDERS = Symbol.for("@alaska115/nextjs-toolkit:NOTIFICATION_PROVIDERS");
 export const NOTIFICATION_IDEMPOTENCY_STORE = Symbol(
 	"NOTIFICATION_IDEMPOTENCY_STORE",
 );
@@ -64,10 +64,10 @@ export interface NotificationRetryPolicy {
 	jitterMs: number; // random jitter to avoid thundering herd
 }
 
-export const MAIL_PROVIDER = Symbol("mail-provider");
-export const SMS_PROVIDER = Symbol("sms-provider");
-export const WHATSAPP_PROVIDER = Symbol("whatsapp-provider");
-export const TEMPLATE_ENGINE = Symbol("template-engine");
+export const MAIL_PROVIDER = Symbol.for("@alaska115/nextjs-toolkit:mail-provider");
+export const SMS_PROVIDER = Symbol.for("@alaska115/nextjs-toolkit:sms-provider");
+export const WHATSAPP_PROVIDER = Symbol.for("@alaska115/nextjs-toolkit:whatsapp-provider");
+export const TEMPLATE_ENGINE = Symbol.for("@alaska115/nextjs-toolkit:template-engine");
 
 export interface TemplateDefinition {
 	key: string;

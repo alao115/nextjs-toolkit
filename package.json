@@ -10,88 +10,128 @@
   "bugs": {
     "url": "https://github.com/alao115/nextjs-toolkit/issues"
   },
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/cjs/index.js",
+  "types": "./dist/cjs/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "types": "./dist/cjs/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js",
+      "default": "./dist/cjs/index.js"
     },
     "./audit": {
-      "types": "./dist/audit/index.d.ts",
-      "default": "./dist/audit/index.js"
+      "types": "./dist/cjs/audit/index.d.ts",
+      "import": "./dist/esm/audit/index.js",
+      "require": "./dist/cjs/audit/index.js",
+      "default": "./dist/cjs/audit/index.js"
     },
     "./bootstrap": {
-      "types": "./dist/bootstrap/index.d.ts",
-      "default": "./dist/bootstrap/index.js"
+      "types": "./dist/cjs/bootstrap/index.d.ts",
+      "import": "./dist/esm/bootstrap/index.js",
+      "require": "./dist/cjs/bootstrap/index.js",
+      "default": "./dist/cjs/bootstrap/index.js"
     },
     "./cache": {
-      "types": "./dist/cache/index.d.ts",
-      "default": "./dist/cache/index.js"
+      "types": "./dist/cjs/cache/index.d.ts",
+      "import": "./dist/esm/cache/index.js",
+      "require": "./dist/cjs/cache/index.js",
+      "default": "./dist/cjs/cache/index.js"
     },
     "./config": {
-      "types": "./dist/config/index.d.ts",
-      "default": "./dist/config/index.js"
+      "types": "./dist/cjs/config/index.d.ts",
+      "import": "./dist/esm/config/index.js",
+      "require": "./dist/cjs/config/index.js",
+      "default": "./dist/cjs/config/index.js"
     },
     "./context": {
-      "types": "./dist/context/index.d.ts",
-      "default": "./dist/context/index.js"
+      "types": "./dist/cjs/context/index.d.ts",
+      "import": "./dist/esm/context/index.js",
+      "require": "./dist/cjs/context/index.js",
+      "default": "./dist/cjs/context/index.js"
     },
     "./errors": {
-      "types": "./dist/errors/index.d.ts",
-      "default": "./dist/errors/index.js"
+      "types": "./dist/cjs/errors/index.d.ts",
+      "import": "./dist/esm/errors/index.js",
+      "require": "./dist/cjs/errors/index.js",
+      "default": "./dist/cjs/errors/index.js"
     },
     "./feature-flags": {
-      "types": "./dist/feature-flags/index.d.ts",
-      "default": "./dist/feature-flags/index.js"
+      "types": "./dist/cjs/feature-flags/index.d.ts",
+      "import": "./dist/esm/feature-flags/index.js",
+      "require": "./dist/cjs/feature-flags/index.js",
+      "default": "./dist/cjs/feature-flags/index.js"
     },
     "./health": {
-      "types": "./dist/health/index.d.ts",
-      "default": "./dist/health/index.js"
+      "types": "./dist/cjs/health/index.d.ts",
+      "import": "./dist/esm/health/index.js",
+      "require": "./dist/cjs/health/index.js",
+      "default": "./dist/cjs/health/index.js"
     },
     "./messaging": {
-      "types": "./dist/messaging/index.d.ts",
-      "default": "./dist/messaging/index.js"
+      "types": "./dist/cjs/messaging/index.d.ts",
+      "import": "./dist/esm/messaging/index.js",
+      "require": "./dist/cjs/messaging/index.js",
+      "default": "./dist/cjs/messaging/index.js"
     },
     "./multi-tenancy": {
-      "types": "./dist/multi-tenancy/index.d.ts",
-      "default": "./dist/multi-tenancy/index.js"
+      "types": "./dist/cjs/multi-tenancy/index.d.ts",
+      "import": "./dist/esm/multi-tenancy/index.js",
+      "require": "./dist/cjs/multi-tenancy/index.js",
+      "default": "./dist/cjs/multi-tenancy/index.js"
     },
     "./observability": {
-      "types": "./dist/observability/index.d.ts",
-      "default": "./dist/observability/index.js"
+      "types": "./dist/cjs/observability/index.d.ts",
+      "import": "./dist/esm/observability/index.js",
+      "require": "./dist/cjs/observability/index.js",
+      "default": "./dist/cjs/observability/index.js"
     },
     "./outbox": {
-      "types": "./dist/outbox/index.d.ts",
-      "default": "./dist/outbox/index.js"
+      "types": "./dist/cjs/outbox/index.d.ts",
+      "import": "./dist/esm/outbox/index.js",
+      "require": "./dist/cjs/outbox/index.js",
+      "default": "./dist/cjs/outbox/index.js"
     },
     "./persistence": {
-      "types": "./dist/persistence/index.d.ts",
-      "default": "./dist/persistence/index.js"
+      "types": "./dist/cjs/persistence/index.d.ts",
+      "import": "./dist/esm/persistence/index.js",
+      "require": "./dist/cjs/persistence/index.js",
+      "default": "./dist/cjs/persistence/index.js"
     },
     "./rate-limit": {
-      "types": "./dist/rate-limit/index.d.ts",
-      "default": "./dist/rate-limit/index.js"
+      "types": "./dist/cjs/rate-limit/index.d.ts",
+      "import": "./dist/esm/rate-limit/index.js",
+      "require": "./dist/cjs/rate-limit/index.js",
+      "default": "./dist/cjs/rate-limit/index.js"
     },
     "./resilience": {
-      "types": "./dist/resilience/index.d.ts",
-      "default": "./dist/resilience/index.js"
+      "types": "./dist/cjs/resilience/index.d.ts",
+      "import": "./dist/esm/resilience/index.js",
+      "require": "./dist/cjs/resilience/index.js",
+      "default": "./dist/cjs/resilience/index.js"
     },
     "./secret": {
-      "types": "./dist/secret/index.d.ts",
-      "default": "./dist/secret/index.js"
+      "types": "./dist/cjs/secret/index.d.ts",
+      "import": "./dist/esm/secret/index.js",
+      "require": "./dist/cjs/secret/index.js",
+      "default": "./dist/cjs/secret/index.js"
     },
     "./security": {
-      "types": "./dist/security/index.d.ts",
-      "default": "./dist/security/index.js"
+      "types": "./dist/cjs/security/index.d.ts",
+      "import": "./dist/esm/security/index.js",
+      "require": "./dist/cjs/security/index.js",
+      "default": "./dist/cjs/security/index.js"
     },
     "./shutdown": {
-      "types": "./dist/shutdown/index.d.ts",
-      "default": "./dist/shutdown/index.js"
+      "types": "./dist/cjs/shutdown/index.d.ts",
+      "import": "./dist/esm/shutdown/index.js",
+      "require": "./dist/cjs/shutdown/index.js",
+      "default": "./dist/cjs/shutdown/index.js"
     },
     "./utils": {
-      "types": "./dist/utils/index.d.ts",
-      "default": "./dist/utils/index.js"
+      "types": "./dist/cjs/utils/index.d.ts",
+      "import": "./dist/esm/utils/index.js",
+      "require": "./dist/cjs/utils/index.js",
+      "default": "./dist/cjs/utils/index.js"
     },
     "./package.json": "./package.json"
   },
@@ -102,7 +142,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "npm run clean && npm run build:cjs && npm run build:esm && npm run build:postbuild",
     "start:dev": "tsc --watch",
     "clean": "rm -rf dist",
     "lint": "eslint .",
@@ -113,7 +153,10 @@
     "test:watch": "jest --watch",
     "audit": "pnpm audit --audit-level high --prod",
     "verify": "npm run lint && npm run typecheck && npm run typecheck:tests && npm test",
-    "prepublishOnly": "npm run clean && npm run lint && npm run typecheck:tests && npm run build && npm run test"
+    "prepublishOnly": "npm run clean && npm run lint && npm run typecheck:tests && npm run build && npm run test",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "build:esm": "tsc -p tsconfig.esm.json",
+    "build:postbuild": "node scripts/postbuild.mjs"
   },
   "engines": {
     "node": ">=18"
@@ -269,5 +312,6 @@
     "cache",
     "shutdown"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "module": "./dist/esm/index.js"
 }

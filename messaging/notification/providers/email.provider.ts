@@ -1,11 +1,11 @@
-import { LoggerService } from "../../../observability/logger/logger.service";
+import { LoggerService } from "../../../observability/logger/logger.service.js";
 import { Inject, Injectable } from "@nestjs/common";
 import {
 	NotificationProvider,
 	NotificationMessage,
 	NotificationResult,
 	NotificationChannel,
-} from "../notification.types";
+} from "../notification.types.js";
 
 export interface EmailTransport {
 	sendMail(opts: {

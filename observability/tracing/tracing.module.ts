@@ -1,9 +1,9 @@
 import { Global, Module, Provider } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { TracingService } from "./tracing.service";
-import { TRACING_PORT, TracingContract } from "./tracing.contract";
-import { ShutdownManager } from "../../shutdown/shutdown.manager";
-import { ContextModule } from "../../context/context.module";
+import { TracingService } from "./tracing.service.js";
+import { TRACING_PORT, TracingContract } from "./tracing.contract.js";
+import { ShutdownManager } from "../../shutdown/shutdown.manager.js";
+import { ContextModule } from "../../context/context.module.js";
 
 const tracingPortProvider: Provider = {
 	provide: TRACING_PORT,
@@ -17,13 +17,13 @@ const tracingPortProvider: Provider = {
 		if (provider === "otel") {
 			const {
 				OtelTracingAdapter,
-			} = require("./adapters/otel-tracing.adapter");
+			} = require("./adapters/otel-tracing.adapter.js");
 			return new OtelTracingAdapter(configService, shutdownManager);
 		}
 
 		const {
 			DefaultNoopTracingAdapter,
-		} = require("./adapters/default-tracing.adapter");
+		} = require("./adapters/default-tracing.adapter.js");
 		return new DefaultNoopTracingAdapter();
 	},
 };

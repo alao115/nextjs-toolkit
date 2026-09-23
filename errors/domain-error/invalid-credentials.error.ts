@@ -1,4 +1,4 @@
-import { BaseException } from "../base.exception";
+import { BaseException } from "../base.exception.js";
 
 export class InvalidCredentialsError extends BaseException {
 	constructor(message: string) {

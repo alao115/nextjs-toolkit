@@ -1,4 +1,4 @@
-import { BaseException } from "../../../errors";
+import { BaseException } from "../../../errors/index.js";
 
 export class NotificationTemplateNotFoundError extends BaseException {
 	constructor(templateKey: string) {

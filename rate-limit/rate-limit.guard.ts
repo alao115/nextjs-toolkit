@@ -12,8 +12,8 @@ import type { Request, Response } from "express";
 import {
 	RATE_LIMIT_PORT,
 	RateLimitContract,
-} from "./rate-limit.contract";
-import { RequestContextService } from "../context";
+} from "./rate-limit.contract.js";
+import { RequestContextService } from "../context/index.js";
 
 export interface RateLimitMetadata {
 	/**
@@ -32,7 +32,7 @@ export interface RateLimitMetadata {
 	skip?: boolean;
 }
 
-const RATE_LIMIT_METADATA_KEY = Symbol("RATE_LIMIT_METADATA");
+const RATE_LIMIT_METADATA_KEY = Symbol.for("@alaska115/nextjs-toolkit:RATE_LIMIT_METADATA");
 
 /**
  * Method/class decorator: configures the {@link RateLimitGuard} for the

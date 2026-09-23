@@ -1,4 +1,4 @@
-import { buildOrderBy } from "./orderBy.builder";
+import { buildOrderBy } from "./orderBy.builder.js";
 
 describe("buildOrderBy", () => {
 	it("returns undefined when no sort and no config orderBy", () => {

@@ -1,8 +1,8 @@
 import {
 	TransactionContext,
 	TransactionMetadata,
-} from "../../context/transaction.context";
-import { PrismaTransactionalTokenMap } from "./prisma-transaction-repo-factory";
+} from "../../context/transaction.context.js";
+import { PrismaTransactionalTokenMap } from "./prisma-transaction-repo-factory.js";
 
 export class PrismaTransactionContext implements TransactionContext {
 	constructor(

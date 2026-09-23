@@ -1,4 +1,4 @@
-import { ShutdownManager } from "./shutdown.manager";
+import { ShutdownManager } from "./shutdown.manager.js";
 
 function makeManager(): ShutdownManager {
 	const mgr = new ShutdownManager();

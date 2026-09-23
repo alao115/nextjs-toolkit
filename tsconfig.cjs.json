@@ -1,0 +1,12 @@
+{
+  "//": "CommonJS output. Emits to dist/cjs, which is marked type:commonjs by a package.json written during build.",
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "./dist/cjs",
+    "declaration": true,
+    "declarationMap": true,
+    "tsBuildInfoFile": "./dist/.tsbuildinfo-cjs"
+  }
+}

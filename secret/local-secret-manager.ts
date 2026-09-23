@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { createHash } from "node:crypto";
-import { SecretManager, SecretValue } from "./secret-manager.interface";
-import { SecretKeyNotFoundException } from "../errors/secret-key-notFound.exception";
-import { LoggerService } from "../observability/logger/logger.service";
+import { SecretManager, SecretValue } from "./secret-manager.interface.js";
+import { SecretKeyNotFoundException } from "../errors/secret-key-notFound.exception.js";
+import { LoggerService } from "../observability/logger/logger.service.js";
 
 /**
  * Process-local in-memory secret manager. Suitable for dev/tests; **not** for

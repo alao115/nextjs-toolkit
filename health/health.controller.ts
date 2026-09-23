@@ -1,5 +1,5 @@
 import { Controller, Get, ServiceUnavailableException } from "@nestjs/common";
-import { HealthService, HealthStatus } from "./health.service";
+import { HealthService, HealthStatus } from "./health.service.js";
 
 /**
  * Health endpoints, mounted by {@link HealthModule.forRoot}.

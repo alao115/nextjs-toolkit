@@ -1,5 +1,5 @@
 import { ConfigService } from "@nestjs/config";
-import { AppPersistenceConfig, OrmType } from "./persistence.config";
+import { AppPersistenceConfig, OrmType } from "./persistence.config.js";
 
 /**
  * Helper that builds an {@link AppPersistenceConfig} from the

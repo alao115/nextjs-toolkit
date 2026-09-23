@@ -2,7 +2,7 @@ import { Inject, Injectable, Optional } from "@nestjs/common";
 import {
 	ERROR_TRACKING_PORT,
 	ErrorTrackingContract,
-} from "./error-tracker.contract";
+} from "./error-tracker.contract.js";
 
 @Injectable()
 export class ErrorTrackingService {

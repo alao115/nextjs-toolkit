@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { LoggerService } from "../observability/logger/logger.service";
-import { AuditEvent, AuditLogContract } from "./audit.contract";
+import { LoggerService } from "../observability/logger/logger.service.js";
+import { AuditEvent, AuditLogContract } from "./audit.contract.js";
 
 /**
  * Default audit-log adapter — emits to the application logger with a fixed

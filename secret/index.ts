@@ -1,16 +1,16 @@
 import { Global, Module, Provider } from "@nestjs/common";
-import { SecretManager, SECRET_MANAGER } from "./secret-manager.interface";
+import { SecretManager, SECRET_MANAGER } from "./secret-manager.interface.js";
 import { ConfigService } from "@nestjs/config";
-import { LocalSecretManager } from "./local-secret-manager";
-import { VaultSecretManager } from "./vault-secret-manager";
-import { LoggerService } from "../observability/logger/logger.service";
-import { SecretRotationEmitter } from "./secret-rotation.emitter";
+import { LocalSecretManager } from "./local-secret-manager.js";
+import { VaultSecretManager } from "./vault-secret-manager.js";
+import { LoggerService } from "../observability/logger/logger.service.js";
+import { SecretRotationEmitter } from "./secret-rotation.emitter.js";
 
-export * from "./secret-manager.interface";
-export * from "./local-secret-manager";
-export * from "./vault-secret-manager";
-export * from "./secret-rotation.emitter";
-export * from "./secret-canary";
+export * from "./secret-manager.interface.js";
+export * from "./local-secret-manager.js";
+export * from "./vault-secret-manager.js";
+export * from "./secret-rotation.emitter.js";
+export * from "./secret-canary.js";
 
 const secretManagerProvider: Provider = {
 	provide: SECRET_MANAGER,

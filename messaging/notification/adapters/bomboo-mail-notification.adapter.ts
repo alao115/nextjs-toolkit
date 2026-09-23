@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import { NotificationPayload } from "../notification.types";
-import { EmailTransport } from "../providers/email.provider";
+import { NotificationPayload } from "../notification.types.js";
+import { EmailTransport } from "../providers/email.provider.js";
 import { ConfigService } from "@nestjs/config";
-import { LoggerService } from "../../../observability/logger";
-import { TracingService } from "../../../observability/tracing";
+import { LoggerService } from "../../../observability/logger/index.js";
+import { TracingService } from "../../../observability/tracing/index.js";
 
 @Injectable()
 export class BombooMailNotificationAdapter implements EmailTransport {

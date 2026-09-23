@@ -1,4 +1,4 @@
-import { isInRolloutBucket } from "./bucketing";
+import { isInRolloutBucket } from "./bucketing.js";
 
 const subjects = Array.from({ length: 2000 }, (_, i) => `user-${i}`);
 const share = (flag: string, percent: number) =>

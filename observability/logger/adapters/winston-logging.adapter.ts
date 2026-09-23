@@ -1,10 +1,10 @@
 import { Injectable, OnModuleDestroy, OnModuleInit } from "@nestjs/common";
-import * as winston from "winston";
-import { LogContext, LoggingContract, LogLevel } from "../logging.contract";
+import winston from "winston";
+import { LogContext, LoggingContract, LogLevel } from "../logging.contract.js";
 import { ConfigService } from "@nestjs/config";
-import { ConsoleTransport } from "../transports/console.transport";
-import { FileTransport } from "../transports/file.transport";
-import { ShutdownManager } from "../../../shutdown/shutdown.manager";
+import { ConsoleTransport } from "../transports/console.transport.js";
+import { FileTransport } from "../transports/file.transport.js";
+import { ShutdownManager } from "../../../shutdown/shutdown.manager.js";
 
 @Injectable()
 export class WinstonLoggingAdapter

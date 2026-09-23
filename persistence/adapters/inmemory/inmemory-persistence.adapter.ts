@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { FindOptions, PersistencePort } from "../../persistence.service";
+import { FindOptions, PersistencePort } from "../../persistence.service.js";
 
 const NOT_IMPLEMENTED =
 	"InMemoryPersistenceAdapter has no engine wired. Subclass it and override the relevant methods, or pick the 'prisma' orm in PersistenceModule.register().";

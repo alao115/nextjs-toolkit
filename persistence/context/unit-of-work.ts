@@ -1,4 +1,4 @@
-import { TransactionContext } from "./transaction.context";
+import { TransactionContext } from "./transaction.context.js";
 
 export interface UnitOfWorkPort {
 	/**

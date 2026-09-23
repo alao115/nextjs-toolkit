@@ -1,18 +1,18 @@
 import { DynamicModule, Global, Module, Provider } from "@nestjs/common";
-import { PERSISTENCE_ADAPTER, UNIT_OF_WORK } from "./persistence.constants";
-import { AppPersistenceConfig, PRISMA_CLIENT, PRISMA_OPTIONS } from "./persistence.config";
+import { PERSISTENCE_ADAPTER, UNIT_OF_WORK } from "./persistence.constants.js";
+import { AppPersistenceConfig, PRISMA_CLIENT, PRISMA_OPTIONS } from "./persistence.config.js";
 import {
 	PrismaPersistenceAdapter,
 	PrismaService,
 	PrismaTransactionRepoFactory,
 	PrismaUnitOfWork,
-} from "./adapters/prisma";
+} from "./adapters/prisma/index.js";
 
 import {
 	InMemoryPersistenceAdapter,
 	InMemoryUnitOfWork,
-} from "./adapters/inmemory";
-import { TransactionContextStore } from "./context/transaction-context.store";
+} from "./adapters/inmemory/index.js";
+import { TransactionContextStore } from "./context/transaction-context.store.js";
 
 @Global()
 @Module({})

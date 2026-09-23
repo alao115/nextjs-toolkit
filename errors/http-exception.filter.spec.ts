@@ -6,8 +6,8 @@ import {
 	NotFoundException,
 	UnauthorizedException,
 } from "@nestjs/common";
-import { HttpExceptionFilter } from "./http-exception.filter";
-import { BaseException } from "./base.exception";
+import { HttpExceptionFilter } from "./http-exception.filter.js";
+import { BaseException } from "./base.exception.js";
 
 function makeHost(req: Partial<{
 	headers: Record<string, any>;

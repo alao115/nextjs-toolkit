@@ -1,5 +1,5 @@
 import { RedisStore } from "connect-redis";
-import * as session from "express-session";
+import session from "express-session";
 import { INestApplication } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { createClient } from "redis";

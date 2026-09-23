@@ -1,5 +1,5 @@
 import { Module, Global } from "@nestjs/common";
-import { ShutdownManager } from "./shutdown.manager";
+import { ShutdownManager } from "./shutdown.manager.js";
 
 @Global()
 @Module({

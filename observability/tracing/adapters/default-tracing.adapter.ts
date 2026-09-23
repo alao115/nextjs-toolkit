@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { randomUUID } from "node:crypto";
-import { TracingContract, TracingSpan } from "../tracing.contract";
+import { TracingContract, TracingSpan } from "../tracing.contract.js";
 
 @Injectable()
 export class DefaultNoopTracingAdapter implements TracingContract {

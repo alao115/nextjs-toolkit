@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { EventEmitter } from "node:events";
-import { SecretValue } from "./secret-manager.interface";
+import { SecretValue } from "./secret-manager.interface.js";
 
 export interface SecretRotationEvent {
 	key: string;

@@ -1,5 +1,5 @@
 import { Global, Module } from "@nestjs/common";
-import { RequestContextService } from "./request-context.service";
+import { RequestContextService } from "./request-context.service.js";
 
 /**
  * Provides {@link RequestContextService} globally. Other observability /

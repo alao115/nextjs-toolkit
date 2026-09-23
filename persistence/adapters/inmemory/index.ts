@@ -1,2 +1,2 @@
-export * from "./inmemory-unit-of-work";
-export * from "./inmemory-persistence.adapter";
+export * from "./inmemory-unit-of-work.js";
+export * from "./inmemory-persistence.adapter.js";
