@@ -31,6 +31,11 @@ All notable changes to `@alaska115/nextjs-toolkit` are documented here. Format f
   This is invisible unless you compared tokens by identity across a mixed
   require/import graph. See [ADR 0002](./docs/adr/0002-symbol-di-tokens.md).
 
+- `vitest.config.ts` and `scripts/` are excluded from the build. The build
+  tsconfig's `include: ["**/*.ts"]` was compiling the root config file into both
+  `dist/cjs/vitest.config.js` and `dist/esm/vitest.config.js`, shipping test
+  configuration to consumers.
+
 - **Relative imports now carry explicit `.js` extensions** (384 specifiers
   across 146 files). Node's ESM resolver requires them; TypeScript maps them
   back to `.ts`, and the CommonJS build is unaffected.

@@ -25,6 +25,8 @@
     "dist",
     "node_modules",
     "examples",
+    "scripts",
+    "vitest.config.ts",
     "**/*.spec.ts",
     "**/*.test.ts"
   ]
