@@ -14,9 +14,9 @@ const draining: HealthStatus = {
 
 function controller(overrides: Partial<Record<keyof HealthService, any>> = {}) {
 	const service = {
-		checkAll: jest.fn().mockResolvedValue(ok),
-		readiness: jest.fn().mockResolvedValue(ok),
-		liveness: jest.fn().mockResolvedValue(ok),
+		checkAll: vi.fn().mockResolvedValue(ok),
+		readiness: vi.fn().mockResolvedValue(ok),
+		liveness: vi.fn().mockResolvedValue(ok),
 		...overrides,
 	} as unknown as HealthService;
 	return { controller: new HealthHttpController(service), service };
@@ -32,14 +32,14 @@ describe("GET /health", () => {
 	// instance in the load balancer.
 	it("throws 503 when an indicator is down", async () => {
 		const { controller: c } = controller({
-			checkAll: jest.fn().mockResolvedValue(degraded),
+			checkAll: vi.fn().mockResolvedValue(degraded),
 		});
 		await expect(c.health()).rejects.toBeInstanceOf(ServiceUnavailableException);
 	});
 
 	it("preserves the full health payload on failure", async () => {
 		const { controller: c } = controller({
-			checkAll: jest.fn().mockResolvedValue(degraded),
+			checkAll: vi.fn().mockResolvedValue(degraded),
 		});
 		const err = await c.health().catch((e) => e);
 		expect(err.getStatus()).toBe(503);
@@ -55,7 +55,7 @@ describe("GET /health/ready", () => {
 
 	it("throws 503 while draining", async () => {
 		const { controller: c } = controller({
-			readiness: jest.fn().mockResolvedValue(draining),
+			readiness: vi.fn().mockResolvedValue(draining),
 		});
 		const err = await c.readiness().catch((e) => e);
 		expect(err.getStatus()).toBe(503);
@@ -64,7 +64,7 @@ describe("GET /health/ready", () => {
 
 	it("throws 503 when an indicator is down", async () => {
 		const { controller: c } = controller({
-			readiness: jest.fn().mockResolvedValue(degraded),
+			readiness: vi.fn().mockResolvedValue(degraded),
 		});
 		await expect(c.readiness()).rejects.toBeInstanceOf(ServiceUnavailableException);
 	});
@@ -94,7 +94,7 @@ describe("GET /health/live", () => {
 	// status code must follow it rather than silently reporting healthy.
 	it("would throw 503 if liveness ever reported down", async () => {
 		const { controller: c } = controller({
-			liveness: jest.fn().mockResolvedValue(degraded),
+			liveness: vi.fn().mockResolvedValue(degraded),
 		});
 		await expect(c.liveness()).rejects.toBeInstanceOf(ServiceUnavailableException);
 	});

@@ -10,7 +10,7 @@
 
 import "reflect-metadata";
 import { NestFactory } from "@nestjs/core";
-import { AppModule } from "../src/app.module";
+import { AppModule } from "../src/app.module.js";
 
 const PORT = 13571;
 

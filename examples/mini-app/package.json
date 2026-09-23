@@ -5,19 +5,19 @@
   "description": "Runnable NestJS app that exercises @alaska115/nextjs-toolkit end-to-end. Boots, accepts requests, demonstrates 6 of the package's modules.",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/main.js",
-    "start:dev": "ts-node src/main.ts",
+    "start": "node dist/src/main.js",
+    "start:dev": "tsc && node dist/src/main.js",
     "typecheck": "tsc --noEmit",
-    "smoke": "ts-node scripts/smoke.ts"
+    "smoke": "tsc && node dist/scripts/smoke.js"
   },
   "dependencies": {
-    "@alaska115/nextjs-toolkit": "^0.8.0",
-    "@nestjs/cache-manager": "^3.1.0",
-    "@nestjs/common": "^11.0.0",
-    "@nestjs/config": "^4.0.0",
-    "@nestjs/core": "^11.0.0",
-    "@nestjs/platform-express": "^11.0.0",
-    "@nestjs/swagger": "^11.0.0",
+    "@alaska115/nextjs-toolkit": "file:/private/tmp/claude-501/-Users-a127-0-0-1-Documents-OpenSI-nextjs-toolkit/f051ff01-0922-4492-8a11-2cab4bb96eef/scratchpad/alaska115-nextjs-toolkit-0.8.0.tgz",
+    "@nestjs/cache-manager": "^12.0.0",
+    "@nestjs/common": "^12.0.0",
+    "@nestjs/config": "^12.0.0",
+    "@nestjs/core": "^12.0.0",
+    "@nestjs/platform-express": "^12.0.0",
+    "@nestjs/swagger": "^12.0.0",
     "cache-manager": "^7.2.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
@@ -30,8 +30,8 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.17",
-    "@types/node": "^18.19.130",
-    "ts-node": "^10.9.2",
+    "@types/node": "^22.12.0",
     "typescript": "^5.9.3"
-  }
+  },
+  "type": "module"
 }

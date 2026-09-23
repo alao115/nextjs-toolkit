@@ -6,10 +6,16 @@ A runnable NestJS application that installs `@alaska115/nextjs-toolkit` **from n
 
 ```bash
 cd examples/mini-app
-pnpm install                  # pulls @alaska115/nextjs-toolkit@^0.8.0 from npm
+pnpm install                  # pulls @alaska115/nextjs-toolkit from npm
 cp .env.example .env          # tweak HTTP_PORT etc. if you want
-pnpm start:dev                # boots on http://localhost:3001
+pnpm start:dev                # compiles with tsc, boots on http://localhost:3001
 ```
+
+This app is **ESM** (`"type": "module"`, `.js` extensions on relative imports)
+because NestJS 12 is ESM-only, and it compiles with **tsc** rather than a
+`tsx`/esbuild runner — esbuild cannot emit `design:paramtypes`, so Nest
+constructor injection would resolve every dependency to `undefined`. Both are
+requirements of Nest 12, not of this toolkit.
 
 ## Endpoints
 
@@ -53,7 +59,7 @@ Boots the app on port 13571, hits every endpoint, asserts the expected shape and
 
 ```
 mini-app/
-├── package.json          # depends on @alaska115/nextjs-toolkit@^0.8.0 from npm
+├── package.json          # depends on @alaska115/nextjs-toolkit from npm
 ├── tsconfig.json
 ├── .env.example
 ├── src/

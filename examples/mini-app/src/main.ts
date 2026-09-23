@@ -5,7 +5,7 @@ import {
 	corsRegistration,
 	helmetRegistration,
 } from "@alaska115/nextjs-toolkit/bootstrap";
-import { AppModule } from "./app.module";
+import { AppModule } from "./app.module.js";
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule, { bufferLogs: false });

@@ -31,13 +31,13 @@ describe("withTimeout", () => {
 
 describe("retry", () => {
 	it("returns the value on first success", async () => {
-		const fn = jest.fn().mockResolvedValueOnce("ok");
+		const fn = vi.fn().mockResolvedValueOnce("ok");
 		await expect(retry(fn)).resolves.toBe("ok");
 		expect(fn).toHaveBeenCalledTimes(1);
 	});
 
 	it("retries up to maxRetries then rethrows", async () => {
-		const fn = jest.fn().mockRejectedValue(new Error("nope"));
+		const fn = vi.fn().mockRejectedValue(new Error("nope"));
 		await expect(
 			retry(fn, { maxRetries: 2, baseBackoffMs: 1, jitterMs: 0 }),
 		).rejects.toThrow("nope");
@@ -45,7 +45,7 @@ describe("retry", () => {
 	});
 
 	it("succeeds on a retry attempt", async () => {
-		const fn = jest
+		const fn = vi
 			.fn()
 			.mockRejectedValueOnce(new Error("x"))
 			.mockResolvedValueOnce("ok");
@@ -56,7 +56,7 @@ describe("retry", () => {
 	});
 
 	it("respects shouldRetry returning false", async () => {
-		const fn = jest.fn().mockRejectedValue(new Error("fatal"));
+		const fn = vi.fn().mockRejectedValue(new Error("fatal"));
 		await expect(
 			retry(fn, {
 				maxRetries: 5,

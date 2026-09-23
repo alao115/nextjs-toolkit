@@ -1,3 +1,4 @@
+import type { Mock } from "vitest";
 import { register } from "prom-client";
 import { NotificationService, IdempotencyStore } from "./notification.service.js";
 import {
@@ -25,7 +26,7 @@ class InMemoryIdempotencyStore implements IdempotencyStore {
 function makeProvider(
 	name: string,
 	channel: NotificationMessage["channel"],
-	sendFn: jest.Mock,
+	sendFn: Mock,
 ): NotificationProvider {
 	return {
 		name,
@@ -37,29 +38,29 @@ function makeProvider(
 
 function makeTracer() {
 	const span = {
-		end: jest.fn(),
-		setAttribute: jest.fn(),
-		setAttributes: jest.fn(),
-		recordException: jest.fn(),
+		end: vi.fn(),
+		setAttribute: vi.fn(),
+		setAttributes: vi.fn(),
+		recordException: vi.fn(),
 	};
 	return {
-		runInSpan: jest.fn(async (_n: string, fn: any) => fn(span)),
-		startSpan: jest.fn(() => span),
+		runInSpan: vi.fn(async (_n: string, fn: any) => fn(span)),
+		startSpan: vi.fn(() => span),
 	} as any;
 }
 
 function makeLogger() {
 	return {
-		info: jest.fn(),
-		warn: jest.fn(),
-		error: jest.fn(),
-		debug: jest.fn(),
+		info: vi.fn(),
+		warn: vi.fn(),
+		error: vi.fn(),
+		debug: vi.fn(),
 	} as any;
 }
 
 function makeTemplateEngine(): INotificationTemplateEngine {
 	return {
-		render: jest.fn(() => ({ body: "hi", subject: "subj" })),
+		render: vi.fn(() => ({ body: "hi", subject: "subj" })),
 	} as any;
 }
 
@@ -73,7 +74,7 @@ const baseMessage: NotificationMessage = {
 describe("NotificationService", () => {
 	describe("idempotency", () => {
 		it("returns the cached result on idempotency hit (no provider call)", async () => {
-			const send = jest
+			const send = vi
 				.fn()
 				.mockResolvedValue({ success: true, provider: "p", messageId: "m1" });
 			const provider = makeProvider("p", "email", send);
@@ -97,7 +98,7 @@ describe("NotificationService", () => {
 		});
 
 		it("stores the result after first successful send", async () => {
-			const send = jest
+			const send = vi
 				.fn()
 				.mockResolvedValue({ success: true, provider: "p", messageId: "m1" });
 			const provider = makeProvider("p", "email", send);
@@ -120,7 +121,7 @@ describe("NotificationService", () => {
 
 	describe("retry on transient failure", () => {
 		it("retries up to maxRetries on non-success results", async () => {
-			const send = jest
+			const send = vi
 				.fn()
 				.mockResolvedValueOnce({
 					success: false,
@@ -158,7 +159,7 @@ describe("NotificationService", () => {
 		});
 
 		it("returns the last (failed) result after maxRetries exhausted", async () => {
-			const send = jest.fn().mockResolvedValue({
+			const send = vi.fn().mockResolvedValue({
 				success: false,
 				provider: "p",
 				errorCode: "TRANSIENT",
@@ -186,7 +187,7 @@ describe("NotificationService", () => {
 
 	describe("provider selection", () => {
 		it("throws when no provider supports the channel", async () => {
-			const provider = makeProvider("p", "sms", jest.fn());
+			const provider = makeProvider("p", "sms", vi.fn());
 			const svc = new NotificationService(
 				makeTracer(),
 				makeLogger(),

@@ -13,8 +13,8 @@ pnpm add @alaska115/nextjs-toolkit
 Then the peer dependencies you actually need. The always-required set:
 
 ```bash
-pnpm add @nestjs/common@^11 @nestjs/core@^11 @nestjs/platform-express@^11 \
-         @nestjs/config@^4 @nestjs/cache-manager@^3 @nestjs/swagger@^11 \
+pnpm add @nestjs/common@^12 @nestjs/core@^12 @nestjs/platform-express@^12 \
+         @nestjs/config@^12 @nestjs/cache-manager@^12 @nestjs/swagger@^12 \
          cache-manager@^7 keyv@^5 \
          express@^4 rxjs@^7 reflect-metadata \
          class-validator@^0.14 class-transformer@^0.5
@@ -53,6 +53,14 @@ the legacy resolver cannot read:
   }
 }
 ```
+
+Set `"type": "module"` in your `package.json` too. NestJS 12 is ESM-only, and
+TypeScript refuses to emit a `require` for it from a CommonJS file
+(`TS1479`). Relative imports then need explicit `.js` extensions.
+
+Compile with **tsc**, not esbuild-based runners like `tsx`: esbuild cannot emit
+`design:paramtypes`, and without it every Nest constructor injection resolves
+to `undefined`.
 
 With `"moduleResolution": "node"` every subpath import fails with
 `Cannot find module '@alaska115/nextjs-toolkit/<subpath>'`. See

@@ -4,7 +4,7 @@ import { canaryCheck } from "./secret-canary.js";
 import { SecretManager } from "./secret-manager.interface.js";
 import { SecretKeyNotFoundException } from "../errors/secret-key-notFound.exception.js";
 
-const logger = () => ({ warn: jest.fn(), info: jest.fn(), error: jest.fn() }) as any;
+const logger = () => ({ warn: vi.fn(), info: vi.fn(), error: vi.fn() }) as any;
 
 describe("LocalSecretManager", () => {
 	it("returns a seeded secret", async () => {
@@ -95,7 +95,7 @@ describe("SecretRotationEmitter", () => {
 
 	it("unsubscribes when the returned function is called", () => {
 		const emitter = new SecretRotationEmitter();
-		const handler = jest.fn();
+		const handler = vi.fn();
 		const off = emitter.onRotation(handler);
 		emitter.emit(event("a", "1"));
 		off();
@@ -105,7 +105,7 @@ describe("SecretRotationEmitter", () => {
 
 	it("unsubscribes a key-scoped listener", () => {
 		const emitter = new SecretRotationEmitter();
-		const handler = jest.fn();
+		const handler = vi.fn();
 		emitter.onRotationOf("a", handler)();
 		emitter.emit(event("a", "1"));
 		expect(handler).not.toHaveBeenCalled();
@@ -113,8 +113,8 @@ describe("SecretRotationEmitter", () => {
 
 	it("supports several independent listeners", () => {
 		const emitter = new SecretRotationEmitter();
-		const a = jest.fn();
-		const b = jest.fn();
+		const a = vi.fn();
+		const b = vi.fn();
 		emitter.onRotation(a);
 		emitter.onRotation(b);
 		emitter.emit(event("k", "1"));
@@ -198,7 +198,7 @@ describe("canaryCheck", () => {
 	});
 
 	it("checks every key even after the first failure", async () => {
-		const getSecret = jest.fn().mockResolvedValue(undefined);
+		const getSecret = vi.fn().mockResolvedValue(undefined);
 		await canaryCheck({ getSecret } as any, ["a", "b", "c"]);
 		expect(getSecret).toHaveBeenCalledTimes(3);
 	});

@@ -2,7 +2,7 @@ import { hashPassword, verifyPassword, randomToken, hashToken } from "./crypto.u
 
 describe("hashPassword / verifyPassword", () => {
 	// argon2 is deliberately slow; give these room.
-	jest.setTimeout(30_000);
+	vi.setConfig({ testTimeout: 30_000 });
 
 	it("produces an argon2id PHC string", async () => {
 		const hash = await hashPassword("correct horse battery staple");

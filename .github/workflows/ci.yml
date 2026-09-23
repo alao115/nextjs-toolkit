@@ -18,8 +18,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # 18 is the floor declared in `engines`; 22 is current LTS.
-        node: [18, 20, 22]
+        # Nest 12 is ESM-only and requires Node 20.19+/22.12+, which is also
+        # where `require(esm)` landed. Matches `engines`.
+        node: [20, 22, 24]
 
     steps:
       - uses: actions/checkout@v4
@@ -44,7 +45,7 @@ jobs:
         run: pnpm run build
 
       - name: Test
-        run: pnpm test -- --ci --coverage
+        run: pnpm run test:coverage
 
       - name: Upload coverage
         if: matrix.node == 20
@@ -126,19 +127,35 @@ jobs:
       # Every subpath must load with only the required peers present. Optional
       # peers that get statically imported break this, and the failure only
       # shows up outside the repo — pnpm's autoInstallPeers hides it in-tree.
-      - name: Assert every subpath loads
+      - name: Assert every subpath loads as both CJS and ESM
         working-directory: examples/mini-app
         run: |
           for s in "" audit bootstrap cache config context errors feature-flags \
                    health messaging multi-tenancy observability outbox persistence \
                    rate-limit resilience secret security shutdown utils; do
             p="@alaska115/nextjs-toolkit${s:+/$s}"
-            if node -e "require('$p')" 2>/tmp/err; then
-              echo "OK    ${s:-<root>}"
-            else
-              echo "FAIL  ${s:-<root>}"; cat /tmp/err; exit 1
-            fi
+            node --input-type=commonjs -e "require('$p')" 2>/tmp/err \
+              || { echo "FAIL (require) ${s:-<root>}"; cat /tmp/err; exit 1; }
+            node --input-type=module -e "await import('$p')" 2>/tmp/err \
+              || { echo "FAIL (import)  ${s:-<root>}"; cat /tmp/err; exit 1; }
+            echo "OK    ${s:-<root>}"
           done
+
+      # A dual-format package can be loaded twice in one process. The DI tokens
+      # must still compare equal, or @Inject silently fails to resolve.
+      - name: Assert DI tokens are identical across formats
+        working-directory: examples/mini-app
+        run: |
+          node --input-type=commonjs -e "
+            const cjs = require('@alaska115/nextjs-toolkit/observability');
+            import('@alaska115/nextjs-toolkit/observability').then((esm) => {
+              if (cjs.LOGGING_PORT !== esm.LOGGING_PORT) {
+                console.error('DI token differs between CJS and ESM copies');
+                process.exit(1);
+              }
+              console.log('DI tokens identical across formats');
+            });
+          "
 
       - name: Smoke test
         working-directory: examples/mini-app

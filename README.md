@@ -57,8 +57,8 @@ pnpm add @alaska115/nextjs-toolkit
 Peer dependencies stay under your control. The required set:
 
 ```bash
-pnpm add @nestjs/common@^11 @nestjs/core@^11 @nestjs/platform-express@^11 \
-         @nestjs/config@^4 @nestjs/cache-manager@^3 @nestjs/swagger@^11 \
+pnpm add @nestjs/common@^12 @nestjs/core@^12 @nestjs/platform-express@^12 \
+         @nestjs/config@^12 @nestjs/cache-manager@^12 @nestjs/swagger@^12 \
          cache-manager@^7 keyv@^5 \
          express@^4 rxjs@^7 reflect-metadata \
          class-validator@^0.14 class-transformer@^0.5
@@ -205,10 +205,17 @@ git push --follow-tags
 
 | | |
 | --- | --- |
-| Node | ≥ 18 |
-| NestJS | 11.x |
+| Node | `^20.19.0 \|\| ^22.12.0 \|\| >=24` |
+| NestJS | 12.x |
 | Express | 4.x |
+| Module format | dual — CommonJS and ESM |
 | TypeScript | `moduleResolution`: `node16` / `nodenext` / `bundler` |
+
+NestJS 12 ships **ESM only**, which is why Node 20.19+ is the floor — that is
+where `require(esm)` landed. The toolkit itself publishes both CommonJS and
+ESM, so it works either way; but a CommonJS *application* cannot `import`
+Nest 12 types without `"type": "module"`, so most consumers will be ESM. See
+[`examples/mini-app`](./examples/mini-app/) for a working ESM setup.
 
 The package is pre-1.0: minor versions may contain breaking changes, flagged
 with `!` in the [changelog](./CHANGELOG.md). Pin a minor version in production.

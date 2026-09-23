@@ -42,20 +42,39 @@ All notable changes to `@alaska115/nextjs-toolkit` are documented here. Format f
 
 ### Changed
 
-- **BREAKING CHANGE: the package now targets NestJS 11.** `@nestjs/common`,
-  `@nestjs/core` and `@nestjs/platform-express` peer ranges move from `^10.0.0`
-  to `^11.0.0`.
+- **BREAKING CHANGE: the package now targets NestJS 12.** `@nestjs/common`,
+  `@nestjs/core`, `@nestjs/platform-express`, `@nestjs/swagger`,
+  `@nestjs/config` and `@nestjs/cache-manager` peer ranges all move to
+  `^12.0.0`, and `engines.node` becomes
+  `^20.19.0 || ^22.12.0 || >=24.0.0` — Nest 12 is ESM-only, and those are the
+  Node versions with `require(esm)`.
 
-  Why: the peer set was **unsatisfiable**. `@nestjs/swagger@^11` requires
-  `@nestjs/common@^11.0.1`, while the toolkit pinned `@nestjs/common@^10.0.0`,
-  so `npm install` refused the combination the README prescribed unless the
-  consumer passed `--legacy-peer-deps`. pnpm's `autoInstallPeers` picked a
-  resolution quietly, which is why it went unnoticed. `@nestjs/config@4` and
-  `@nestjs/cache-manager@3` already support Nest 11 and are unchanged.
+  **Nest 12 being ESM-only affects your application, not just this package.**
+  TypeScript will not emit a `require` for it from a CommonJS file (`TS1479`),
+  so a consuming app generally needs `"type": "module"`, `node16`/`nodenext`
+  resolution, and explicit `.js` extensions on relative imports. Compile with
+  `tsc`: esbuild-based runners such as `tsx` cannot emit `design:paramtypes`,
+  and Nest constructor injection silently resolves every dependency to
+  `undefined` without it. `examples/mini-app` was converted accordingly and is
+  a working reference.
 
-  Migration: upgrade your app to NestJS 11 (see the
-  [Nest 11 migration guide](https://docs.nestjs.com/migration-guide)), or pin
-  `@alaska115/nextjs-toolkit@^0.7.0` and install with `--legacy-peer-deps`.
+  `@nestjs/config@12` also switched to Standard Schema. Joi 18 implements it,
+  so the existing schema works unchanged, but vendor-specific
+  `validationOptions` no longer type-check — v12 already defaults Joi to
+  `{ abortEarly: false, allowUnknown: true }`, so the toolkit's block was
+  simply removed. Override via `validationOptions: { libraryOptions: {...} }`.
+
+  Migration: upgrade to NestJS 12, or pin `@alaska115/nextjs-toolkit@^0.7.0`.
+
+  This also fixes a peer set that was **unsatisfiable** on 0.7.0:
+  `@nestjs/swagger@^11` requires `@nestjs/common@^11.0.1` while the toolkit
+  pinned `@nestjs/common@^10.0.0`, so `npm install` refused the combination the
+  README prescribed unless the consumer passed `--legacy-peer-deps`. pnpm's
+  `autoInstallPeers` resolved it quietly, which is why it went unnoticed.
+
+- **Tests run on Vitest instead of Jest.** Jest's CommonJS runtime cannot load
+  ESM-only dependencies, and transforming Nest 12 down to CJS fails on
+  `import.meta`. All 197 tests carried over.
 
 - **`cache-manager` and `keyv` are now declared peer dependencies.** They are
   peers of `@nestjs/cache-manager` that the install instructions omitted, so

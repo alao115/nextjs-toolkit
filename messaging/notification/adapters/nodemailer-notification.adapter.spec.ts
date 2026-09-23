@@ -1,9 +1,21 @@
-const sendMail = jest.fn();
-const verify = jest.fn();
-const createTransport = jest.fn(() => ({ sendMail, verify }));
-const createTestAccount = jest.fn();
+// vi.mock is hoisted above the module body, so the doubles it closes over must
+// be created with vi.hoisted or they are still in the temporal dead zone.
+const { sendMail, verify, createTransport, createTestAccount } = vi.hoisted(() => {
+	const sendMail = vi.fn();
+	const verify = vi.fn();
+	return {
+		sendMail,
+		verify,
+		createTransport: vi.fn(() => ({ sendMail, verify })),
+		createTestAccount: vi.fn(),
+	};
+});
 
-jest.mock("nodemailer", () => ({ createTransport, createTestAccount }));
+// The adapter default-imports nodemailer, so the mock needs a `default` too.
+vi.mock("nodemailer", () => {
+	const mod = { createTransport, createTestAccount };
+	return { ...mod, default: mod };
+});
 
 import { NodemailerEmailAdapter } from "./nodemailer-notification.adapter.js";
 import { ConfigService } from "@nestjs/config";
@@ -16,7 +28,7 @@ function adapter(values: Record<string, unknown> = {}) {
 }
 
 beforeEach(() => {
-	jest.clearAllMocks();
+	vi.clearAllMocks();
 	sendMail.mockResolvedValue({ messageId: "mid-1" });
 	verify.mockResolvedValue(true);
 });

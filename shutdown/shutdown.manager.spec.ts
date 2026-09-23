@@ -4,10 +4,10 @@ function makeManager(): ShutdownManager {
 	const mgr = new ShutdownManager();
 	// LoggerService is `@Inject`ed but the tests don't need real logging.
 	(mgr as any).logger = {
-		info: jest.fn(),
-		warn: jest.fn(),
-		error: jest.fn(),
-		debug: jest.fn(),
+		info: vi.fn(),
+		warn: vi.fn(),
+		error: vi.fn(),
+		debug: vi.fn(),
 	};
 	return mgr;
 }
@@ -15,7 +15,7 @@ function makeManager(): ShutdownManager {
 describe("ShutdownManager", () => {
 	it("registers hooks with defaults (phase: 'infra', order: 100)", async () => {
 		const mgr = makeManager();
-		const fn = jest.fn().mockResolvedValue(undefined);
+		const fn = vi.fn().mockResolvedValue(undefined);
 		mgr.registerHook({ name: "h", shutdown: fn });
 
 		await mgr.shutdown();

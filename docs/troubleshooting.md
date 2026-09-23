@@ -159,6 +159,32 @@ The subpath export was removed in **0.7.0**, and the source was deleted from the
 repository in **0.8.0**. Pin `0.6.x` if you depend on it, or lift the module
 into your service — `git show v0.7.0:file-storage` has the last copy.
 
+## `TS1479: ... is an ECMAScript module and cannot be imported with 'require'`
+
+NestJS 12 is ESM-only. Add `"type": "module"` to your `package.json`, keep
+`module`/`moduleResolution` at `node16` (or `nodenext`), and give relative
+imports explicit `.js` extensions. The toolkit itself is dual-published, so it
+works from CommonJS too — but Nest 12 does not.
+
+## Every injected dependency is `undefined`
+
+You are compiling with an esbuild-based runner (`tsx`, `esbuild-register`,
+`swc` without the right plugin). esbuild cannot emit `design:paramtypes`, and
+Nest resolves constructor parameters from exactly that metadata. Compile with
+`tsc` — `tsc && node dist/main.js` — or use a runner that delegates to
+TypeScript.
+
+This bites hardest on Nest 12, because moving to ESM tempts you to switch
+runners at the same time.
+
+## `@Inject(TOKEN)` fails to resolve in a mixed require/import app
+
+Since 0.8.0 the DI tokens are `Symbol.for()` entries namespaced under
+`@alaska115/nextjs-toolkit:`, so the CommonJS and ESM copies of the package
+share token identity and this should not happen. If you see it on an older
+version, the cause is two copies of the package in one process with distinct
+`Symbol()` tokens — upgrade, or make the graph load a single format.
+
 ## Still stuck
 
 Run the smoke test against a fresh install to confirm the published package

@@ -1,3 +1,4 @@
+import type { Mock } from "vitest";
 import {
 	ArgumentsHost,
 	BadRequestException,
@@ -15,7 +16,7 @@ function makeHost(req: Partial<{
 	method: string;
 	ip: string;
 	socket: { remoteAddress?: string };
-}> = {}, res: { status: jest.Mock; json: jest.Mock } = makeRes()): ArgumentsHost {
+}> = {}, res: { status: Mock; json: Mock } = makeRes()): ArgumentsHost {
 	return {
 		switchToHttp: () => ({
 			getRequest: () => ({
@@ -31,16 +32,16 @@ function makeHost(req: Partial<{
 }
 
 function makeRes() {
-	const status = jest.fn();
-	const json = jest.fn();
+	const status = vi.fn();
+	const json = vi.fn();
 	status.mockReturnValue({ json });
 	return { status, json } as any;
 }
 
 function makeFilter() {
-	const errorTracking = { captureError: jest.fn() } as any;
-	const ctxService = { getContext: jest.fn().mockReturnValue(undefined) } as any;
-	const logger = { error: jest.fn() } as any;
+	const errorTracking = { captureError: vi.fn() } as any;
+	const ctxService = { getContext: vi.fn().mockReturnValue(undefined) } as any;
+	const logger = { error: vi.fn() } as any;
 	const filter = new HttpExceptionFilter(errorTracking, ctxService, logger);
 	return { filter, errorTracking, ctxService, logger };
 }

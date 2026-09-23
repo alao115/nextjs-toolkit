@@ -7,7 +7,7 @@ import {
 	retry,
 	withTimeout,
 } from "@alaska115/nextjs-toolkit/resilience";
-import { WidgetMissingException } from "./widget.exception";
+import { WidgetMissingException } from "./widget.exception.js";
 
 @Controller()
 export class WidgetController {

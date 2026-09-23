@@ -16,7 +16,7 @@ import { TenantModule } from "@alaska115/nextjs-toolkit/multi-tenancy";
 import { FeatureFlagsModule } from "@alaska115/nextjs-toolkit/feature-flags";
 import { HealthModule } from "@alaska115/nextjs-toolkit/health";
 
-import { WidgetController } from "./widget.controller";
+import { WidgetController } from "./widget.controller.js";
 
 @Module({
 	imports: [
