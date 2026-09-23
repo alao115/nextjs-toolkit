@@ -6,7 +6,10 @@ All notable changes to `@alaska115/nextjs-toolkit` are documented here. Format f
 
 ## [Unreleased]
 
+## [0.8.0]
+
 ### Changed
+
 
 - **The package now ships both CommonJS and ESM.** `dist/cjs` and `dist/esm`
   are built from the same sources by two `tsc` passes, and every subpath in
@@ -38,9 +41,6 @@ All notable changes to `@alaska115/nextjs-toolkit` are documented here. Format f
   `Joi.string()` was `undefined` — `/config` failed to load at all when
   imported as ESM.
 
-## [0.8.0]
-
-### Changed
 
 - **BREAKING CHANGE: the package now targets NestJS 12.** `@nestjs/common`,
   `@nestjs/core`, `@nestjs/platform-express`, `@nestjs/swagger`,
